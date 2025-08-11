@@ -27,7 +27,7 @@ def plot_name(row):
 
 paths = data.loc[~data["polygon"]]
 paths.plot(ax=ax, color=colors)
-named_paths = paths.loc[paths["name"].notna()].reset_index()
+named_paths = paths.loc[paths["name"].notna()].reset_index(drop=True)
 named_paths.loc[:, "label_location"] = (
     named_paths["geometry"]
     .apply(lambda x: x.representative_point()))
@@ -35,9 +35,8 @@ named_paths.loc[:, "label_location"] = (
 #for name, location in b.loc[:, ["name", "label_location"]].values:
 #    ax.text(location.x, location.y, name, ha="center", va="center", color="white")
 
-buildings = data.loc[data["polygon"]].reset_index()
+buildings = data.loc[data["polygon"]].reset_index(drop=True)
 buildings.plot(ax=ax, edgecolor="white", facecolor=colors, alpha=0.4)
 buildings.loc[buildings["name"].notna()].apply(lambda x: plot_name(x), axis=1)
-    
 
 plt.show()
