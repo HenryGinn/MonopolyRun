@@ -175,10 +175,15 @@ def get_geometry_linestrings(way_nodes):
         .apply(lambda x: LineString(x.values)))
     return linestrings
 
+# When clipping, a Polygon can be split into multiple parts and it gets
+# converted into a MultiPolygon. The "explode" method splits the
+# separate Polygons onto different lines.
+
 def get_geo_dataframe(ways, geometry, bounds):
     ways = convert_ways_to_use_geometry(ways, geometry)
     gdf = gpd.GeoDataFrame(ways, geometry="geometry")
     gdf["geometry"] = gdf.clip_by_rect(*bounds)
+    gdf = gdf.explode()
     return gdf
 
 def convert_ways_to_use_geometry(ways, geometry):

@@ -15,19 +15,29 @@ data["geometry"] = data["geometry"].translate(xoff=-x_min, yoff=-y_min)
 data["geometry"] = data["geometry"].scale(xfact=scale, yfact=scale, origin=(0, 0))
 
 def create_line(row):
-    try:
-        coords = get_coords(row)
-        coords_strings = [f"({x}, {y})" for (x, y) in coords]
-        tikz.append(f"\\draw[fill=blue, fill opacity=0.25] {' -- '.join(coords_strings)};")
-    except:
-        print("Something went wrong uwu")
+    match row["geometry"].geom_type:
+        case "Polygon": create_line_polygon(row)
+        case "LineString": create_line_linestring(row)
+        case _: create_line_exception(row)
 
-def get_coords(row):
+def create_line_polygon(row):
     geometry = row["geometry"]
-    if geometry.geom_type in ["Polygon", "MultiPolygon"]:
-        geometry = geometry.boundary
+    geometry = geometry.boundary
+    coords = np.array(geometry.xy).T[:-1, :]
+    coords_strings = [f"({x}, {y})" for (x, y) in coords]
+    tikz.append(f"\\draw[fill=black, fill opacity=0.25] {' -- '.join(coords_strings)};")
+
+def create_line_linestring(row):
+    geometry = row["geometry"]
     coords = np.array(geometry.xy).T
-    return coords
+    coords_strings = [f"({x}, {y})" for (x, y) in coords]
+    tikz.append(f"\\path[color=black] {' -- '.join(coords_strings)};")
+
+def create_line_exception(row):
+    raise ValueError(
+        f"Unknown geometry type: {row['geometry'].geom_type}\n\n"
+        f"Row:\n{row}")
+
 
 tikz = []
 data.apply(create_line, axis=1)
