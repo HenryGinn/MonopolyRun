@@ -1,8 +1,4 @@
 .venv/
-*.aux
-*.log
-*.gz
 Scripts/__pycache__/
-/Data/*
-*region.graphml
-*region.pmtiles
+/Sources/*
+*.png
