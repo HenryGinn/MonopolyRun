@@ -21,27 +21,11 @@ class Server():
 
     def set_paths(self):
         self.style_path = os.path.join(self.monopoly.source_path, "style.json")
-        self.graph_path = os.path.join(self.monopoly.source_path, "region.graphml")
 
     def register_routes(self):
         self.app.add_url_rule("/", "home", self.home)
         self.app.add_url_rule("/style.json", "style", self.style)
         self.app.add_url_rule("/<path:file>", "files", self.files)
-
-    def set_graph(self):
-        if os.path.exists(self.graph_path):
-            self.load_graph()
-        else:
-            self.save_graph()
-
-    def save_graph(self):
-        self.graph = ox.graph.graph_from_point(
-            (51.3349906493623, -0.26368503514735964),
-            dist=7000, network_type="walk")
-        ox.save_graphml(self.graph, self.graph_path)
-
-    def load_graph(self):
-        self.graph = ox.load_graphml(self.graph_path)
 
     def home(self):
         return send_from_directory(self.monopoly.source_path, "index.html")
@@ -118,5 +102,5 @@ class Server():
         }
 
     def run(self):
-        self.route_geojson = self.build_route()
+        #self.route_geojson = self.build_route()
         self.app.run(host="localhost", port=8000)
