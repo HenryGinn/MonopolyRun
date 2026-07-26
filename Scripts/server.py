@@ -14,31 +14,16 @@ class Server():
     def __init__(self, monopoly):
         self.monopoly = monopoly
         self.app = Flask(__name__)
-        self.set_paths()
         self.route_geojson = None
         self.register_routes()
-        self.set_graph()
-
-    def set_paths(self):
-        self.style_path = os.path.join(self.monopoly.source_path, "style.json")
 
     def register_routes(self):
         self.app.add_url_rule("/", "home", self.home)
-        self.app.add_url_rule("/style.json", "style", self.style)
         self.app.add_url_rule("/<path:file>", "files", self.files)
+        self.app.add_url_rule("/style.json", "style", lambda: jsonify(self.monopoly.style))
 
     def home(self):
         return send_from_directory(self.monopoly.source_path, "index.html")
-
-    def style(self):
-        with open(self.style_path) as file:
-            style = json.load(file)
-
-        style["sources"]["route"] = {
-            "type": "geojson",
-            "data": self.route_geojson,
-        }
-        return style
 
     def files(self, file):
         return send_from_directory(self.monopoly.source_path, file)
@@ -46,30 +31,27 @@ class Server():
     def build_route(self):
 
         start_node = ox.distance.nearest_nodes(
-            self.graph, start[1], start[0]
+            self.monopoly.graph.graph, start[1], start[0]
         )
         end_node = ox.distance.nearest_nodes(
-            self.graph, end[1], end[0]
+            self.monopoly.graph.graph, end[1], end[0]
         )
 
         route = nx.shortest_path(
-            self.graph,
+            self.monopoly.graph.graph,
             start_node,
             end_node,
             weight="length"
         )
 
         coordinates = [
-            (self.graph.nodes[n]["x"], self.graph.nodes[n]["y"])
+            (self.monopoly.graph.graph.nodes[n]["x"], self.monopoly.graph.graph.nodes[n]["y"])
             for n in route
         ]
 
         distance_m = sum(
-            self.graph.edges[route[i], route[i + 1], 0]["length"]
-            for i in range(len(route) - 1)
-        )
-
-        print(f"Route distance: {distance_m:.1f} m ({len(route)} nodes)")
+            self.monopoly.graph.graph.edges[route[i], route[i + 1], 0]["length"]
+            for i in range(len(route) - 1))
 
         return {
             "type": "FeatureCollection",
@@ -102,5 +84,5 @@ class Server():
         }
 
     def run(self):
-        #self.route_geojson = self.build_route()
+        self.route_geojson = self.build_route()
         self.app.run(host="localhost", port=8000)

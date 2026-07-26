@@ -8,11 +8,16 @@ import os
 
 import pandas as pd
 
+from monopoly import Monopoly
 
-base_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "Data")
-style_path = os.path.join(base_path, "style.json")
-layers_path = os.path.join(base_path, "Layers.csv")
-items_path = os.path.join(base_path, "Items.csv")
+
+monopoly = Monopoly()
+monopoly.set_graph()
+monopoly.graph.load_groups()
+
+style_path = os.path.join(monopoly.source_path, "style.json")
+layers_path = os.path.join(monopoly.data_path, "Layers.csv")
+items_path = os.path.join(monopoly.data_path, "Items.csv")
 
 layers = pd.read_csv(layers_path, index_col=0)
 items = pd.read_csv(items_path, index_col=0)
@@ -22,6 +27,12 @@ def get_filter(layer):
         return {"filter": ["in", "class"] + list(items.loc[items["Layer"] == layer].index)}
     else:
         return {}
+
+text_dict = {
+    "text-color": "#ffffff",
+    "text-halo-color": "rgba(0, 0, 0, 0.5)",
+    "text-halo-width": 4,
+    "text-halo-blur": 1}
 
 background = [{
     "id": "Background",
@@ -70,25 +81,67 @@ symbol_json = [dict(
        "text-allow-overlap": False,
        "text-ignore-placement": False,
        "text-keep-upright": True},
-       "paint": {
-           "text-color": "#ffffff",
-           "text-halo-color": "rgba(0, 0, 0, 0.5)",
-           "text-halo-width": 4,
-           "text-halo-blur": 1}},
+       "paint": text_dict},
     **get_filter(layer))
      for layer in layers.loc[layers["Type"].isin(["symbol", "line"])].index]
+
+route_json = [{
+    "id": "route-line",
+    "type": "line",
+    "source": "route",
+    "filter": ["==", "$type", "LineString"],
+    "layout": {
+      "line-cap": "round",
+      "line-join": "round"},
+    "paint": {
+      "line-color": "#007AFF",
+      "line-width": 5,
+      "line-opacity": 0.9}}]
+
+route_colors = [
+    i for group_id, group_data in monopoly.graph.groups.iterrows()
+    for i in [group_id, group_data['Group Color']]]
+
+route_points_json = [{
+    "id": "route-points",
+    "type": "circle",
+    "source": "route-points",
+    "paint": {
+        "circle-radius": 12,
+        "circle-color": [
+            "match",
+            ["get", "role"],
+            *route_colors,
+            "#808080"]}}]
+
+route_points_labels_json = [{
+    "id": "route-point-labels",
+    "type": "symbol",
+    "source": "route-points",
+    "layout": {
+        "text-field": ["get", "label"],
+        "text-size": 20,
+        "text-offset": [0, 0.8],
+        "text-anchor": "top"
+    },
+    "paint": text_dict}]
+
+features = {
+    "type": "geojson",
+    "data": {
+        "type": "FeatureCollection",
+        "features": []}}
 
 style_json = {
   "version": 8,
   "sources": {
     "local": {
       "type": "vector",
-      "url": "pmtiles:///region.pmtiles"
-    }
-  },
-  "layers": background + fill_json + line_json + symbol_json
+      "url": "pmtiles:///region.pmtiles"},
+    "route-points": features},
+  "layers": background + fill_json + line_json + route_points_json + route_points_labels_json + symbol_json
 }
-
+# + route_json
 for layer in style_json["layers"]:
     if layer["id"] == "Rail":
         layer["paint"]["line-dasharray"] = [3, 3]

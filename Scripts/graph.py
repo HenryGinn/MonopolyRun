@@ -1,3 +1,4 @@
+import json
 import os
 
 import osmnx as ox
@@ -38,6 +39,7 @@ class Graph():
     # Initialising place data
     
     def set_places(self):
+        self.load_groups()
         path = os.path.join(self.monopoly.data_path, "Places.csv")
         if os.path.exists(path):
             self.places = pd.read_csv(path, index_col=0)
@@ -46,8 +48,7 @@ class Graph():
 
     def generate_places(self):
         self.load_places_source()
-        groups = self.get_groups()
-        self.places = self.places.join(groups, on="Group ID")
+        self.places = self.places.join(self.groups, on="Group ID")
         self.set_place_coordinates()
         self.save_places()
 
@@ -55,10 +56,9 @@ class Graph():
         path = os.path.join(self.monopoly.data_path, "PlacesSource.csv")
         self.places = pd.read_csv(path, index_col=0)
 
-    def get_groups(self):
+    def load_groups(self):
         path = os.path.join(self.monopoly.data_path, "Groups.csv")
-        groups = pd.read_csv(path, index_col=0)
-        return groups
+        self.groups = pd.read_csv(path, index_col=0)
 
     def save_places(self):
         path = os.path.join(self.monopoly.data_path, "Places.csv")
@@ -68,6 +68,10 @@ class Graph():
     # Getting coordinates that align to nodes in the graph
 
     def set_place_coordinates(self):
+        self.set_place_nodes()
+        self.set_coordinates_from_nodes()
+        
+    def set_place_nodes(self):
         self.places["Node"] = (
             self.places.apply(
                 self.get_nearest_node, axis=1))
@@ -76,6 +80,16 @@ class Graph():
         nearest_node = ox.distance.nearest_nodes(
             self.graph, place["Latitude"], place["Longitude"])
         return nearest_node
+    
+    def set_coordinates_from_nodes(self):
+        self.places[["X", "Y"]] = (
+            self.places.apply(
+                self.get_coordinate_from_node, axis=1)).to_list()
+
+    def get_coordinate_from_node(self, place):
+        x = self.monopoly.graph.graph.nodes[place["Node"]]["x"]
+        y = self.monopoly.graph.graph.nodes[place["Node"]]["y"]
+        return x, y
 
     def set_routes_path(self):
         self.routes_path = os.path.join(
@@ -99,3 +113,14 @@ class Graph():
 
     def get_route(self, start, end):
         print(start, end)
+
+    def add_node(self, place):
+        self.monopoly.style["sources"]["route-points"]["data"]["features"].append(
+            {"type": "Feature",
+             "properties": {
+                 "role": int(self.places.loc[place, "Group ID"]),
+                 "label": self.places.loc[place, "Square"]},
+             "geometry": {
+                 "type": "Point",
+                 "coordinates": list(self.places.loc[place, ["X", "Y"]])}})
+
