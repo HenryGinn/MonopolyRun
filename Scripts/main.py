@@ -12,10 +12,20 @@ m = monopoly
 monopoly.set_graph()
 monopoly.graph.set_graph()
 monopoly.graph.set_places()
+monopoly.graph.set_elevation_map()
 monopoly.set_server()
 
+"""
 for place in monopoly.graph.places.index:
     monopoly.graph.add_node(place)
 
-monopoly.server.run()
+route = monopoly.graph.get_route(
+    "Metropolis",
+    "Little Acres Lodge")
+
+monopoly.graph.add_route(route)
+"""
+
+#monopoly.server.run()
 #monopoly.graph.construct_routes()
+

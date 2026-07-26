@@ -94,9 +94,9 @@ route_json = [{
       "line-cap": "round",
       "line-join": "round"},
     "paint": {
-      "line-color": "#007AFF",
-      "line-width": 5,
-      "line-opacity": 0.9}}]
+      "line-color": "#004cff",
+      "line-width": 10,
+      "line-opacity": 1}}]
 
 route_colors = [
     i for group_id, group_data in monopoly.graph.groups.iterrows()
@@ -105,7 +105,11 @@ route_colors = [
 route_points_json = [{
     "id": "route-points",
     "type": "circle",
-    "source": "route-points",
+    "source": "route",
+    "filter": [
+        "==",
+        "$type",
+	"Point"],
     "paint": {
         "circle-radius": 12,
         "circle-color": [
@@ -117,7 +121,7 @@ route_points_json = [{
 route_points_labels_json = [{
     "id": "route-point-labels",
     "type": "symbol",
-    "source": "route-points",
+    "source": "route",
     "layout": {
         "text-field": ["get", "label"],
         "text-size": 20,
@@ -138,10 +142,17 @@ style_json = {
     "local": {
       "type": "vector",
       "url": "pmtiles:///region.pmtiles"},
-    "route-points": features},
-  "layers": background + fill_json + line_json + route_points_json + route_points_labels_json + symbol_json
+    "route": features},
+  "layers": (
+      background +
+      fill_json +
+      line_json +
+      route_json +
+      route_points_json +
+      route_points_labels_json +
+      symbol_json)
 }
-# + route_json
+
 for layer in style_json["layers"]:
     if layer["id"] == "Rail":
         layer["paint"]["line-dasharray"] = [3, 3]

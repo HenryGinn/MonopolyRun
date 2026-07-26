@@ -1,9 +1,12 @@
-import json
 import os
 
+from hgutilities.utils import json
 import osmnx as ox
 import networkx as nx
+import numpy as np
 import pandas as pd
+import rasterio as rs
+from scipy.interpolate import RegularGridInterpolator
 
 
 class Graph():
@@ -36,6 +39,33 @@ class Graph():
         self.graph = ox.load_graphml(self.graph_path)
 
 
+    # Elevation
+
+    def set_elevation_map(self):
+        elevation_source, width, height, transform = self.load_elevation()
+        x, y = self.get_elevation_grid(width, height, transform)
+        self.elevation = self.get_elevation_interpolator(elevation_source, x, y)
+
+    def load_elevation(self):
+        elevation_path = os.path.join(
+            self.monopoly.source_path, "Elevation.tif")
+        with rs.open(elevation_path) as file:
+            elevation_source = file.read(1)
+            width, height = file.width, file.height
+            transform = file.transform
+        return elevation_source, width, height, transform
+
+    def get_elevation_grid(self, width, height, transform):
+        x = np.arange(width) * transform.a + transform.c + transform.a / 2
+        y = np.arange(height) * transform.e + transform.f + transform.e / 2
+        return x, y
+
+    def get_elevation_interpolator(self, elevation_source, x, y):
+        interpolator = RegularGridInterpolator(
+            (x, y[::-1]), elevation_source[::-1, :].T, method="linear")
+        return interpolator
+
+    
     # Initialising place data
     
     def set_places(self):
@@ -45,6 +75,7 @@ class Graph():
             self.places = pd.read_csv(path, index_col=0)
         else:
             self.generate_places()
+        self.places["Node"] = self.places["Node"].astype(int)
 
     def generate_places(self):
         self.load_places_source()
@@ -97,13 +128,21 @@ class Graph():
 
 
     # Building a json of all route information
-    
+
     def construct_routes(self):
-        self.routes = {
-            (start, end): self.get_route(start, end)
+        self.initialise_routes()
+        self.add_other_route_data()
+        self.save_routes()
+    
+    def initialise_routes(self):
+        print("Initialising routes")
+        self.routes = [
+            {"Start": start,
+             "End": end,
+             "Nodes": self.get_route(start, end)}
             for start in self.places.index
-            for end in self.places.index[:1]
-            if self.valid_start_and_end(start, end)}
+            for end in self.places.index
+            if self.valid_start_and_end(start, end)]
 
     def valid_start_and_end(self, start, end):
         is_valid = (
@@ -112,10 +151,44 @@ class Graph():
         return is_valid
 
     def get_route(self, start, end):
-        print(start, end)
+        start_node = self.places.loc[start, "Node"]
+        end_node = self.places.loc[end, "Node"]
+        route = nx.shortest_path(self.graph, start_node, end_node, weight="length")
+        route = [int(i) for i in route]
+        return route
+
+    def add_other_route_data(self):
+        print("Adding other route data")
+        for route in self.routes:
+            # Distance in metres, elevation penalty in seconds
+            route.update({
+                "Distance": self.get_route_distance(route),
+                "Elevation Penalty": self.get_route_elevation_penalty(route)})
+
+    def get_route_distance(self, route):
+        length = nx.shortest_path_length(
+            self.graph,
+            self.places.loc[route["Start"], "Node"],
+            self.places.loc[route["End"], "Node"],
+            weight="length")
+        return length
+
+    def get_route_elevation_penalty(self, route):
+        coordinates = self.nodes_to_coordinates(route["Nodes"])
+        elevations = np.array([self.elevation(coordinate) for coordinate in coordinates])
+        deltas = elevations[1:] - elevations[:-1]
+        penalty = np.where(deltas >= 0, 0.5*deltas, 0.2*deltas).sum()
+        return penalty
+
+    def save_routes(self):
+        with open(self.routes_path, "w+") as file:
+            json.dump(self.routes, file)
+
+
+    # Adding things to map
 
     def add_node(self, place):
-        self.monopoly.style["sources"]["route-points"]["data"]["features"].append(
+        self.monopoly.style["sources"]["route"]["data"]["features"].append(
             {"type": "Feature",
              "properties": {
                  "role": int(self.places.loc[place, "Group ID"]),
@@ -123,4 +196,21 @@ class Graph():
              "geometry": {
                  "type": "Point",
                  "coordinates": list(self.places.loc[place, ["X", "Y"]])}})
+
+    def add_route(self, route):
+        coordinates = self.nodes_to_coordinates(route)
+        self.monopoly.style["sources"]["route"]["data"]["features"].append(
+            {"type": "Feature",
+             "properties": {"role": "route-line"},
+             "geometry": {
+                 "type": "LineString",
+                 "coordinates": coordinates}})
+        
+    def nodes_to_coordinates(self, route):
+        route_gdf = ox.routing.route_to_gdf(self.graph, route)
+        coordinates = [
+            coord
+            for geometry in route_gdf.geometry
+            for coord in geometry.coords]
+        return coordinates
 
