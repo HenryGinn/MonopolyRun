@@ -26,6 +26,6 @@ route = monopoly.graph.get_route(
 monopoly.graph.add_route(route)
 """
 
-#monopoly.server.run()
+monopoly.server.run()
 #monopoly.graph.construct_routes()
 

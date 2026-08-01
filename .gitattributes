@@ -1,3 +1,6 @@
-Data/region.graphml filter=lfs diff=lfs merge=lfs -text
-Data/MonopolyBoard.png filter=lfs diff=lfs merge=lfs -text
 Sources/Elevation.tif filter=lfs diff=lfs merge=lfs -text
+Sources/region.pmtiles filter=lfs diff=lfs merge=lfs -text
+Sources/region.graphml filter=lfs diff=lfs merge=lfs -text
+Sources/maplibre-gl.js filter=lfs diff=lfs merge=lfs -text
+Sources/pmtiles.js filter=lfs diff=lfs merge=lfs -text
+Sources/maplibre-gl.css filter=lfs diff=lfs merge=lfs -text
