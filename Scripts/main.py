@@ -7,13 +7,14 @@ pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
 monopoly = Monopoly()
-monopoly.load_style()
+monopoly.speed = 2
+#monopoly.load_style()
 m = monopoly
 monopoly.set_graph()
-monopoly.graph.set_graph()
+#monopoly.graph.set_graph()
 monopoly.graph.set_places()
-monopoly.graph.set_elevation_map()
-monopoly.set_server()
+#monopoly.graph.set_elevation_map()
+#monopoly.set_server()
 
 """
 for place in monopoly.graph.places.index:
@@ -26,6 +27,9 @@ route = monopoly.graph.get_route(
 monopoly.graph.add_route(route)
 """
 
-monopoly.server.run()
-#monopoly.graph.construct_routes()
-
+#monopoly.server.run()
+monopoly.set_routes()
+monopoly.set_solver()
+monopoly.solver.initialise_grid()
+monopoly.solver.set_quantities()
+s = monopoly.solver

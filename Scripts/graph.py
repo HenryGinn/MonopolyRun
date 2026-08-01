@@ -1,19 +1,18 @@
 import os
 
 from hgutilities.utils import json
-import osmnx as ox
-import networkx as nx
+#import osmnx as ox
+#import networkx as nx
 import numpy as np
 import pandas as pd
-import rasterio as rs
-from scipy.interpolate import RegularGridInterpolator
+#import rasterio as rs
+#from scipy.interpolate import RegularGridInterpolator
 
 
 class Graph():
 
     def __init__(self, monopoly):
         self.monopoly = monopoly
-        self.set_routes_path()
 
 
     # Initialising graph data
@@ -75,12 +74,12 @@ class Graph():
             self.places = pd.read_csv(path, index_col=0)
         else:
             self.generate_places()
-        self.places["Node"] = self.places["Node"].astype(int)
+        #self.places["Node"] = self.places["Node"].astype(int)
 
     def generate_places(self):
         self.load_places_source()
         self.places = self.places.join(self.groups, on="Group ID")
-        self.set_place_coordinates()
+        #self.set_place_coordinates()
         self.save_places()
 
     def load_places_source(self):
@@ -122,10 +121,6 @@ class Graph():
         y = self.monopoly.graph.graph.nodes[place["Node"]]["y"]
         return x, y
 
-    def set_routes_path(self):
-        self.routes_path = os.path.join(
-            self.monopoly.source_path, "Routes.json")
-
 
     # Building a json of all route information
 
@@ -136,10 +131,10 @@ class Graph():
     
     def initialise_routes(self):
         print("Initialising routes")
-        self.routes = [
+        self.monopoly.routes = [
             {"Start": start,
-             "End": end,
-             "Nodes": self.get_route(start, end)}
+             "End": end}
+             #"Nodes": self.get_route(start, end)}
             for start in self.places.index
             for end in self.places.index
             if self.valid_start_and_end(start, end)]
@@ -159,11 +154,11 @@ class Graph():
 
     def add_other_route_data(self):
         print("Adding other route data")
-        for route in self.routes:
+        for route in self.monopoly.routes:
             # Distance in metres, elevation penalty in seconds
             route.update({
-                "Distance": self.get_route_distance(route),
-                "Elevation Penalty": self.get_route_elevation_penalty(route)})
+                "Distance": np.random.randint(100, 200),#self.get_route_distance(route),
+                "Elevation Penalty": np.random.randint(-5, 5)})#self.get_route_elevation_penalty(route)})
 
     def get_route_distance(self, route):
         length = nx.shortest_path_length(
@@ -181,8 +176,8 @@ class Graph():
         return penalty
 
     def save_routes(self):
-        with open(self.routes_path, "w+") as file:
-            json.dump(self.routes, file)
+        with open(self.monopoly.routes_path, "w+") as file:
+            json.dump(self.monopoly.routes, file)
 
 
     # Adding things to map

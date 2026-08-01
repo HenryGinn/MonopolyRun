@@ -1,0 +1,37 @@
+\section{Formulating as an Integer Programming Problem}
+
+Let $v_i$ be an indicator for whether vertex $i$ is included. Let $e_{ij}$ be an indicator variable for whether the edge connecting vertex $i$ to the vertex $j$ is included. Let $c_{ij}$ be the cost of using edge $ij$ and B be the total cost budget. We can impose the constraint that the maximum budget cannot be exceeded using \sum_{j} e_j c_j \le B.
+
+\subsection{Connectedness}
+
+We do not want vertices to be included if the route does not connect to them as this would give an artificially higher score. We must therefore impose that the vertex indicators are 0 unless the vertices are connected to at least two edges. Each vertex with non-zero indicator will in fact be connected to exactly two edges but it is not necessary to encode this.
+
+This can be imposed with an equation of the form (# Number of included edges connected to v_i) \le 2 * v_i. We note that this does in fact force exactly two edges per vertex. \eqref{eqn:TwoEdgesPerVertex} gives this in terms of indicator variables only.
+\begin{equation}
+	\left( \sum_j e_{ij} + e_{ji} \right) \le 2v_i
+	\label{eqn:TwoEdgesPerVertex}
+\end{equation}
+
+Imposing that the resulting tour is connected appears to be hard. We solve this by not imposing it at all. Instead we check if the resulting tour is connected and if it is not then we add a constraint that rules out that solution and then run the solver again.
+
+\subsection{Squares With Multiple Vertices}
+
+As some squares can be achieved by visiting one of several places, we must encode whether or not each square is achieved. Let $s_n$ be the indicator for square $n$ and $S_i^n$ the indicator of whether vertex $i$ is associated with square $n$. This can be encoded by constraining each v_i to be less than s_n where vertex $i$ is associated with square $n$. Something stronger than this that still encodes the same thing is given by~\eqref{eqn:SquaresWithMultipleVertices}. This encoding forbids a square being satisfied by multiple vertices but that would never occur in an optimal solution anyway.
+\begin{equation}
+	\sum_i S_i^n v_i \le s_n
+	\label{eqn:SquaresWithMultipleVertices}
+end{equation}
+
+\subsection{Group Indicator Variables}
+
+Let $G_k$ be an indicator variable for whether all squares in group k have been visited. As there will be a points bonus for visiting all in a group, the optimiser will naturally make $G_k = 1$ when possible. This means we only need to encode the fact that $G_k$ is 0 unless all its associated square indicator variables are 1. Let $g_n^k$ be the indicator variable for whether square $n$ is part of group $k$.
+
+We can do this using a constraint of the form (# Number of vertices in a group) \cdot G_k \le (Sum of indicator variables for vertices in the group). The right hand side is maximised only when all indicator variables in the group are 1 and will be equal to the number of vertices in the group. If $G_k$ is 1 and the left hand side is minimised then it will also be equal to the number of vertices in the group. This is written in variables in \eqref{eqn:GroupIndicatorVariables}.
+\begin{equation}
+	\left( \sum_n g_n^k \right) G_k \le \sum_n s_n g_n^k
+	\label{eqn:GroupIndicatorVariables}
+\end{equation}
+
+\subsection{Objective Function}
+
+Each square has a value associated with it and we get double points if we get all squares within a group. Therefore we can sum all the square indicators, weighted by their associated values, and sum all the group indicators, weighted by the total value of their associated squares.
