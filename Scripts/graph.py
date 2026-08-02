@@ -1,12 +1,12 @@
 import os
 
 from hgutilities.utils import json
-#import osmnx as ox
-#import networkx as nx
+import osmnx as ox
+import networkx as nx
 import numpy as np
 import pandas as pd
-#import rasterio as rs
-#from scipy.interpolate import RegularGridInterpolator
+import rasterio as rs
+from scipy.interpolate import RegularGridInterpolator
 
 
 class Graph():
@@ -74,12 +74,14 @@ class Graph():
             self.places = pd.read_csv(path, index_col=0)
         else:
             self.generate_places()
-        #self.places["Node"] = self.places["Node"].astype(int)
+        self.places["Node"] = self.places["Node"].astype(int)
+        self.monopoly.places = self.places
 
     def generate_places(self):
         self.load_places_source()
         self.places = self.places.join(self.groups, on="Group ID")
-        #self.set_place_coordinates()
+        self.places.reset_index(inplace=True)
+        self.set_place_coordinates()
         self.save_places()
 
     def load_places_source(self):
@@ -89,6 +91,7 @@ class Graph():
     def load_groups(self):
         path = os.path.join(self.monopoly.data_path, "Groups.csv")
         self.groups = pd.read_csv(path, index_col=0)
+        self.monopoly.groups = self.groups
 
     def save_places(self):
         path = os.path.join(self.monopoly.data_path, "Places.csv")
@@ -100,6 +103,7 @@ class Graph():
     def set_place_coordinates(self):
         self.set_place_nodes()
         self.set_coordinates_from_nodes()
+        self.places.drop(columns=["Longitude", "Latitude"], inplace=True)
         
     def set_place_nodes(self):
         self.places["Node"] = (
@@ -133,8 +137,8 @@ class Graph():
         print("Initialising routes")
         self.monopoly.routes = [
             {"Start": start,
-             "End": end}
-             #"Nodes": self.get_route(start, end)}
+             "End": end,
+             "Nodes": self.get_route(start, end)}
             for start in self.places.index
             for end in self.places.index
             if self.valid_start_and_end(start, end)]

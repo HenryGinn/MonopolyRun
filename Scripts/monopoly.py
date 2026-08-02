@@ -8,6 +8,9 @@ from solver import Solver
 
 class Monopoly():
 
+    time_limit = 70
+    terminal = "Metropolis"
+
     def __init__(self):
         self.set_paths()
 
@@ -44,3 +47,11 @@ class Monopoly():
     def load_routes(self):
         with open(self.routes_path, "r") as file:
             self.routes = json.load(file)
+
+    def construct_problem(self):
+        self.solver.add_constraints()
+        self.solver.gather_constraints()
+        self.solver.set_objective_function()
+
+    def solve(self):
+        self.solver.solve()

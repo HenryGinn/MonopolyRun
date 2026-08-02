@@ -1,10 +1,10 @@
-Group ID,Group Name,Group Color Name,Group Color
-0,Start and End,White,#ffffff
+Group ID,Group Name,Color Name,Color
+0,Terminals,White,#ffffff
 1,Schools,Red,#540000
-2,Stations,Dark Blue,#070094
+2,Stations,Navy,#070094
 3,Running,Yellow,#dbdb00
 4,Horton,Green,#04bf13
-5,Ewell and Cheam,Light Blue,#00b3d6
+5,Ewell / Cheam,Aqua,#00b3d6
 6,Halls,Pink,#fa57dc
 7,Epsom Landmarks,Grey,#b2bfbf
 8,Assorted,Purple,#7408cc

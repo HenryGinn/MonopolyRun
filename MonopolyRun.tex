@@ -4,11 +4,12 @@ Let $v_i$ be an indicator for whether vertex $i$ is included. Let $e_{ij}$ be an
 
 \subsection{Connectedness}
 
-We do not want vertices to be included if the route does not connect to them as this would give an artificially higher score. We must therefore impose that the vertex indicators are 0 unless the vertices are connected to at least two edges. Each vertex with non-zero indicator will in fact be connected to exactly two edges but it is not necessary to encode this.
+We do not want vertices to be included if the route does not connect to them as this would give an artificially higher score. We must therefore impose that the vertex indicators are 0 unless the vertices are connected to at least one edge entering and at least one edge leaving. Each vertex with non-zero indicator will in fact be connected to exactly two edges but it is not necessary to encode this.
 
-This can be imposed with an equation of the form (# Number of included edges connected to v_i) \le 2 * v_i. We note that this does in fact force exactly two edges per vertex. \eqref{eqn:TwoEdgesPerVertex} gives this in terms of indicator variables only.
+This can be imposed with an equation of the form $(\text{# Number of included edges entering} v_i) \le v_i$ and similarly for leaving. We note that this does in fact force exactly two edges per vertex. \eqref{eqn:TwoEdgesPerVertex} gives this in terms of indicator variables only.
 \begin{equation}
-	\left( \sum_j e_{ij} + e_{ji} \right) \le 2v_i
+	\left( \sum_j e_{ij} \right) \le v_i  \\
+	\left( \sum_j e_{ji} \right) \le v_i  \\
 	\label{eqn:TwoEdgesPerVertex}
 \end{equation}
 
@@ -20,7 +21,7 @@ As some squares can be achieved by visiting one of several places, we must encod
 \begin{equation}
 	\sum_i S_i^n v_i \le s_n
 	\label{eqn:SquaresWithMultipleVertices}
-end{equation}
+\end{equation}
 
 \subsection{Group Indicator Variables}
 
