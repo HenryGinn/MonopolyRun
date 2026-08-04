@@ -136,8 +136,10 @@ class Graph():
     def initialise_routes(self):
         print("Initialising routes")
         self.monopoly.routes = [
-            {"Start": start,
-             "End": end,
+            {"Start ID": start,
+             "End ID": end,
+             "Start": self.places.loc[start, "Place"],
+             "End": self.places.loc[end, "Place"],
              "Nodes": self.get_route(start, end)}
             for start in self.places.index
             for end in self.places.index
@@ -161,14 +163,14 @@ class Graph():
         for route in self.monopoly.routes:
             # Distance in metres, elevation penalty in seconds
             route.update({
-                "Distance": np.random.randint(100, 200),#self.get_route_distance(route),
-                "Elevation Penalty": np.random.randint(-5, 5)})#self.get_route_elevation_penalty(route)})
+                "Distance": self.get_route_distance(route),
+                "Elevation Penalty": self.get_route_elevation_penalty(route)})
 
     def get_route_distance(self, route):
         length = nx.shortest_path_length(
             self.graph,
-            self.places.loc[route["Start"], "Node"],
-            self.places.loc[route["End"], "Node"],
+            self.places.loc[route["Start ID"], "Node"],
+            self.places.loc[route["End ID"], "Node"],
             weight="length")
         return length
 

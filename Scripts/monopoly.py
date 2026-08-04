@@ -2,13 +2,13 @@ import json
 import os
 
 from graph import Graph
-#from server import Server
+from server import Server
 from solver import Solver
 
 
 class Monopoly():
 
-    time_limit = 70
+    time_limit = 70 * 60
     terminal = "Metropolis"
 
     def __init__(self):

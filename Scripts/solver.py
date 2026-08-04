@@ -32,28 +32,19 @@ class Solver():
 
     def set_edges(self):
         self.edges = pd.DataFrame(self.monopoly.routes)
-        self.set_edges_weight()
-        self.set_edges_vertex_index()
-
-    def set_edges_weight(self):
         flat_time = self.edges["Distance"] / self.monopoly.speed
         elevation_penalty = self.edges["Elevation Penalty"]
         self.edges["Weight"] = flat_time + elevation_penalty
-
-    def set_edges_vertex_index(self):
-        vertices = self.places["Place"]
-        index_lookup = pd.Series(vertices.index.values, index=vertices)
-        self.edges["Start ID"] = index_lookup.loc[self.edges["Start"]].values
-        self.edges["End ID"] = index_lookup.loc[self.edges["End"]].values
 
     def set_type_counts(self):
         self.group_count = self.groups.index.size
         self.square_count = self.squares.index.size
         self.vertex_count = self.places.index.size
         self.edge_count = self.edges.index.size
-        self.variables = (
-            self.group_count + self.square_count +
-            self.vertex_count + self.edge_count)
+        self.counts = (
+            0, self.group_count, self.square_count,
+            self.vertex_count, self.edge_count)
+        self.variables = sum(self.counts)
 
 
     # Tools for constructing constraints
@@ -106,16 +97,16 @@ class Solver():
         self.initialise_constraint_blocks(self.vertex_count)
         for vertex_index in self.places.index:
             edge_indexes = self.edges.loc[self.edges["End ID"] == vertex_index].index
-            self.edge_constraints[vertex_index, edge_indexes] = 1
-            self.vertex_constraints[vertex_index, vertex_index] = -1
+            self.edge_constraints[vertex_index, edge_indexes] = -1
+            self.vertex_constraints[vertex_index, vertex_index] = 1
         self.entering_constraints = self.gather_constraint_components()
 
     def set_exiting_constraints(self):
         self.initialise_constraint_blocks(self.vertex_count)
         for vertex_index in self.places.index:
             edge_indexes = self.edges.loc[self.edges["Start ID"] == vertex_index].index
-            self.edge_constraints[vertex_index, edge_indexes] = 1
-            self.vertex_constraints[vertex_index, vertex_index] = -1
+            self.edge_constraints[vertex_index, edge_indexes] = -1
+            self.vertex_constraints[vertex_index, vertex_index] = 1
         self.exiting_constraints = self.gather_constraint_components()
 
     def set_start_finish_constraint(self):
@@ -139,10 +130,9 @@ class Solver():
         self.set_square_indicator_constraints()
         self.set_entering_constraints()
         self.set_exiting_constraints()
-        self.set_total_cost_constraint()
         self.set_start_finish_constraint()
-        self.set_total_cost_constraint()
-    
+        #self.set_total_cost_constraint()
+        
     def gather_constraints(self):
         self.constraints = np.concatenate((
             self.group_indicator_constraints,
@@ -150,7 +140,8 @@ class Solver():
             self.entering_constraints,
             self.exiting_constraints,
             self.start_finish_constraint,
-            self.cost_constraint), axis=0)
+            #self.cost_constraint
+            ), axis=0)
 
     def set_objective_function(self):
         self.c = np.concatenate((
@@ -161,14 +152,19 @@ class Solver():
 
     def solve(self):
         self.find_solution()
+        path = os.path.join(self.monopoly.data_path, "Solution.csv")
+        #np.savetxt(path, self.values)
+        #self.values = np.loadtxt(path)
+        self.parse_solution()
         
     def find_solution(self):
         # Maximises c^Tx subject to Ax <= b
-        A = self.constraints[:, :-1]
-        b = self.constraints[:, -1]
+        self.A = self.constraints[:, :-1]
+        self.b = self.constraints[:, -1]
         (self.status, self.values) = ilp(
-            matrix(-self.c), matrix(A), matrix(b),
+            matrix(-self.c), matrix(self.A), matrix(self.b),
             B=set(range(self.variables)))
+        self.values = np.array(self.values)
 
 
     # Output and postprocessing
@@ -183,3 +179,23 @@ class Solver():
         constraints = pd.DataFrame(constraints, columns=columns)
         path = os.path.join(self.monopoly.data_path, "Constraints.csv")
         constraints.to_csv(path)
+
+    def parse_solution(self):
+        indexes = self.get_solution_indexes()
+        self.groups_solution = self.groups.iloc[indexes[0], :]
+        self.squares_solution = self.squares.iloc[indexes[1], :]
+        self.vertices_solution = self.places.iloc[indexes[2], :]
+        self.edges_solution = self.edges.iloc[indexes[3], :]
+
+    def get_solution_indexes(self):
+        cum = np.cumsum(self.counts)
+        indexes = [
+            np.nonzero(self.values[count_lower:count_upper])[0]
+            for count_lower, count_upper in zip(cum[:-1], cum[1:])]
+        return indexes
+
+    def solution(self):
+        print(self.groups_solution)
+        print(self.squares_solution)
+        print(self.vertices_solution)
+        print(self.edges_solution.drop(columns="Nodes"))
