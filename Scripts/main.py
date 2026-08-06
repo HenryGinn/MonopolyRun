@@ -12,9 +12,9 @@ monopoly.speed = 1
 #monopoly.load_style()
 m = monopoly
 monopoly.set_graph()
-#monopoly.graph.set_graph()
+monopoly.graph.set_graph()
 monopoly.graph.set_places()
-#monopoly.graph.set_elevation_map()
+monopoly.graph.set_elevation_map()
 #monopoly.set_server()
 #for place in monopoly.graph.places.index:
 #    monopoly.graph.add_node(place)
