@@ -100,7 +100,7 @@ route_json = [{
 
 route_colors = [
     i for group_id, group_data in monopoly.graph.groups.iterrows()
-    for i in [group_id, group_data['Group Color']]]
+    for i in [group_id, group_data['Color']]]
 
 route_points_json = [{
     "id": "route-points",

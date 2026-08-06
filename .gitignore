@@ -3,4 +3,5 @@
 *.png
 /Data/Places.csv
 /Data/Constraints.csv
+/Data/Solution.csv
 /Sources/*.json

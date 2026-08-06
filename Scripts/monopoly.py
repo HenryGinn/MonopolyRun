@@ -53,5 +53,8 @@ class Monopoly():
         self.solver.gather_constraints()
         self.solver.set_objective_function()
 
+    def draw(self):
+        self.graph.draw()
+
     def solve(self):
         self.solver.solve()

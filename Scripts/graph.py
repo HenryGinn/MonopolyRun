@@ -188,6 +188,44 @@ class Graph():
 
     # Adding things to map
 
+    def draw(self):
+        self.draw_places()
+        self.draw_edges()
+
+    def draw_places(self):
+        for place in self.monopoly.solver.vertices_solution.index:
+            self.add_node(place)
+
+    def draw_edges(self):
+        self.edges_solution = self.monopoly.solver.edges_solution.copy()
+        self.set_solution_routes()
+        for route in self.solution_routes:
+            self.add_route(route)
+
+    def set_solution_routes(self):
+        self.solution_routes = []
+        while self.edges_solution.size > 0:
+            self.add_solution_route()
+            print("")
+
+    def add_solution_route(self):
+        route = []
+        starting_node = self.edges_solution.iloc[0]["Start"]
+        current_node = starting_node
+        print(current_node)
+        while (current_node != starting_node) or (len(route) == 0):
+            next_edge = self.get_next_nodes(current_node)
+            current_node = next_edge["End"]
+            route += next_edge["Nodes"]
+            print(current_node)
+        self.solution_routes.append(route)
+
+    def get_next_nodes(self, current_node):
+        start_is_current = self.edges_solution["Start"] == current_node
+        next_edge = self.edges_solution.loc[start_is_current].iloc[0]
+        self.edges_solution = self.edges_solution.drop([next_edge.name])
+        return next_edge
+
     def add_node(self, place):
         self.monopoly.style["sources"]["route"]["data"]["features"].append(
             {"type": "Feature",

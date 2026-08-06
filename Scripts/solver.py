@@ -34,11 +34,19 @@ class Solver():
 
     def set_edges(self):
         self.edges = pd.DataFrame(self.monopoly.routes)
+        self.add_edge_weight()
+        self.add_undirected_edge_id()
+        # Temporarily dropping columns so dataframe can be printed within screen width
+        self.edges.drop(columns=["Distance", "Elevation Penalty"], inplace=True)
+
+    def add_edge_weight(self):
         flat_time = self.edges["Distance"] / self.monopoly.speed
         elevation_penalty = self.edges["Elevation Penalty"]
         self.edges["Weight"] = flat_time + elevation_penalty
-        # Temporarily dropping columns so dataframe can be printed within screen width
-        self.edges.drop(columns=["Nodes", "Distance", "Elevation Penalty"], inplace=True)
+
+    def add_undirected_edge_id(self):
+        self.edges["Undirected ID"] = self.edges.apply(
+            lambda edge: tuple(sorted([edge["Start ID"], edge["End ID"]])), axis=1)
 
     def set_type_counts(self):
         self.group_count = self.groups.index.size
@@ -146,6 +154,24 @@ class Solver():
             self.constraint_names[vertex_index] = f"Exiting Upper {self.places.loc[vertex_index, 'Place']}"
         self.exiting_constraints_upper = self.gather_constraint_components()
 
+    def set_pass_through_vertex_constraints(self):
+        self.initialise_constraint_blocks(self.vertex_count)
+        for vertex_index in self.places.index:
+            entering_indexes = self.edges.loc[self.edges["Start ID"] == vertex_index].index
+            exiting_indexes = self.edges.loc[self.edges["End ID"] == vertex_index].index
+            self.edge_constraints[vertex_index, entering_indexes] = 1
+            self.edge_constraints[vertex_index, exiting_indexes] = -1
+        self.pass_through_vertex_constraints = self.gather_constraint_components()
+
+    def set_no_pairs_constraints(self):
+        self.initialise_constraint_blocks(self.edge_count // 2)
+        undirected_edges = self.edges.groupby("Undirected ID")
+        for index, indexes in enumerate(undirected_edges.groups.values()):
+            self.edge_constraints[index, indexes] = 1
+            self.limits[index] = 1
+            self.constraint_names[index] = f"No Backtracking Edges: {indexes}"
+        self.no_pairs_constraints = self.gather_constraint_components()
+    
     def set_start_finish_constraint(self):
         self.initialise_constraint_blocks(1)
         index = self.places.loc[self.places["Place"] == self.monopoly.terminal].index.values
@@ -171,6 +197,8 @@ class Solver():
         self.set_exiting_constraints_lower()
         self.set_entering_constraints_upper()
         self.set_exiting_constraints_upper()
+        self.set_pass_through_vertex_constraints()
+        self.set_no_pairs_constraints()
         self.set_start_finish_constraint()
         self.set_total_cost_constraint()
         
@@ -182,6 +210,8 @@ class Solver():
             self.exiting_constraints_lower,
             self.entering_constraints_upper,
             self.exiting_constraints_upper,
+            self.pass_through_vertex_constraints,
+            self.no_pairs_constraints,
             self.start_finish_constraint,
             self.total_cost_constraint
             ), axis=0)
@@ -194,10 +224,10 @@ class Solver():
             np.zeros((self.edge_count))))
 
     def solve(self):
-        self.find_solution()
+        #self.find_solution()
         path = os.path.join(self.monopoly.data_path, "Solution.csv")
         #np.savetxt(path, self.values)
-        #self.values = np.loadtxt(path)
+        self.values = np.loadtxt(path)
         self.parse_solution()
         
     def find_solution(self):

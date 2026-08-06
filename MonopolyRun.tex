@@ -13,7 +13,7 @@ This can be imposed with an equation of the form $(\text{# Number of included ed
 	\label{eqn:TwoEdgesPerVertex}
 \end{equation}
 
-Imposing that the resulting tour is connected appears to be hard. We solve this by not imposing it at all. Instead we check if the resulting tour is connected and if it is not then we add a constraint that rules out that solution and then run the solver again.
+Imposing that the resulting tour is connected appears to be hard. We solve this by not imposing it at all. Instead we check if the resulting tour is connected and if it is not then we add a constraint that rules out that solution and then run the solver again. We can rule out all invalid loops that occur by demanding that the sum of all edge indicators (in both directions) in a loop is one less than the number of edges in the loop.
 
 \subsection{Squares With Multiple Vertices}
 
