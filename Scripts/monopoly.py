@@ -50,7 +50,7 @@ class Monopoly():
 
     def construct_problem(self):
         self.solver.add_constraints()
-        self.solver.gather_constraints()
+        self.solver.gather_initial_constraints()
         self.solver.set_objective_function()
 
     def draw(self):

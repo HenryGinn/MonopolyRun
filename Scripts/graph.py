@@ -197,34 +197,38 @@ class Graph():
             self.add_node(place)
 
     def draw_edges(self):
+        self.set_routes_vertices()
+        for route_vertices in self.routes_vertices:
+            route = self.draw_route_from_vertices(route_vertices)
+
+    def set_routes_vertices(self):
         self.edges_solution = self.monopoly.solver.edges_solution.copy()
-        self.set_solution_routes()
-        for route in self.solution_routes:
-            self.add_route(route)
-
-    def set_solution_routes(self):
-        self.solution_routes = []
+        self.routes_vertices = []
         while self.edges_solution.size > 0:
-            self.add_solution_route()
-            print("")
+            self.add_route_vertices()
 
-    def add_solution_route(self):
-        route = []
+    def add_route_vertices(self):
         starting_node = self.edges_solution.iloc[0]["Start"]
-        current_node = starting_node
-        print(current_node)
-        while (current_node != starting_node) or (len(route) == 0):
-            next_edge = self.get_next_nodes(current_node)
-            current_node = next_edge["End"]
-            route += next_edge["Nodes"]
-            print(current_node)
-        self.solution_routes.append(route)
+        route_vertices = [starting_node]
+        while (route_vertices[-1] != starting_node) or (len(route_vertices) == 1):
+            route_vertices.append(self.get_next_vertex(route_vertices[-1]))
+        self.routes_vertices.append(route_vertices)
 
-    def get_next_nodes(self, current_node):
+    def get_next_vertex(self, current_node):
         start_is_current = self.edges_solution["Start"] == current_node
         next_edge = self.edges_solution.loc[start_is_current].iloc[0]
+        next_vertex = next_edge["End"]
         self.edges_solution = self.edges_solution.drop([next_edge.name])
-        return next_edge
+        return next_vertex
+
+    def draw_route_from_vertices(self, route_vertices):
+        edges = self.monopoly.solver.edges_solution
+        for start, end in zip(route_vertices[:-1], route_vertices[1:]):
+            nodes = edges.loc[
+                (edges["Start"] == start) &
+                (edges["End"] == end)
+                ].loc[:, "Nodes"].iloc[0]
+            self.add_route(nodes)
 
     def add_node(self, place):
         self.monopoly.style["sources"]["route"]["data"]["features"].append(

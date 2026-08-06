@@ -14,7 +14,7 @@ m = monopoly
 monopoly.set_graph()
 monopoly.graph.set_graph()
 monopoly.graph.set_places()
-#monopoly.graph.set_elevation_map()
+monopoly.graph.set_elevation_map()
 monopoly.set_routes()
 
 monopoly.set_solver()
@@ -25,9 +25,8 @@ monopoly.solver.set_quantities()
 monopoly.construct_problem()
 monopoly.solve()
 
-"""
+
 monopoly.load_style()
 monopoly.draw()
 monopoly.set_server()
 monopoly.server.run()
-"""

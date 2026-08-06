@@ -18,6 +18,7 @@ class Solver():
         self.places = self.monopoly.places
         self.groups = self.monopoly.groups
         self.constraints_path = os.path.join(self.monopoly.data_path, "Constraints.csv")
+        self.status = "Unsolved"
 
     def set_quantities(self):
         self.set_squares()
@@ -163,6 +164,14 @@ class Solver():
             self.edge_constraints[vertex_index, exiting_indexes] = -1
         self.pass_through_vertex_constraints = self.gather_constraint_components()
 
+    def set_vertices_included_constraints(self):
+        self.initialise_constraint_blocks(self.vertex_count)
+        for vertex_index in self.places.index:
+            entering_indexes = self.edges.loc[self.edges["Start ID"] == vertex_index].index
+            self.edge_constraints[vertex_index, entering_indexes] = 1
+            self.vertex_constraints[vertex_index, vertex_index] = -1
+        self.vertices_included_constraints = self.gather_constraint_components()
+
     def set_no_pairs_constraints(self):
         self.initialise_constraint_blocks(self.edge_count // 2)
         undirected_edges = self.edges.groupby("Undirected ID")
@@ -187,6 +196,17 @@ class Solver():
         self.constraint_names[0] = "Total Cost"
         self.total_cost_constraint = self.gather_constraint_components()
 
+    def add_loop_constraints(self, loops):
+        self.initialise_constraint_blocks(len(loops))
+        for loop_index, loop in enumerate(loops):
+            print(loop)
+            edge_indexes = self.edges.loc[self.edges["Start"].isin(loop) & self.edges["End"].isin(loop)].index
+            self.edge_constraints[loop_index, edge_indexes] = 1
+            self.limits[loop_index] = len(loop) - 2
+            self.constraint_names[loop_index] = "Loop"
+        self.loop_constraints = self.gather_constraint_components()
+        self.gather_loop_constraints()
+
 
     # Putting everything together and solving
     
@@ -198,11 +218,12 @@ class Solver():
         self.set_entering_constraints_upper()
         self.set_exiting_constraints_upper()
         self.set_pass_through_vertex_constraints()
+        self.set_vertices_included_constraints()
         self.set_no_pairs_constraints()
         self.set_start_finish_constraint()
         self.set_total_cost_constraint()
         
-    def gather_constraints(self):
+    def gather_initial_constraints(self):
         self.constraints = pd.concat((
             self.group_indicator_constraints,
             self.square_indicator_constraints,
@@ -211,9 +232,16 @@ class Solver():
             self.entering_constraints_upper,
             self.exiting_constraints_upper,
             self.pass_through_vertex_constraints,
+            self.vertices_included_constraints,
             self.no_pairs_constraints,
             self.start_finish_constraint,
             self.total_cost_constraint
+            ), axis=0)
+
+    def gather_loop_constraints(self):
+        self.constraints = pd.concat((
+            self.constraints,
+            self.loop_constraints
             ), axis=0)
 
     def set_objective_function(self):
@@ -224,17 +252,30 @@ class Solver():
             np.zeros((self.edge_count))))
 
     def solve(self):
-        #self.find_solution()
+        self.find_solution()
         path = os.path.join(self.monopoly.data_path, "Solution.csv")
-        #np.savetxt(path, self.values)
+        np.savetxt(path, self.values)
         self.values = np.loadtxt(path)
-        self.parse_solution()
-        
+
     def find_solution(self):
+        while self.status == "Unsolved":
+            self.find_integer_programming_solution()
+            self.parse_solution()
+            self.monopoly.graph.set_routes_vertices()
+            self.update_problem()
+            print("")
+
+    def update_problem(self):
+        if len(self.monopoly.graph.routes_vertices) > 1:
+            self.add_loop_constraints(self.monopoly.graph.routes_vertices[1:])
+        else:
+            self.status = "Solved"
+        
+    def find_integer_programming_solution(self):
         # Maximises c^Tx subject to Ax <= b
         self.A = self.constraints.values[:, :-1]
         self.b = self.constraints.values[:, -1]
-        (self.status, self.values) = ilp(
+        (self.ip_status, self.values) = ilp(
             matrix(-self.c), matrix(self.A), matrix(self.b),
             B=set(range(self.variables)))
         self.values = np.array(self.values)
