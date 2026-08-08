@@ -48,11 +48,6 @@ class Monopoly():
         with open(self.routes_path, "r") as file:
             self.routes = json.load(file)
 
-    def construct_problem(self):
-        self.solver.add_constraints()
-        self.solver.gather_initial_constraints()
-        self.solver.set_objective_function()
-
     def draw(self):
         self.graph.draw()
 

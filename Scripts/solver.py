@@ -18,6 +18,7 @@ class Solver():
         self.places = self.monopoly.places
         self.groups = self.monopoly.groups
         self.constraints_path = os.path.join(self.monopoly.data_path, "Constraints.csv")
+        self.solution_path = os.path.join(self.monopoly.data_path, "Solution.csv")
         self.status = "Unsolved"
 
     def set_quantities(self):
@@ -115,7 +116,7 @@ class Solver():
     def set_square_indicator_constraint(self, square_index):
         square = self.squares.loc[square_index, "Square"]
         vertices = self.places.reset_index().loc[self.places["Square"] == square]
-        self.square_constraints[square_index, square_index] = vertices.index.size
+        self.square_constraints[square_index, square_index] = 1
         self.vertex_constraints[square_index, vertices.index] = -1
         self.constraint_names[square_index] = f"Square {self.squares.loc[square_index, 'Square']}"
 
@@ -196,10 +197,9 @@ class Solver():
         self.constraint_names[0] = "Total Cost"
         self.total_cost_constraint = self.gather_constraint_components()
 
-    def add_loop_constraints(self, loops):
+    def set_loop_constraints(self, loops):
         self.initialise_constraint_blocks(len(loops))
         for loop_index, loop in enumerate(loops):
-            print(loop)
             edge_indexes = self.edges.loc[self.edges["Start"].isin(loop) & self.edges["End"].isin(loop)].index
             self.edge_constraints[loop_index, edge_indexes] = 1
             self.limits[loop_index] = len(loop) - 2
@@ -207,10 +207,18 @@ class Solver():
         self.loop_constraints = self.gather_constraint_components()
         self.gather_loop_constraints()
 
+    def set_enforced_items_constraints(self):
+        self.initialise_constraint_blocks(1)
+        self.group_constraints[0, self.groups_solution.index] = -1
+        self.square_constraints[0, self.squares_solution.index] = -1
+        self.limits[0] = -len(self.squares_solution) - len(self.groups_solution)
+        self.constraint_names[0] = "Visit given items"
+        self.enforced_items_constraints = self.gather_constraint_components()
+
 
     # Putting everything together and solving
     
-    def add_constraints(self):
+    def set_initial_constraints(self):
         self.set_group_indicator_constraints()
         self.set_square_indicator_constraints()
         self.set_entering_constraints_lower()
@@ -244,39 +252,66 @@ class Solver():
             self.loop_constraints
             ), axis=0)
 
-    def set_objective_function(self):
-        self.c = np.concatenate((
+    def set_objective_function_maximise_points(self):
+        self.c = -np.concatenate((
             self.squares.groupby("Group ID").sum()["Value"].values,
             self.squares["Value"].values,
             np.zeros((self.vertex_count)),
             np.zeros((self.edge_count))))
 
-    def solve(self):
-        self.find_solution()
-        path = os.path.join(self.monopoly.data_path, "Solution.csv")
-        np.savetxt(path, self.values)
-        self.values = np.loadtxt(path)
+    def set_objective_function_minimise_distance(self):
+        self.c = np.concatenate((
+            np.zeros((self.group_count)),
+            np.zeros((self.square_count)),
+            np.zeros((self.vertex_count)),
+            self.edges["Weight"].values))
 
-    def find_solution(self):
+    def solve(self):
+        self.set_initial_constraints()
+        self.find_solution_maximum_points()
+        self.find_solution_minimum_distance()
+        np.savetxt(self.solution_path, self.values)
+        #self.values = np.loadtxt(path)
+
+    def find_solution_maximum_points(self):
+        self.set_objective_function_maximise_points()
+        self.gather_initial_constraints()
+        self.find_tour()
+        print("Found maximum points tour!")
+
+    def find_solution_minimum_distance(self):
+        self.set_objective_function_minimise_distance()
+        self.gather_initial_constraints()
+        self.set_minimum_distance_constraints()
+        self.find_tour()
+        print("Found maximum points tour of minimum length!")
+
+    def set_minimum_distance_constraints(self):
+        self.set_enforced_items_constraints()
+        self.constraints = pd.concat(
+            (self.constraints,
+             self.enforced_items_constraints,),
+            axis=0)
+
+    def find_tour(self):
         while self.status == "Unsolved":
             self.find_integer_programming_solution()
             self.parse_solution()
             self.monopoly.graph.set_routes_vertices()
             self.update_problem()
-            print("")
 
     def update_problem(self):
         if len(self.monopoly.graph.routes_vertices) > 1:
-            self.add_loop_constraints(self.monopoly.graph.routes_vertices[1:])
+            self.set_loop_constraints(self.monopoly.graph.routes_vertices[1:])
         else:
             self.status = "Solved"
         
     def find_integer_programming_solution(self):
-        # Maximises c^Tx subject to Ax <= b
+        # Minimise c^Tx subject to Ax <= b
         self.A = self.constraints.values[:, :-1]
         self.b = self.constraints.values[:, -1]
         (self.ip_status, self.values) = ilp(
-            matrix(-self.c), matrix(self.A), matrix(self.b),
+            matrix(self.c), matrix(self.A), matrix(self.b),
             B=set(range(self.variables)))
         self.values = np.array(self.values)
 

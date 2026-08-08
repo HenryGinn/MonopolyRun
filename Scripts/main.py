@@ -22,7 +22,6 @@ s = monopoly.solver
 g = monopoly.graph
 self = g
 monopoly.solver.set_quantities()
-monopoly.construct_problem()
 monopoly.solve()
 
 
