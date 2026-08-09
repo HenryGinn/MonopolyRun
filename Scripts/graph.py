@@ -67,15 +67,20 @@ class Graph():
     
     # Initialising place data
     
-    def set_places(self):
+    def set_board_data(self):
         self.load_groups()
+        self.set_places()
+        self.groups["Value"] = self.places[["Group ID", "Value"]].groupby("Group ID").sum()
+        self.places["Node"] = self.places["Node"].astype(int)
+        self.monopoly.groups = self.groups
+        self.monopoly.places = self.places
+
+    def set_places(self):
         path = os.path.join(self.monopoly.data_path, "Places.csv")
         if os.path.exists(path):
             self.places = pd.read_csv(path, index_col=0)
         else:
             self.generate_places()
-        self.places["Node"] = self.places["Node"].astype(int)
-        self.monopoly.places = self.places
 
     def generate_places(self):
         self.load_places_source()
@@ -91,7 +96,6 @@ class Graph():
     def load_groups(self):
         path = os.path.join(self.monopoly.data_path, "Groups.csv")
         self.groups = pd.read_csv(path, index_col=0)
-        self.monopoly.groups = self.groups
 
     def save_places(self):
         path = os.path.join(self.monopoly.data_path, "Places.csv")
@@ -178,7 +182,15 @@ class Graph():
         coordinates = self.nodes_to_coordinates(route["Nodes"])
         elevations = np.array([self.elevation(coordinate) for coordinate in coordinates])
         deltas = elevations[1:] - elevations[:-1]
-        penalty = np.where(deltas >= 0, 0.5*deltas, 0.2*deltas).sum()
+        penalty = self.get_penalty_from_elevation_deltas(deltas)
+        return penalty
+
+    def get_penalty_from_elevation_deltas(self, deltas):
+        penalty = np.where(
+            deltas >= 0,
+            self.monopoly.elevation_gain_penalty * deltas,
+            self.monopoly.elevation_loss_reward * deltas
+            ).sum()
         return penalty
 
     def save_routes(self):
