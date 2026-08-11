@@ -31,7 +31,7 @@ class Graph():
     def save_graph(self):
         self.graph = ox.graph.graph_from_point(
             (51.3349906493623, -0.26368503514735964),
-            dist=7000, network_type="walk")
+            dist=6000, network_type="walk")
         ox.save_graphml(self.graph, self.graph_path)
 
     def load_graph(self):

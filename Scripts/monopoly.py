@@ -1,6 +1,9 @@
 import json
 import os
 
+import numpy as np
+import pandas as pd
+
 from graph import Graph
 from server import Server
 from solver import Solver
@@ -20,10 +23,19 @@ class Monopoly():
 
     def set_paths(self):
         self.base_path = os.path.dirname(os.path.dirname(__file__))
+        self.set_input_paths()
+        self.set_output_paths()
+
+    def set_input_paths(self):
         self.source_path = os.path.join(self.base_path, "Sources")
         self.data_path = os.path.join(self.base_path, "Data")
-        self.output_path = os.path.join(self.base_path, "Output")
         self.style_path = os.path.join(self.source_path, "style.json")
+
+    def set_output_paths(self):
+        self.output_path = os.path.join(self.base_path, "Output")
+        self.indicators_path = os.path.join(self.output_path, "Indicators.csv")
+        self.solutions_path = os.path.join(self.output_path, "Solutions.csv")
+        self.solution_routes_path = os.path.join(self.output_path, "Routes.csv")
 
     def setup(self):
         self.setup_graph()
@@ -76,16 +88,13 @@ class Monopoly():
         self.set_solver()
         self.solver.set_quantities()
         self.solver.set_initial_constraints()
+        self.initialise_outputs()
 
     def set_solver(self):
         self.solver = Solver(self)
 
     def solve(self):
         self.solver.solve()
-
-    def get_solution_summary(self):
-        summary = self.solver.get_summary()
-        return summary
 
 
     # Drawing map
@@ -99,3 +108,43 @@ class Monopoly():
 
     def run(self):
         self.server.run()
+
+
+    # Output
+
+    def initialise_outputs(self):
+        self.indicators = pd.DataFrame(index=self.solver.columns[:-1])
+        solution_columns = ["Pace (min/km)", "Distance", "Points", "Time"]
+        self.solutions = pd.DataFrame(columns=solution_columns)
+        self.solutions.index.name = "Speed (m/s)"
+        route_columns = ["Speed (m/s)", "Order ID", "Place"]
+        self.solution_routes = pd.DataFrame(columns=route_columns)
+
+    def update_outputs(self):
+        self.indicators.loc[:, self.speed] = self.solver.values
+        self.solutions.loc[self.speed] = self.solver.get_summary()
+        self.add_route_to_output()
+
+    def add_route_to_output(self):
+        route = self.graph.routes_vertices[0]
+        route = pd.DataFrame({
+            "Speed (m/s)": np.ones(len(route))*self.speed,
+            "Order ID": np.arange(len(route)),
+            "Place": route})
+        self.solution_routes = pd.concat((self.solution_routes, route))
+
+    def save(self):
+        self.indicators.to_csv(self.indicators_path)
+        self.solutions.to_csv(self.solutions_path)
+        self.solution_routes.to_csv(self.solution_routes_path, index=False)
+
+    def load(self):
+        self.indicators = pd.read_csv(self.indicators_path)
+        self.solutions = pd.read_csv(self.solutions_path)
+        self.solution_routes = pd.read_csv(self.solution_routes_path)
+
+    def set_solution(self, speed):
+        self.solver.values = self.indicators.loc[:, speed].values
+        self.graph.routes_vertices = [
+            self.solution_routes.loc[
+                self.solution_routes["Speed (m/s)"] == speed, "Place"].values]
