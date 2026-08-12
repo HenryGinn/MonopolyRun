@@ -1,4 +1,28 @@
-\section{Formulating as an Integer Programming Problem}
+\documentclass{article}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\begin{document}
+
+\section{Introduction}
+
+The Epsom Oddballs Monopoly Run is an example of the Orienteering Problem. In this essay we discuss how optimal routes can be found. We then use this analysis to make observations on strategies for planning a route as a human and briefly comment on how such a game should be designed. The rules are as follows and the board is given in figure~FILL ME IN.
+
+\begin{enumerate}
+	\item Stay within the 70 minute time limit
+	\item Get points for each square you visit, with more points typically allocated to further away places.
+	\item A square is worth double points if you have visited all squares within a group
+	\item Bonus points are available if a picture is taken with a cat.
+\end{enumerate}
+
+\section{Formulating the Problem}
+
+Our overarching strategy will be to find routes between each of the locations, determine how long it takes it traverse that route, and then use this data to construct an integer programming problem.
+
+The optimal solutions is found in two stages. First we find what is the best score possible while staying within the time limit. Once that solution has been found, we constrain the route to pass through all the squares that were visited in that route and the objective function is updated to minimise the route distance. This second stage is necessary as the first stage is not directly trying to find a short route and it may not give the shortest route that achieves a given score.
+
+\section{Constraints}
 
 Let $v_i$ be an indicator for whether vertex $i$ is included. Let $e_{ij}$ be an indicator variable for whether the edge connecting vertex $i$ to the vertex $j$ is included. Let $c_{ij}$ be the cost of using edge $ij$ and B be the total cost budget. We can impose the constraint that the maximum budget cannot be exceeded using \sum_{j} e_j c_j \le B.
 
@@ -36,3 +60,21 @@ We can do this using a constraint of the form (# Number of vertices in a group) 
 \subsection{Objective Function}
 
 Each square has a value associated with it and we get double points if we get all squares within a group. Therefore we can sum all the square indicators, weighted by their associated values, and sum all the group indicators, weighted by the total value of their associated squares.
+
+\section{Results}
+
+\begin{tikzpicture}
+	\begin{axis}[
+		xlabel={Speed (m/s)},
+		ylabel={Points},
+		title={Points Achieved for Optimal\\Monopoly Run Route Vs Speed}]
+		\addplot[only marks]
+		table[
+		x=Speed (m/s),
+		y=Points,
+		col sep=comma
+		]{Solutions.csv};
+	\end{axis}
+\end{tikzpicture}
+
+\end{document}

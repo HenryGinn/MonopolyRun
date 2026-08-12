@@ -135,16 +135,20 @@ class Monopoly():
 
     def save(self):
         self.indicators.to_csv(self.indicators_path)
-        self.solutions.to_csv(self.solutions_path)
-        self.solution_routes.to_csv(self.solution_routes_path, index=False)
+        self.solutions.sort_index().to_csv(self.solutions_path)
+        self.solution_routes.sort_values(
+            ["Speed (m/s)", "Order ID"]
+            ).to_csv(self.solution_routes_path, index=False)
 
     def load(self):
-        self.indicators = pd.read_csv(self.indicators_path)
+        self.indicators = pd.read_csv(self.indicators_path, index_col=["Type", "Item"])
+        self.indicators.columns = self.indicators.columns.astype("float64")
         self.solutions = pd.read_csv(self.solutions_path)
         self.solution_routes = pd.read_csv(self.solution_routes_path)
 
     def set_solution(self, speed):
+        self.speed = speed
+        self.solver.set_edge_weight()
         self.solver.values = self.indicators.loc[:, speed].values
-        self.graph.routes_vertices = [
-            self.solution_routes.loc[
-                self.solution_routes["Speed (m/s)"] == speed, "Place"].values]
+        self.solver.parse_solution()
+        self.graph.set_routes_vertices()

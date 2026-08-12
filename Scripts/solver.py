@@ -5,8 +5,6 @@ import random
 
 from scipy import optimize
 
-from cvxopt.glpk import ilp
-from cvxopt import matrix
 import numpy as np
 import pandas as pd
 
@@ -17,26 +15,24 @@ class Solver():
     
     def __init__(self, monopoly):
         self.monopoly = monopoly
-        self.places = self.monopoly.places
         self.groups = self.monopoly.groups
-        self.constraints_path = os.path.join(self.monopoly.data_path, "Constraints.csv")
-        self.solution_path = os.path.join(self.monopoly.data_path, "Solution.csv")
+        self.squares = self.monopoly.squares
+        self.places = self.monopoly.places
+        self.set_paths()
+
+    def set_paths(self):
+        self.constraints_path = os.path.join(
+            self.monopoly.data_path, "Constraints.csv")
+        self.solution_path = os.path.join(
+            self.monopoly.data_path, "Solution.csv")
 
     def reset(self):
         self.set_edge_weight()
 
     def set_quantities(self):
-        self.set_squares()
         self.set_edges()
         self.set_type_counts()
         self.set_columns()
-
-    def set_squares(self):
-        self.squares = (
-            self.places
-            .loc[:, ["Square", "Group ID", "Group Name", "Value"]]
-            .drop_duplicates()
-            .reset_index(drop=True))
 
     def set_edges(self):
         self.edges = pd.DataFrame(self.monopoly.routes)
@@ -223,6 +219,7 @@ class Solver():
     def set_total_cost_constraint(self):
         self.initialise_constraint_blocks(1)
         self.edge_constraints[0, :] = self.edges["Weight"].values
+        self.vertex_constraints[0, :] = self.monopoly.stopping_at_place_penalty
         self.limits[0] = self.monopoly.time_limit
         self.constraint_names[0] = "Total Cost"
         self.total_cost_constraint = self.gather_constraint_components()
@@ -240,7 +237,7 @@ class Solver():
 
     def set_objective_function_maximise_points(self):
         self.c = -np.concatenate((
-            self.squares.groupby("Group ID").sum()["Value"].values,
+            self.groups["Value"].values,
             self.squares["Value"].values,
             np.zeros((self.vertex_count)),
             np.zeros((self.edge_count)),
@@ -335,6 +332,7 @@ class Solver():
         return points
 
     def get_time(self):
+        self.set_total_cost_constraint()
         time = round((
             self.edges_solution["Weight"].sum() +
             self.squares_solution.index.size * self.monopoly.stopping_at_place_penalty

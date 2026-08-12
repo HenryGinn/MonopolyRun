@@ -70,7 +70,8 @@ class Graph():
     def set_board_data(self):
         self.load_groups()
         self.set_places()
-        self.groups["Value"] = self.places[["Group ID", "Value"]].groupby("Group ID").sum()
+        self.set_squares()
+        self.groups["Value"] = self.squares.groupby("Group ID")["Value"].sum()
         self.places["Node"] = self.places["Node"].astype(int)
         self.monopoly.groups = self.groups
         self.monopoly.places = self.places
@@ -100,6 +101,14 @@ class Graph():
     def save_places(self):
         path = os.path.join(self.monopoly.data_path, "Places.csv")
         self.places.to_csv(path)
+
+    def set_squares(self):
+        self.squares = (
+            self.places
+            .loc[:, ["Square", "Group ID", "Group Name", "Value"]]
+            .drop_duplicates()
+            .reset_index(drop=True))
+        self.monopoly.squares = self.squares
 
 
     # Getting coordinates that align to nodes in the graph
