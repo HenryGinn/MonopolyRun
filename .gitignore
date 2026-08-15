@@ -5,4 +5,10 @@
 /Data/Constraints.csv
 /Data/Solution.csv
 /Sources/*.json
-Output/
+/Output/
+/Essay/MonopolyRun-*
+/Essay/*.csv*
+*.toc
+*.aux*
+*.pdf
+*.log

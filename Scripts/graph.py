@@ -5,9 +5,12 @@ import osmnx as ox
 import networkx as nx
 import numpy as np
 import pandas as pd
-import rasterio as rs
 from scipy.interpolate import RegularGridInterpolator
 
+from utils import (
+    load_elevation,
+    get_elevation_grid)
+    
 
 class Graph():
 
@@ -41,23 +44,12 @@ class Graph():
     # Elevation
 
     def set_elevation_map(self):
-        elevation_source, width, height, transform = self.load_elevation()
-        x, y = self.get_elevation_grid(width, height, transform)
+        path = os.path.join(self.monopoly.source_path, "Elevation.tif")
+        elevation_source, width, height, transform = load_elevation(path)
+        x, y = get_elevation_grid(width, height, transform)
         self.elevation = self.get_elevation_interpolator(elevation_source, x, y)
 
-    def load_elevation(self):
-        elevation_path = os.path.join(
-            self.monopoly.source_path, "Elevation.tif")
-        with rs.open(elevation_path) as file:
-            elevation_source = file.read(1)
-            width, height = file.width, file.height
-            transform = file.transform
-        return elevation_source, width, height, transform
-
-    def get_elevation_grid(self, width, height, transform):
-        x = np.arange(width) * transform.a + transform.c + transform.a / 2
-        y = np.arange(height) * transform.e + transform.f + transform.e / 2
-        return x, y
+    
 
     def get_elevation_interpolator(self, elevation_source, x, y):
         interpolator = RegularGridInterpolator(

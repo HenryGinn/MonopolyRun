@@ -1,9 +1,37 @@
-\documentclass{article}
+\DocumentMetadata{
+	tagging=on,
+	tagging-setup={math/setup=mathml-SE},
+	pdfstandard=ua-2,
+	pdfversion=2.0,
+	lang=en
+}
 
+\documentclass[hidelinks, 11 pt]{article}
+
+\usepackage[a4paper, top=25.4mm, bottom=25.4mm, left=19.1mm, right=19.1mm, footskip=8mm]{geometry}
+\usepackage{mathtools}
 \usepackage{pgfplots}
+\usepackage{hyperref}
+
 \pgfplotsset{compat=1.17}
+%\usepgfplotslibrary{external}
+%\tikzexternalize
+
+\hypersetup{
+	colorlinks = true, % Colours links instead of ugly boxes
+	urlcolor = blue,
+	linkcolor = blue,
+	citecolor = blue
+}
+
+\title{Epsom Oddballs Monopoly Run}
+\author{Henry Ginn}
 
 \begin{document}
+
+\maketitle
+
+\tableofcontents
 
 \section{Introduction}
 
@@ -20,17 +48,31 @@ The Epsom Oddballs Monopoly Run is an example of the Orienteering Problem. In th
 
 Our overarching strategy will be to find routes between each of the locations, determine how long it takes it traverse that route, and then use this data to construct an integer programming problem.
 
-The optimal solutions is found in two stages. First we find what is the best score possible while staying within the time limit. Once that solution has been found, we constrain the route to pass through all the squares that were visited in that route and the objective function is updated to minimise the route distance. This second stage is necessary as the first stage is not directly trying to find a short route and it may not give the shortest route that achieves a given score.
+The optimal solution for a given speed is found in two stages. First we find what is the best score possible while staying within the time limit. Once that solution has been found, we constrain the route to pass through all the squares that were visited in that route and the objective function is updated to minimise the route distance. This second stage is necessary as the first stage is not directly trying to find a short route and it may not give the shortest route that achieves a given score.
+
+The time taken to go from one node to the other has two components. The first is the time taken to traverse the route assuming the route is flat, simply given by distance divided by speed. The second is a penalty factor for elevation.
+
+\begin{tikzpicture}
+	\begin{axis}[
+		view={0}{90},
+		colorbar,
+		xlabel={Longitude},
+		ylabel={Latitude},
+		]
+		\addplot3[surf, shader=flat]
+		table[col sep=comma, x index=0, y index=1, z index=2] {Elevation.csv};
+	\end{axis}
+\end{tikzpicture}
 
 \section{Constraints}
 
-Let $v_i$ be an indicator for whether vertex $i$ is included. Let $e_{ij}$ be an indicator variable for whether the edge connecting vertex $i$ to the vertex $j$ is included. Let $c_{ij}$ be the cost of using edge $ij$ and B be the total cost budget. We can impose the constraint that the maximum budget cannot be exceeded using \sum_{j} e_j c_j \le B.
+Let $v_i$ be an indicator for whether vertex $i$ is included. Let $e_{ij}$ be an indicator variable for whether the edge connecting vertex $i$ to the vertex $j$ is included. Let $c_{ij}$ be the cost of using edge $ij$ and B be the total cost budget. We can impose the constraint that the maximum budget cannot be exceeded using $\sum_{j} e_j c_j \le B$.
 
 \subsection{Connectedness}
 
 We do not want vertices to be included if the route does not connect to them as this would give an artificially higher score. We must therefore impose that the vertex indicators are 0 unless the vertices are connected to at least one edge entering and at least one edge leaving. Each vertex with non-zero indicator will in fact be connected to exactly two edges but it is not necessary to encode this.
 
-This can be imposed with an equation of the form $(\text{# Number of included edges entering} v_i) \le v_i$ and similarly for leaving. We note that this does in fact force exactly two edges per vertex. \eqref{eqn:TwoEdgesPerVertex} gives this in terms of indicator variables only.
+This can be imposed with an equation of the form $(\text{Number of included edges entering} v_i) \le v_i$ and similarly for leaving. We note that this does in fact force exactly two edges per vertex. \eqref{eqn:TwoEdgesPerVertex} gives this in terms of indicator variables only.
 \begin{equation}
 	\left( \sum_j e_{ij} \right) \le v_i  \\
 	\left( \sum_j e_{ji} \right) \le v_i  \\
@@ -41,7 +83,7 @@ Imposing that the resulting tour is connected appears to be hard. We solve this 
 
 \subsection{Squares With Multiple Vertices}
 
-As some squares can be achieved by visiting one of several places, we must encode whether or not each square is achieved. Let $s_n$ be the indicator for square $n$ and $S_i^n$ the indicator of whether vertex $i$ is associated with square $n$. This can be encoded by constraining each v_i to be less than s_n where vertex $i$ is associated with square $n$. Something stronger than this that still encodes the same thing is given by~\eqref{eqn:SquaresWithMultipleVertices}. This encoding forbids a square being satisfied by multiple vertices but that would never occur in an optimal solution anyway.
+As some squares can be achieved by visiting one of several places, we must encode whether or not each square is achieved. Let $s_n$ be the indicator for square $n$ and $S_i^n$ the indicator of whether vertex $i$ is associated with square $n$. This can be encoded by constraining each $v_i$ to be less than $s_n$ where vertex $i$ is associated with square $n$. Something stronger than this that still encodes the same thing is given by~\eqref{eqn:SquaresWithMultipleVertices}. This encoding forbids a square being satisfied by multiple vertices but that would never occur in an optimal solution anyway.
 \begin{equation}
 	\sum_i S_i^n v_i \le s_n
 	\label{eqn:SquaresWithMultipleVertices}
@@ -51,7 +93,7 @@ As some squares can be achieved by visiting one of several places, we must encod
 
 Let $G_k$ be an indicator variable for whether all squares in group k have been visited. As there will be a points bonus for visiting all in a group, the optimiser will naturally make $G_k = 1$ when possible. This means we only need to encode the fact that $G_k$ is 0 unless all its associated square indicator variables are 1. Let $g_n^k$ be the indicator variable for whether square $n$ is part of group $k$.
 
-We can do this using a constraint of the form (# Number of vertices in a group) \cdot G_k \le (Sum of indicator variables for vertices in the group). The right hand side is maximised only when all indicator variables in the group are 1 and will be equal to the number of vertices in the group. If $G_k$ is 1 and the left hand side is minimised then it will also be equal to the number of vertices in the group. This is written in variables in \eqref{eqn:GroupIndicatorVariables}.
+We can do this using a constraint of the form $(\text{\# vertices in a group}) \cdot G_k \le (\text{Sum of indicator variables for vertices in the group})$. The right hand side is maximised only when all indicator variables in the group are 1 and will be equal to the number of vertices in the group. If $G_k$ is 1 and the left hand side is minimised then it will also be equal to the number of vertices in the group. This is written in variables in \eqref{eqn:GroupIndicatorVariables}.
 \begin{equation}
 	\left( \sum_n g_n^k \right) G_k \le \sum_n s_n g_n^k
 	\label{eqn:GroupIndicatorVariables}
@@ -65,6 +107,7 @@ Each square has a value associated with it and we get double points if we get al
 
 \begin{tikzpicture}
 	\begin{axis}[
+		width=0.8\textwidth,
 		xlabel={Speed (m/s)},
 		ylabel={Points},
 		title={Points Achieved for Optimal\\Monopoly Run Route Vs Speed}]
