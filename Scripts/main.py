@@ -12,21 +12,17 @@ pd.set_option('display.width', 1000)
 monopoly = Monopoly()
 monopoly.setup()
 
-"""
-speeds = np.arange(0.5, 5.1, 0.1)
-print(speeds)
+speeds = [8]
 
 for speed in speeds:
-    print(f"\n{speed}")
     monopoly.speed = round(speed, 2)
+    print(f"\n{monopoly.speed}")
     monopoly.reset()
     monopoly.solve()
     monopoly.update_outputs()
 
-monopoly.save()
-"""
+#monopoly.save()
+#monopoly.load()
+#monopoly.draw()
+#monopoly.run()
 
-monopoly.load()
-monopoly.set_solution(4)
-monopoly.draw()
-monopoly.run()

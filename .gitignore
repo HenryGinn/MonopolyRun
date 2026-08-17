@@ -1,6 +1,5 @@
 .venv/
 *__pycache__/
-*.png
 /Data/Places.csv
 /Data/Constraints.csv
 /Data/Solution.csv
@@ -12,3 +11,7 @@
 *.aux*
 *.pdf
 *.log
+*.bbl
+*.bcf
+*.blg
+*.xml

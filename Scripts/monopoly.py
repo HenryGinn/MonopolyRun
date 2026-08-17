@@ -114,15 +114,13 @@ class Monopoly():
 
     def initialise_outputs(self):
         self.indicators = pd.DataFrame(index=self.solver.columns[:-1])
-        solution_columns = ["Pace (min/km)", "Distance", "Points", "Time"]
-        self.solutions = pd.DataFrame(columns=solution_columns)
-        self.solutions.index.name = "Speed (m/s)"
+        self.solutions = pd.DataFrame()
         route_columns = ["Speed (m/s)", "Order ID", "Place"]
         self.solution_routes = pd.DataFrame(columns=route_columns)
 
     def update_outputs(self):
         self.indicators.loc[:, self.speed] = self.solver.values
-        self.solutions.loc[self.speed] = self.solver.get_summary()
+        self.solutions = pd.concat((self.solutions, self.solver.get_summary()))
         self.add_route_to_output()
 
     def add_route_to_output(self):

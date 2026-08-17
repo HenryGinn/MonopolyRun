@@ -2,6 +2,7 @@ from itertools import permutations
 import json
 import os
 import random
+import time
 
 from scipy import optimize
 
@@ -112,7 +113,6 @@ class Solver():
         self.set_vertices_must_be_exited_constraints()
         self.set_vertices_entered_once_constraints()
         self.set_vertices_left_once_constraints()
-        self.set_start_finish_constraint()
         self.set_connected_constraints_no_flow()
         self.set_connected_constraints_flow_absorption()
         self.set_total_cost_constraint()
@@ -125,7 +125,6 @@ class Solver():
             self.vertices_must_be_exited_constraints,
             self.vertices_entered_once_constraints,
             self.vertices_left_once_constraints,
-            self.start_finish_constraint,
             self.connected_constraints_no_flow,
             self.connected_constraints_flow_absorption,
             self.total_cost_constraint
@@ -191,14 +190,6 @@ class Solver():
             self.vertex_constraints[vertex_index, vertex_index] = -1
             self.constraint_names[vertex_index] = f"Vertex left once {self.places.loc[vertex_index, 'Place']}"
         self.vertices_left_once_constraints = self.gather_constraint_components()
-    
-    def set_start_finish_constraint(self):
-        self.initialise_constraint_blocks(1)
-        index = self.squares.loc[self.squares["Square"] == self.monopoly.terminal].index.values
-        self.square_constraints[0, index] = -1
-        self.limits[0] = -1
-        self.constraint_names[0] = "Terminal"
-        self.start_finish_constraint = self.gather_constraint_components()
 
     def set_connected_constraints_no_flow(self):
         self.initialise_constraint_blocks(self.edge_count)
@@ -224,13 +215,13 @@ class Solver():
         self.constraint_names[0] = "Total Cost"
         self.total_cost_constraint = self.gather_constraint_components()
 
-    def set_enforced_items_constraints(self):
+    def set_enforced_score_constraint(self):
         self.initialise_constraint_blocks(1)
-        self.group_constraints[0, self.groups_solution.index] = -1
-        self.square_constraints[0, self.squares_solution.index] = -1
-        self.limits[0] = -len(self.squares_solution) - len(self.groups_solution)
-        self.constraint_names[0] = "Visit given items"
-        self.enforced_items_constraints = self.gather_constraint_components()
+        self.group_constraints[0] = -self.groups["Value"].values
+        self.square_constraints[0] = -self.squares["Value"].values
+        self.limits[0] = -self.get_points()
+        self.constraint_names[0] = "Achieve optimal score"
+        self.enforced_score_constraint = self.gather_constraint_components()
 
 
     # Putting everything together and solving
@@ -259,21 +250,25 @@ class Solver():
     def find_solution_maximum_points(self):
         self.set_objective_function_maximise_points()
         self.gather_initial_constraints()
+        start_time = time.time()
         self.find_tour()
-        print("Found maximum points tour!")
+        self.maximise_points_solve_time = time.time() - start_time
+        print(f"Found maximum points tour in {self.maximise_points_solve_time}")
 
     def find_solution_minimum_distance(self):
         self.set_objective_function_minimise_distance()
         self.gather_initial_constraints()
         self.set_minimum_distance_constraints()
+        start_time = time.time()
         self.find_tour()
-        print("Found maximum points tour of minimum length!")
+        self.minimise_distance_solve_time = time.time() - start_time
+        print(f"Found maximum points tour of minimum length in {self.minimise_distance_solve_time}")
 
     def set_minimum_distance_constraints(self):
-        self.set_enforced_items_constraints()
+        self.set_enforced_score_constraint()
         self.constraints = pd.concat(
             (self.constraints,
-             self.enforced_items_constraints,),
+             self.enforced_score_constraint),
             axis=0)
 
     def find_tour(self):
@@ -318,11 +313,18 @@ class Solver():
         return indexes
 
     def get_summary(self):
-        summary = {
-            "Pace (min/km)": 60 / (1000 * self.monopoly.speed),
-            "Distance": self.edges_solution["Distance"].sum(),
-            "Points": self.get_points(),
-            "Time": self.get_time()}
+        summary = pd.DataFrame(
+            {"Pace (min/km)": 1000 / (60 * self.monopoly.speed),
+             "Distance (m)": self.edges_solution["Distance"].sum(),
+             "Points": self.get_points(),
+             "Time (min)": self.get_time(),
+             "Squares visited": self.squares_solution.index.size,
+             "Groups visited": self.groups_solution.index.size,
+             "Maximise Points Solve Time (s)": self.maximise_points_solve_time,
+             "Minimise Distance Solve Time (s)": self.minimise_distance_solve_time,
+             "Solve Time (s)": self.maximise_points_solve_time + self.minimise_distance_solve_time},
+            index=[self.monopoly.speed])
+        summary.index.name = "Speed (m/s)"
         return summary
 
     def get_points(self):

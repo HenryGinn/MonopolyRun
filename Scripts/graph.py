@@ -49,8 +49,6 @@ class Graph():
         x, y = get_elevation_grid(width, height, transform)
         self.elevation = self.get_elevation_interpolator(elevation_source, x, y)
 
-    
-
     def get_elevation_interpolator(self, elevation_source, x, y):
         interpolator = RegularGridInterpolator(
             (x, y[::-1]), elevation_source[::-1, :].T, method="linear")
@@ -80,6 +78,7 @@ class Graph():
         self.places = self.places.join(self.groups, on="Group ID")
         self.places.reset_index(inplace=True)
         self.set_place_coordinates()
+        self.set_place_elevations()
         self.save_places()
 
     def load_places_source(self):
@@ -129,6 +128,9 @@ class Graph():
         x = self.monopoly.graph.graph.nodes[place["Node"]]["x"]
         y = self.monopoly.graph.graph.nodes[place["Node"]]["y"]
         return x, y
+
+    def set_place_elevations(self):
+        self.places["Elevation (m)"] = self.elevation(self.places[["X", "Y"]])
 
 
     # Building a json of all route information

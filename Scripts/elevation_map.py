@@ -27,9 +27,13 @@ xx, yy = np.meshgrid(x, y)
 elevation = elevation[y_indexes[:, None], x_indexes]
 
 rows = np.stack([xx, yy, elevation]).T
-#rows = rows[::5, ::5, :]
-plt.imshow(rows[:, :, 2])
-rows = rows.reshape(-1, 3)
+rows = rows[::5, ::5, :]
 
-plt.show()
-np.savetxt("../Essay/Elevation.csv", rows, delimiter=",")
+with open("../Essay/Elevation.csv", "w+") as file:
+    for row in rows:
+        content = "\n".join([
+            ",".join(
+                str(i) for i in coordinate)
+            for coordinate in row])
+        file.write(content)
+        file.write("\n\n")
