@@ -12,13 +12,13 @@
 \usepackage{mathtools}
 \usepackage{pgfplots}
 \usepackage{hyperref}
+\usepackage[list=true, listformat=simple]{subcaption}
 \usepackage{biblatex}
+\usepackage{fancyhdr}
 
 \addbibresource{bibliography.bib}
 
 \pgfplotsset{compat=1.17}
-%\usepgfplotslibrary{external}
-%\tikzexternalize
 
 \newcommand{\myhline}{\hline\noalign{\vskip 2pt}} % Space after hline
 \renewcommand{\arraystretch}{1.2} % Increase spacing between rows of tables
@@ -89,6 +89,29 @@
 %\StyleNormal
 \StyleDark
 
+\makeatletter
+\setlength{\@fptop}{0pt plus 1fil}
+\setlength{\@fpsep}{0pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+% Defining marks
+\renewcommand{\sectionmark}[1]{\gdef\leftmark{#1}}
+
+\fancypagestyle{firstpage}{
+	\fancyhf{}
+	\fancyfoot[C]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancy}{
+	\fancyhf{}
+	\fancyhead[L]{\nouppercase{\leftmark}}
+	\fancyhead[R]{\nouppercase{Monopoly Run}}
+	\fancyfoot[C]{\thepage}
+}
+
+\pagestyle{fancy}
 
 % Line spacing between paragraphs
 
@@ -114,6 +137,61 @@
 	{\normalfont\normalsize\bfseries}}
 \makeatother
 
+\newcommand{\RouteFigure}[3]{%
+	\begin{subfigure}{#3\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				width=\linewidth,
+				axis equal,
+				hide axis,
+				clip=false,
+				]
+				
+				% Route
+				\addplot[
+				purple,
+				thick,
+				mark=none,
+				] table[
+				x index=0,
+				y index=1,
+				col sep=space,
+				header=false,
+				] {../Output/PlottingEdges/#1.csv};
+				
+				\addplot[
+				purple,
+				only marks,
+				mark=*,
+				mark size=2pt,
+				nodes near coords,
+				point meta=explicit symbolic,
+				every node near coord/.append style={
+					text=\AnnotationColour,
+					font=\footnotesize,
+					anchor=center,
+					xshift=8pt,
+					yshift=8pt,
+				},
+				] table[
+				x=Y,
+				y=X,
+				meta=Place,
+				col sep=comma,
+				] {../Output/PlottingPlaces/#1.csv};
+				
+			\end{axis}
+		\end{tikzpicture}%
+		\caption{#2 m/s}
+		\label{fig:Solution_#1}
+	\end{subfigure}
+}
+
+
+\ExplSyntaxOn
+\renewcommand{\thesubfigure}{\int_to_alph:n{\value{subfigure}}}
+\ExplSyntaxOff
 
 \title{Epsom Oddballs Monopoly Run}
 \author{Henry Ginn}
@@ -138,7 +216,7 @@ The Epsom Oddballs Monopoly Run is an example of the Orienteering Problem. In th
 	\item Bonus points are available if a picture is taken with a cat.
 \end{enumerate}
 
-There are additional rules that encompass the ``paying rent" part of Monopoly. Since this relies on what other teams do and I cannot remember those rules, this aspect of the Monopoly Run is considered out of scope. The goal instead will be to find routes that achieve the maxium number of points only from visiting places.
+There are additional rules that encompass the ``paying rent" part of Monopoly. Since this relies on what other teams do and I cannot remember those rules, this aspect of the Monopoly Run is considered out of scope. It is also assumed that it will be easy to find a cat at some point. The goal instead will be to find routes that achieve the maxium number of points only from visiting places.
 
 \begin{figure}[!htb]
 	\centering
@@ -372,7 +450,7 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 	x=Speed (m/s),
 	y=Points,
 	col sep=comma,
-	]{Solutions.csv};
+	]{../Output/Solutions.csv};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -395,7 +473,7 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 	x=Speed (m/s),
 	y=Solve Time (s),
 	col sep=comma,
-	]{Solutions.csv};
+	]{../Output/Solutions.csv};
 \end{axis}
 \end{tikzpicture}
 \end{center}
@@ -405,6 +483,157 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 
 \subsection{Multiple Place Squares}
 \label{sec:MultiplePlaceSquares}
+
+\begin{figure}[p]
+	\centering
+	\RouteFigure{0_1}{0.1}{0.49}
+	\RouteFigure{0_2}{0.2}{0.49}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{0_3}{0.3}{0.49}
+	\RouteFigure{0_4}{0.4}{0.49}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{0_5}{0.5}{0.49}
+	\RouteFigure{0_6}{0.6}{0.49}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{0_9}{0.9}{0.49}
+	\RouteFigure{1_2}{1.2}{0.49}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{1_3}{1.3}{0.49}
+	\RouteFigure{1_4}{1.4}{0.49}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering	
+	\caption{Solutions}
+	\label{fig:Solutions}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{2_0}{2.0}{0.8}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{2_2}{2.2}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{2_5}{2.5}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{3_0}{3.0}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{3_2}{3.2}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{3_4}{3.4}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{3_5}{3.5}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{3_6}{3.6}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{3_8}{3.8}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{3_9}{3.9}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{4_2}{4.2}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{4_4}{4.4}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{5_1}{5.1}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{5_5}{5.5}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{5_6}{5.6}{1}
+\end{figure}
+
+\begin{figure}[p]
+	\ContinuedFloat
+	\RouteFigure{5_9}{5.9}{1}
+	\caption{Solutions (continued)}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{7_0}{7.0}{1}
+\end{figure}
+	
+\begin{figure}[p]
+	\ContinuedFloat
+	\centering
+	\RouteFigure{7_3}{7.3+}{1}
+\end{figure}
 
 \printbibliography[title={References}, heading={bibintoc}]
 

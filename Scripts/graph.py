@@ -237,13 +237,19 @@ class Graph():
         return next_vertex
 
     def draw_route_from_vertices(self, route_vertices):
+        nodes_list = self.get_nodes_list_from_vertices(route_vertices)
+        for nodes in nodes_list:
+            self.add_route(nodes)
+
+    def get_nodes_list_from_vertices(self, route_vertices):
         edges = self.monopoly.solver.edges_solution
-        for start, end in zip(route_vertices[:-1], route_vertices[1:]):
-            nodes = edges.loc[
+        nodes_list = [
+            edges.loc[
                 (edges["Start"] == start) &
                 (edges["End"] == end)
                 ].loc[:, "Nodes"].iloc[0]
-            self.add_route(nodes)
+            for start, end in zip(route_vertices[:-1], route_vertices[1:])]
+        return nodes_list
 
     def add_node(self, place):
         self.monopoly.style["sources"]["route"]["data"]["features"].append(
