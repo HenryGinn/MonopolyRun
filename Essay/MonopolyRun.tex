@@ -160,23 +160,32 @@
 				header=false,
 				] {../Output/PlottingEdges/#1.csv};
 				
+				% Places
 				\addplot[
 				purple,
 				only marks,
 				mark=*,
 				mark size=2pt,
+				] table[
+				x=X,
+				y=Y,
+				col sep=comma,
+				] {../Output/PlottingPlaces/#1.csv};
+				
+				% Labels
+				\addplot[
+				only marks,
+				mark=none,
 				nodes near coords,
 				point meta=explicit symbolic,
 				every node near coord/.append style={
 					text=\AnnotationColour,
 					font=\footnotesize,
 					anchor=center,
-					xshift=8pt,
-					yshift=8pt,
 				},
 				] table[
-				x=Y,
-				y=X,
+				x=LabelX,
+				y=LabelY,
 				meta=Place,
 				col sep=comma,
 				] {../Output/PlottingPlaces/#1.csv};
@@ -484,6 +493,8 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 \subsection{Multiple Place Squares}
 \label{sec:MultiplePlaceSquares}
 
+\newpage
+
 \begin{figure}[p]
 	\centering
 	\RouteFigure{0_1}{0.1}{0.49}
@@ -528,7 +539,7 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
-	\RouteFigure{2_0}{2.0}{0.8}
+	\RouteFigure{2_0}{2.0}{1}
 \end{figure}
 	
 \begin{figure}[p]
@@ -541,13 +552,13 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
-	\RouteFigure{2_5}{2.5}{1}
+	\RouteFigure{2_5}{2.5}{0.95}
 \end{figure}
 
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
-	\RouteFigure{3_0}{3.0}{1}
+	\RouteFigure{3_0}{3.0}{0.95}
 	\caption{Solutions (continued)}
 \end{figure}
 	
@@ -598,41 +609,36 @@ An alternative approach is to not impose connectivity constraints at all. Instea
 	\RouteFigure{4_4}{4.4}{1}
 	\caption{Solutions (continued)}
 \end{figure}
-	
-\begin{figure}[p]
-	\ContinuedFloat
-	\centering
-	\RouteFigure{5_1}{5.1}{1}
-\end{figure}
 
 \begin{figure}[p]
 	\ContinuedFloat
 	\RouteFigure{5_5}{5.5}{1}
-	\caption{Solutions (continued)}
 \end{figure}
 	
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
 	\RouteFigure{5_6}{5.6}{1}
+	\caption{Solutions (continued)}
 \end{figure}
 
 \begin{figure}[p]
 	\ContinuedFloat
 	\RouteFigure{5_9}{5.9}{1}
-	\caption{Solutions (continued)}
 \end{figure}
 	
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
 	\RouteFigure{7_0}{7.0}{1}
+	\caption{Solutions (continued)}
 \end{figure}
 	
 \begin{figure}[p]
 	\ContinuedFloat
 	\centering
 	\RouteFigure{7_3}{7.3+}{1}
+	\caption{Solutions (continued)}
 \end{figure}
 
 \printbibliography[title={References}, heading={bibintoc}]
