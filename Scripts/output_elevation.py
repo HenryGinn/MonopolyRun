@@ -29,7 +29,7 @@ elevation = elevation[y_indexes[:, None], x_indexes]
 rows = np.stack([xx, yy, elevation]).T
 rows = rows[::5, ::5, :]
 
-with open("../Essay/Elevation.csv", "w+") as file:
+with open("../Essay/Data/Elevation.csv", "w+") as file:
     for row in rows:
         content = "\n".join([
             ",".join(

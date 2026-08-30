@@ -17,27 +17,9 @@ class Graph():
     def __init__(self, monopoly):
         self.monopoly = monopoly
 
-
-    # Initialising graph data
-
     def set_graph(self):
-        self.set_graph_path()
-        if os.path.exists(self.graph_path):
-            self.load_graph()
-        else:
-            self.save_graph()
-
-    def set_graph_path(self):
         self.graph_path = os.path.join(
             self.monopoly.source_path, "region.graphml")
-
-    def save_graph(self):
-        self.graph = ox.graph.graph_from_point(
-            (51.3349906493623, -0.26368503514735964),
-            dist=6000, network_type="walk")
-        ox.save_graphml(self.graph, self.graph_path)
-
-    def load_graph(self):
         self.graph = ox.load_graphml(self.graph_path)
 
 
@@ -63,6 +45,7 @@ class Graph():
         self.set_squares()
         self.groups["Value"] = self.squares.groupby("Group ID")["Value"].sum()
         self.places["Node"] = self.places["Node"].astype(int)
+        self.places.index.name ="PlaceID"
         self.monopoly.groups = self.groups
         self.monopoly.places = self.places
 
