@@ -18,24 +18,33 @@ class Monopoly():
     elevation_loss_reward = 0.3
     speed = 25/9 # 10 kmph
 
-    def __init__(self):
+    def __init__(self, name):
+        self.name = str(name)
         self.set_paths()
 
     def set_paths(self):
         self.base_path = os.path.dirname(os.path.dirname(__file__))
         self.set_input_paths()
         self.set_output_paths()
+        self.set_other_paths()
 
     def set_input_paths(self):
         self.source_path = os.path.join(self.base_path, "Sources")
-        self.data_path = os.path.join(self.base_path, "Data")
+        self.data_path = os.path.join(self.base_path, "Data", self.name)
         self.style_path = os.path.join(self.source_path, "style.json")
 
     def set_output_paths(self):
-        self.output_path = os.path.join(self.base_path, "Output")
+        self.output_path = os.path.join(self.base_path, "Output", self.name)
         self.indicators_path = os.path.join(self.output_path, "Indicators.csv")
         self.solutions_path = os.path.join(self.output_path, "Solutions.csv")
         self.solution_routes_path = os.path.join(self.output_path, "Routes.csv")
+
+    def set_other_paths(self):
+        self.elevation_path = os.path.join(self.source_path, "Elevation.tif")
+        self.places_path = os.path.join(self.data_path, "Places.csv")
+        self.places_source_path = os.path.join(self.data_path, "PlacesSource.csv")
+        self.groups_path = os.path.join(self.data_path, "Groups.csv")
+        self.routes_path = os.path.join(self.data_path, "Routes.json")
 
     def setup(self):
         self.setup_graph()
@@ -60,15 +69,10 @@ class Monopoly():
         self.graph = Graph(self)
 
     def set_routes(self):
-        self.set_routes_path()
         if os.path.exists(self.routes_path):
             self.load_routes()
         else:
             self.graph.construct_routes()
-
-    def set_routes_path(self):
-        self.routes_path = os.path.join(
-            self.source_path, "Routes.json")
 
     def load_routes(self):
         with open(self.routes_path, "r") as file:

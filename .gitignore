@@ -1,10 +1,10 @@
 .venv/
 *__pycache__/
-/Data/Places.csv
-/Data/Constraints.csv
-/Data/Solution.csv
+/Data/*/Places.csv
+/Data/*/Constraints.csv
+/Data/*/Solution.csv
 /Sources/*.json
-/Output/
+Sources/*.osm.pbf
 /Essay/MonopolyRun-*
 /Essay/*.csv*
 *.toc

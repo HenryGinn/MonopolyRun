@@ -6,6 +6,7 @@ import networkx as nx
 import numpy as np
 import pandas as pd
 from scipy.interpolate import RegularGridInterpolator
+from shapely import wkt
 
 from utils import (
     load_elevation,
@@ -21,31 +22,26 @@ class Graph():
     # Initialising graph data
 
     def set_graph(self):
-        self.set_graph_path()
-        if os.path.exists(self.graph_path):
-            self.load_graph()
-        else:
-            self.save_graph()
+        with open("../Sources/region.json") as f:
+            data = json.load(f)
+        for node in data["nodes"]:
+            if node.get("geometry") is not None:
+                node["geometry"] = wkt.loads(node["geometry"])
+        for edge in data["edges"]:
+            if edge.get("geometry") is not None:
+                edge["geometry"] = wkt.loads(edge["geometry"])
+        self.graph = nx.node_link_graph(data)
 
-    def set_graph_path(self):
-        self.graph_path = os.path.join(
-            self.monopoly.source_path, "region.graphml")
-
-    def save_graph(self):
-        self.graph = ox.graph.graph_from_point(
-            (51.3349906493623, -0.26368503514735964),
-            dist=6000, network_type="walk")
-        ox.save_graphml(self.graph, self.graph_path)
-
-    def load_graph(self):
-        self.graph = ox.load_graphml(self.graph_path)
 
 
     # Elevation
 
+    def ensure_elevation_set(self):
+        if not hasattr(self, "elevation"):
+            self.set_elevation_map()
+
     def set_elevation_map(self):
-        path = os.path.join(self.monopoly.source_path, "Elevation.tif")
-        elevation_source, width, height, transform = load_elevation(path)
+        elevation_source, width, height, transform = load_elevation(self.monopoly.elevation_path)
         x, y = get_elevation_grid(width, height, transform)
         self.elevation = self.get_elevation_interpolator(elevation_source, x, y)
 
@@ -67,9 +63,8 @@ class Graph():
         self.monopoly.places = self.places
 
     def set_places(self):
-        path = os.path.join(self.monopoly.data_path, "Places.csv")
-        if os.path.exists(path):
-            self.places = pd.read_csv(path, index_col=0)
+        if os.path.exists(self.monopoly.places_path):
+            self.places = pd.read_csv(self.monopoly.places_path, index_col=0)
         else:
             self.generate_places()
 
@@ -82,16 +77,14 @@ class Graph():
         self.save_places()
 
     def load_places_source(self):
-        path = os.path.join(self.monopoly.data_path, "PlacesSource.csv")
-        self.places = pd.read_csv(path, index_col=0)
+        self.places = pd.read_csv(
+            self.monopoly.places_source_path, index_col=0)
 
     def load_groups(self):
-        path = os.path.join(self.monopoly.data_path, "Groups.csv")
-        self.groups = pd.read_csv(path, index_col=0)
+        self.groups = pd.read_csv(self.monopoly.groups_path, index_col=0)
 
     def save_places(self):
-        path = os.path.join(self.monopoly.data_path, "Places.csv")
-        self.places.to_csv(path)
+        self.places.to_csv(self.monopoly.places_path)
 
     def set_squares(self):
         self.squares = (
@@ -130,12 +123,14 @@ class Graph():
         return x, y
 
     def set_place_elevations(self):
+        self.ensure_elevation_set()
         self.places["Elevation (m)"] = self.elevation(self.places[["X", "Y"]])
 
 
     # Building a json of all route information
 
     def construct_routes(self):
+        self.ensure_elevation_set()
         self.initialise_routes()
         self.add_other_route_data()
         self.save_routes()
@@ -209,7 +204,7 @@ class Graph():
 
     def draw_places(self):
         for place in self.monopoly.solver.vertices_solution.index:
-            self.add_node(place)
+            self.add_place(place)
 
     def draw_edges(self):
         self.set_routes_vertices()
@@ -251,7 +246,7 @@ class Graph():
             for start, end in zip(route_vertices[:-1], route_vertices[1:])]
         return nodes_list
 
-    def add_node(self, place):
+    def add_place(self, place):
         self.monopoly.style["sources"]["route"]["data"]["features"].append(
             {"type": "Feature",
              "properties": {
@@ -261,6 +256,15 @@ class Graph():
                  "type": "Point",
                  "coordinates": list(self.places.loc[place, ["X", "Y"]])}})
 
+    def add_node(self, node):
+        self.monopoly.style["sources"]["route"]["data"]["features"].append(
+            {"type": "Feature",
+             "geometry": {
+                 "type": "Point",
+                 "coordinates": [
+                     self.graph.nodes[node]["x"],
+                     self.graph.nodes[node]["y"]]}})
+
     def add_route(self, route):
         coordinates = self.nodes_to_coordinates(route)
         self.monopoly.style["sources"]["route"]["data"]["features"].append(
@@ -269,12 +273,10 @@ class Graph():
              "geometry": {
                  "type": "LineString",
                  "coordinates": coordinates}})
-        
-    def nodes_to_coordinates(self, route):
-        route_gdf = ox.routing.route_to_gdf(self.graph, route)
-        coordinates = [
-            coord
-            for geometry in route_gdf.geometry
-            for coord in geometry.coords]
-        return coordinates
 
+    def nodes_to_coordinates(self, route):
+        coordinates = [
+            (self.graph.nodes[node]["x"],
+             self.graph.nodes[node]["y"])
+            for node in route]
+        return coordinates

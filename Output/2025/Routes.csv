@@ -1,0 +1,1555 @@
+Speed (m/s),Order ID,Place
+0.1,0,Metropolis
+0.1,1,Epsom Train Station
+0.1,2,Metropolis
+0.2,0,Metropolis
+0.2,1,The Clock Tower
+0.2,2,Epsom Train Station
+0.2,3,Papa Johns / Ask Italian
+0.2,4,Metropolis
+0.3,0,Metropolis
+0.3,1,Epsom Train Station
+0.3,2,The Clock Tower
+0.3,3,Epsom Playhouse
+0.3,4,Epsom Methodist Scout Group
+0.3,5,Metropolis
+0.4,0,Metropolis
+0.4,1,Epsom Train Station
+0.4,2,The Clock Tower
+0.4,3,Pizzerium / Pizza Express
+0.4,4,Epsom Playhouse
+0.4,5,Epsom Methodist Scout Group
+0.4,6,Epsom Town Hall
+0.4,7,Metropolis
+0.5,0,Metropolis
+0.5,1,Dominos (Epsom)
+0.5,2,Epsom Odeon
+0.5,3,Epsom Town Hall
+0.5,4,Epsom Methodist Scout Group
+0.5,5,Epsom Playhouse
+0.5,6,The Clock Tower
+0.5,7,Epsom Train Station
+0.5,8,Metropolis
+0.6,0,Metropolis
+0.6,1,Epsom Train Station
+0.6,2,The Clock Tower
+0.6,3,Epsom Playhouse
+0.6,4,Epsom Methodist Scout Group
+0.6,5,Epsom Town Hall
+0.6,6,Epsom Odeon
+0.6,7,Dominos (Epsom)
+0.6,8,Opposite Pets at Home
+0.6,9,Metropolis
+0.7,0,Metropolis
+0.7,1,Opposite Pets at Home
+0.7,2,Dominos (Epsom)
+0.7,3,Epsom Odeon
+0.7,4,Epsom Town Hall
+0.7,5,Epsom Methodist Scout Group
+0.7,6,Epsom Playhouse
+0.7,7,The Clock Tower
+0.7,8,Epsom Train Station
+0.7,9,Metropolis
+0.8,0,Metropolis
+0.8,1,Epsom Train Station
+0.8,2,The Clock Tower
+0.8,3,Epsom Playhouse
+0.8,4,Epsom Methodist Scout Group
+0.8,5,Epsom Town Hall
+0.8,6,Epsom Odeon
+0.8,7,Dominos (Epsom)
+0.8,8,Opposite Pets at Home
+0.8,9,Metropolis
+0.9,0,Metropolis
+0.9,1,Epsom Train Station
+0.9,2,The Clock Tower
+0.9,3,Epsom Playhouse
+0.9,4,Epsom Hospital
+0.9,5,Opposite Roseberry Park
+0.9,6,Epsom Methodist Scout Group
+0.9,7,Epsom Town Hall
+0.9,8,Epsom Odeon
+0.9,9,Dominos (Epsom)
+0.9,10,Metropolis
+1,0,Metropolis
+1,1,Epsom Train Station
+1,2,The Clock Tower
+1,3,Epsom Playhouse
+1,4,Epsom Hospital
+1,5,Opposite Roseberry Park
+1,6,Epsom Methodist Scout Group
+1,7,Epsom Town Hall
+1,8,Epsom Odeon
+1,9,Dominos (Epsom)
+1,10,Metropolis
+1.1,0,Metropolis
+1.1,1,Dominos (Epsom)
+1.1,2,Epsom Odeon
+1.1,3,Epsom Town Hall
+1.1,4,Epsom Methodist Scout Group
+1.1,5,Opposite Roseberry Park
+1.1,6,Epsom Hospital
+1.1,7,Epsom Playhouse
+1.1,8,The Clock Tower
+1.1,9,Epsom Train Station
+1.1,10,Metropolis
+1.2,0,Metropolis
+1.2,1,Glyn School
+1.2,2,Opposite Pets at Home
+1.2,3,Dominos (Epsom)
+1.2,4,Epsom Odeon
+1.2,5,Epsom Town Hall
+1.2,6,Epsom Methodist Scout Group
+1.2,7,Epsom Playhouse
+1.2,8,The Clock Tower
+1.2,9,Epsom Train Station
+1.2,10,Metropolis
+1.3,0,Metropolis
+1.3,1,Opposite Pets at Home
+1.3,2,Dominos (Epsom)
+1.3,3,Epsom Odeon
+1.3,4,Epsom Town Hall
+1.3,5,Epsom Methodist Scout Group
+1.3,6,Epsom Playhouse
+1.3,7,Epsom Hospital
+1.3,8,Jolly Cooper Pub
+1.3,9,The Clock Tower
+1.3,10,Epsom Train Station
+1.3,11,Metropolis
+1.4,0,Metropolis
+1.4,1,Epsom Methodist Scout Group
+1.4,2,Epsom Playhouse
+1.4,3,Epsom Hospital
+1.4,4,Epsom Well
+1.4,5,Jolly Cooper Pub
+1.4,6,Pizzerium / Pizza Express
+1.4,7,The Clock Tower
+1.4,8,Epsom Train Station
+1.4,9,Metropolis
+1.5,0,Metropolis
+1.5,1,Epsom Methodist Scout Group
+1.5,2,Opposite Roseberry Park
+1.5,3,Epsom Playhouse
+1.5,4,Epsom Hospital
+1.5,5,Epsom Well
+1.5,6,Jolly Cooper Pub
+1.5,7,Pizzerium / Pizza Express
+1.5,8,The Clock Tower
+1.5,9,Epsom Train Station
+1.5,10,Metropolis
+1.6,0,Metropolis
+1.6,1,Epsom Train Station
+1.6,2,The Clock Tower
+1.6,3,Jolly Cooper Pub
+1.6,4,Epsom Well
+1.6,5,Epsom Hospital
+1.6,6,Epsom Playhouse
+1.6,7,Epsom Methodist Scout Group
+1.6,8,Dominos (Epsom)
+1.6,9,Epsom Odeon
+1.6,10,Opposite Pets at Home
+1.6,11,Metropolis
+1.7,0,Metropolis
+1.7,1,Opposite Pets at Home
+1.7,2,Dominos (Epsom)
+1.7,3,Epsom Odeon
+1.7,4,Epsom Town Hall
+1.7,5,Epsom Methodist Scout Group
+1.7,6,Epsom Playhouse
+1.7,7,Epsom Hospital
+1.7,8,Epsom Well
+1.7,9,Jolly Cooper Pub
+1.7,10,The Clock Tower
+1.7,11,Epsom Train Station
+1.7,12,Metropolis
+1.8,0,Metropolis
+1.8,1,Opposite Pets at Home
+1.8,2,Dominos (Epsom)
+1.8,3,Epsom Odeon
+1.8,4,Epsom Town Hall
+1.8,5,Epsom Methodist Scout Group
+1.8,6,Epsom Playhouse
+1.8,7,Epsom Hospital
+1.8,8,Epsom Well
+1.8,9,Jolly Cooper Pub
+1.8,10,The Clock Tower
+1.8,11,Epsom Train Station
+1.8,12,Metropolis
+1.9,0,Metropolis
+1.9,1,Epsom Train Station
+1.9,2,The Clock Tower
+1.9,3,Jolly Cooper Pub
+1.9,4,Epsom Well
+1.9,5,Epsom Hospital
+1.9,6,Epsom Playhouse
+1.9,7,Epsom Methodist Scout Group
+1.9,8,Epsom Town Hall
+1.9,9,Epsom Odeon
+1.9,10,Dominos (Epsom)
+1.9,11,Opposite Pets at Home
+1.9,12,Metropolis
+2,0,Metropolis
+2,1,Epsom Train Station
+2,2,The Clock Tower
+2,3,Epsom Playhouse
+2,4,Epsom Methodist Scout Group
+2,5,Epsom Town Hall
+2,6,Epsom Odeon
+2,7,Glyn School
+2,8,Ewell West Train Station
+2,9,The Watch House
+2,10,Ntunetta (Ewell)
+2,11,Ewell East Train Station
+2,12,Opposite Pets at Home
+2,13,Metropolis
+2.1,0,Metropolis
+2.1,1,Glyn School
+2.1,2,Ewell West Train Station
+2.1,3,The Watch House
+2.1,4,Ewell East Train Station
+2.1,5,Nescott College
+2.1,6,Opposite Pets at Home
+2.1,7,Dominos (Epsom)
+2.1,8,Epsom Odeon
+2.1,9,Epsom Town Hall
+2.1,10,Epsom Methodist Scout Group
+2.1,11,Epsom Playhouse
+2.1,12,The Clock Tower
+2.1,13,Epsom Train Station
+2.1,14,Metropolis
+2.2,0,Metropolis
+2.2,1,Epsom Train Station
+2.2,2,The Clock Tower
+2.2,3,Little Acres Lodge
+2.2,4,Epsom Well
+2.2,5,Jolly Cooper Pub
+2.2,6,Epsom Hospital
+2.2,7,Epsom Playhouse
+2.2,8,Epsom Methodist Scout Group
+2.2,9,Epsom Town Hall
+2.2,10,Epsom Odeon
+2.2,11,Dominos (Epsom)
+2.2,12,Metropolis
+2.3,0,Metropolis
+2.3,1,Opposite Pets at Home
+2.3,2,Epsom Odeon
+2.3,3,Dominos (Epsom)
+2.3,4,Epsom Methodist Scout Group
+2.3,5,Epsom Playhouse
+2.3,6,Epsom Hospital
+2.3,7,Jolly Cooper Pub
+2.3,8,Epsom Well
+2.3,9,Little Acres Lodge
+2.3,10,The Clock Tower
+2.3,11,Epsom Train Station
+2.3,12,Metropolis
+2.4,0,Metropolis
+2.4,1,Epsom Train Station
+2.4,2,The Clock Tower
+2.4,3,Little Acres Lodge
+2.4,4,Epsom Well
+2.4,5,Jolly Cooper Pub
+2.4,6,Epsom Hospital
+2.4,7,Epsom Playhouse
+2.4,8,Epsom Methodist Scout Group
+2.4,9,Epsom Town Hall
+2.4,10,Epsom Odeon
+2.4,11,Dominos (Epsom)
+2.4,12,Opposite Pets at Home
+2.4,13,Metropolis
+2.5,0,Metropolis
+2.5,1,Epsom Train Station
+2.5,2,Opposite Pets at Home
+2.5,3,Ewell East Train Station
+2.5,4,Ntunetta (Ewell)
+2.5,5,The Watch House
+2.5,6,Stoneleigh Train Station
+2.5,7,Ewell West Train Station
+2.5,8,Glyn School
+2.5,9,Metropolis
+2.6,0,Metropolis
+2.6,1,Nescott College
+2.6,2,Ewell East Train Station
+2.6,3,Ntunetta (Ewell)
+2.6,4,The Watch House
+2.6,5,Stoneleigh Train Station
+2.6,6,Ewell West Train Station
+2.6,7,Glyn School
+2.6,8,Opposite Pets at Home
+2.6,9,Epsom Train Station
+2.6,10,Metropolis
+2.7,0,Metropolis
+2.7,1,Opposite Pets at Home
+2.7,2,Nescott College
+2.7,3,Ewell East Train Station
+2.7,4,Ntunetta (Ewell)
+2.7,5,The Watch House
+2.7,6,Stoneleigh Train Station
+2.7,7,Ewell West Train Station
+2.7,8,Ewell Rainsters Scout Group
+2.7,9,Glyn School
+2.7,10,Epsom Train Station
+2.7,11,Metropolis
+2.8,0,Metropolis
+2.8,1,Epsom Train Station
+2.8,2,The Clock Tower
+2.8,3,Epsom Playhouse
+2.8,4,Epsom Methodist Scout Group
+2.8,5,Epsom Odeon
+2.8,6,Dominos (Epsom)
+2.8,7,Glyn School
+2.8,8,Ewell West Train Station
+2.8,9,Stoneleigh Train Station
+2.8,10,The Watch House
+2.8,11,Ewell East Train Station
+2.8,12,Opposite Pets at Home
+2.8,13,Metropolis
+2.9,0,Metropolis
+2.9,1,Nescott College
+2.9,2,Ewell East Train Station
+2.9,3,The Watch House
+2.9,4,Stoneleigh Train Station
+2.9,5,Ewell West Train Station
+2.9,6,Glyn School
+2.9,7,Opposite Pets at Home
+2.9,8,Dominos (Epsom)
+2.9,9,Epsom Odeon
+2.9,10,Epsom Methodist Scout Group
+2.9,11,Epsom Playhouse
+2.9,12,The Clock Tower
+2.9,13,Epsom Train Station
+2.9,14,Metropolis
+3,0,Metropolis
+3,1,Opposite Pets at Home
+3,2,Nescott College
+3,3,Ewell East Train Station
+3,4,Stoneleigh Train Station
+3,5,Ewell Court House
+3,6,Danetree Primary School
+3,7,Ewell West Train Station
+3,8,Glyn School
+3,9,Epsom Train Station
+3,10,Metropolis
+3.1,0,Metropolis
+3.1,1,Epsom Train Station
+3.1,2,Glyn School
+3.1,3,Ewell West Train Station
+3.1,4,Tops Pizza (Chessington Road)
+3.1,5,Danetree Primary School
+3.1,6,Ewell Court House
+3.1,7,Stoneleigh Train Station
+3.1,8,The Watch House
+3.1,9,Ewell East Train Station
+3.1,10,Nescott College
+3.1,11,Opposite Pets at Home
+3.1,12,Metropolis
+3.2,0,Metropolis
+3.2,1,Glyn School
+3.2,2,Ewell West Train Station
+3.2,3,Ewell Court House
+3.2,4,Stoneleigh Train Station
+3.2,5,Nonsuch Mansion House
+3.2,6,Nonsuch
+3.2,7,Ewell East Train Station
+3.2,8,Ntunetta (Ewell)
+3.2,9,The Watch House
+3.2,10,Opposite Pets at Home
+3.2,11,Epsom Train Station
+3.2,12,Metropolis
+3.3,0,Metropolis
+3.3,1,Epsom Train Station
+3.3,2,The Clock Tower
+3.3,3,Opposite Pets at Home
+3.3,4,The Watch House
+3.3,5,Ntunetta (Ewell)
+3.3,6,Ewell East Train Station
+3.3,7,Nonsuch
+3.3,8,Nonsuch Mansion House
+3.3,9,Stoneleigh Train Station
+3.3,10,Ewell Court House
+3.3,11,Ewell West Train Station
+3.3,12,Ewell Rainsters Scout Group
+3.3,13,Glyn School
+3.3,14,Metropolis
+3.4,0,Metropolis
+3.4,1,Epsom Train Station
+3.4,2,Epsom Air Scouts
+3.4,3,Danetree Primary School
+3.4,4,Ewell Court House
+3.4,5,Stoneleigh Train Station
+3.4,6,Nonsuch Mansion House
+3.4,7,Nonsuch
+3.4,8,Ewell East Train Station
+3.4,9,Ntunetta (Ewell)
+3.4,10,The Watch House
+3.4,11,Ewell West Train Station
+3.4,12,Glyn School
+3.4,13,Opposite Pets at Home
+3.4,14,Metropolis
+3.5,0,Metropolis
+3.5,1,Epsom Train Station
+3.5,2,Epsom Air Scouts
+3.5,3,Harrier Centre
+3.5,4,Ewell Court House
+3.5,5,Stoneleigh Train Station
+3.5,6,Nonsuch Mansion House
+3.5,7,Nonsuch
+3.5,8,Ewell East Train Station
+3.5,9,Ntunetta (Ewell)
+3.5,10,The Watch House
+3.5,11,Ewell West Train Station
+3.5,12,Nova Forca
+3.5,13,Metropolis
+3.6,0,Metropolis
+3.6,1,Epsom Train Station
+3.6,2,Epsom Air Scouts
+3.6,3,Danetree Primary School
+3.6,4,Ewell Court House
+3.6,5,Stoneleigh Train Station
+3.6,6,Nonsuch Mansion House
+3.6,7,Nonsuch
+3.6,8,Ewell East Train Station
+3.6,9,Nescott College
+3.6,10,Ntunetta (Ewell)
+3.6,11,The Watch House
+3.6,12,Ewell West Train Station
+3.6,13,Glyn School
+3.6,14,Opposite Pets at Home
+3.6,15,Metropolis
+3.7,0,Metropolis
+3.7,1,Opposite Pets at Home
+3.7,2,Glyn School
+3.7,3,Ewell West Train Station
+3.7,4,The Watch House
+3.7,5,Ntunetta (Ewell)
+3.7,6,Nescott College
+3.7,7,Ewell East Train Station
+3.7,8,Nonsuch
+3.7,9,Nonsuch Mansion House
+3.7,10,Stoneleigh Train Station
+3.7,11,Ewell Court House
+3.7,12,Danetree Primary School
+3.7,13,Adventure Golf
+3.7,14,Epsom Air Scouts
+3.7,15,Epsom Train Station
+3.7,16,Metropolis
+3.8,0,Metropolis
+3.8,1,Epsom Train Station
+3.8,2,The Clock Tower
+3.8,3,Epsom Playhouse
+3.8,4,Epsom Methodist Scout Group
+3.8,5,Dominos (Epsom)
+3.8,6,Epsom Odeon
+3.8,7,Opposite Pets at Home
+3.8,8,The Watch House
+3.8,9,Ewell East Train Station
+3.8,10,Nonsuch
+3.8,11,Nonsuch Mansion House
+3.8,12,Stoneleigh Train Station
+3.8,13,Ewell Court House
+3.8,14,Harrier Centre
+3.8,15,Ewell West Train Station
+3.8,16,Nova Forca
+3.8,17,Metropolis
+3.9,0,Metropolis
+3.9,1,Epsom Train Station
+3.9,2,Danetree Primary School
+3.9,3,Harrier Centre
+3.9,4,Ewell Court House
+3.9,5,Stoneleigh Train Station
+3.9,6,Nonsuch Mansion House
+3.9,7,Nonsuch
+3.9,8,Ewell East Train Station
+3.9,9,Nescott College
+3.9,10,Ntunetta (Ewell)
+3.9,11,The Watch House
+3.9,12,Ewell West Train Station
+3.9,13,Nova Forca
+3.9,14,Glyn School
+3.9,15,Opposite Pets at Home
+3.9,16,Metropolis
+4,0,Metropolis
+4,1,Epsom Train Station
+4,2,Long Grove Skate Park
+4,3,Hobbledown Farm
+4,4,Adventure Golf
+4,5,Danetree Primary School
+4,6,Ewell Court House
+4,7,Stoneleigh Train Station
+4,8,Nonsuch Mansion House
+4,9,Nonsuch
+4,10,Ewell East Train Station
+4,11,Nescott College
+4,12,Ntunetta (Ewell)
+4,13,The Watch House
+4,14,Ewell West Train Station
+4,15,Glyn School
+4,16,Opposite Pets at Home
+4,17,Metropolis
+4.1,0,Metropolis
+4.1,1,Epsom Train Station
+4.1,2,Long Grove Skate Park
+4.1,3,Hobbledown Farm
+4.1,4,Adventure Golf
+4.1,5,Danetree Primary School
+4.1,6,Ewell Court House
+4.1,7,Stoneleigh Train Station
+4.1,8,Nonsuch Mansion House
+4.1,9,Nonsuch
+4.1,10,Ewell East Train Station
+4.1,11,Nescott College
+4.1,12,Ntunetta (Ewell)
+4.1,13,The Watch House
+4.1,14,Ewell West Train Station
+4.1,15,Ewell Rainsters Scout Group
+4.1,16,Glyn School
+4.1,17,Opposite Pets at Home
+4.1,18,Metropolis
+4.2,0,Metropolis
+4.2,1,Nova Forca
+4.2,2,Ewell West Train Station
+4.2,3,Danetree Primary School
+4.2,4,Harrier Centre
+4.2,5,Ewell Court House
+4.2,6,Stoneleigh Train Station
+4.2,7,Nonsuch Mansion House
+4.2,8,Nonsuch
+4.2,9,The Watch House
+4.2,10,Ewell East Train Station
+4.2,11,Nescott College
+4.2,12,Glyn School
+4.2,13,Opposite Pets at Home
+4.2,14,Dominos (Epsom)
+4.2,15,Epsom Odeon
+4.2,16,Epsom Playhouse
+4.2,17,The Clock Tower
+4.2,18,Epsom Train Station
+4.2,19,Metropolis
+4.3,0,Metropolis
+4.3,1,Epsom Train Station
+4.3,2,The Clock Tower
+4.3,3,Epsom Playhouse
+4.3,4,Epsom Methodist Scout Group
+4.3,5,Epsom Town Hall
+4.3,6,Epsom Odeon
+4.3,7,Opposite Pets at Home
+4.3,8,Glyn School
+4.3,9,Nescott College
+4.3,10,Ewell East Train Station
+4.3,11,The Watch House
+4.3,12,Nonsuch
+4.3,13,Nonsuch Mansion House
+4.3,14,Stoneleigh Train Station
+4.3,15,Ewell Court House
+4.3,16,Harrier Centre
+4.3,17,Danetree Primary School
+4.3,18,Tops Pizza (Chessington Road)
+4.3,19,Ewell West Train Station
+4.3,20,Nova Forca
+4.3,21,Metropolis
+4.4,0,Metropolis
+4.4,1,Epsom Train Station
+4.4,2,Long Grove Skate Park
+4.4,3,Hobbledown Farm
+4.4,4,Adventure Golf
+4.4,5,Danetree Primary School
+4.4,6,Harrier Centre
+4.4,7,Ewell Court House
+4.4,8,Stoneleigh Train Station
+4.4,9,Nonsuch Mansion House
+4.4,10,Nonsuch
+4.4,11,Ewell East Train Station
+4.4,12,Nescott College
+4.4,13,Ntunetta (Ewell)
+4.4,14,The Watch House
+4.4,15,Ewell West Train Station
+4.4,16,Nova Forca
+4.4,17,Glyn School
+4.4,18,Opposite Pets at Home
+4.4,19,Metropolis
+4.5,0,Metropolis
+4.5,1,Epsom Train Station
+4.5,2,Epsom Air Scouts
+4.5,3,Long Grove Skate Park
+4.5,4,Hobbledown Farm
+4.5,5,Adventure Golf
+4.5,6,Danetree Primary School
+4.5,7,Harrier Centre
+4.5,8,Ewell Court House
+4.5,9,Stoneleigh Train Station
+4.5,10,Nonsuch Mansion House
+4.5,11,Nonsuch
+4.5,12,Ewell East Train Station
+4.5,13,Nescott College
+4.5,14,Ntunetta (Ewell)
+4.5,15,The Watch House
+4.5,16,Ewell West Train Station
+4.5,17,Nova Forca
+4.5,18,Glyn School
+4.5,19,Opposite Pets at Home
+4.5,20,Metropolis
+4.6,0,Metropolis
+4.6,1,Epsom Train Station
+4.6,2,Epsom Air Scouts
+4.6,3,Long Grove Skate Park
+4.6,4,Hobbledown Farm
+4.6,5,Adventure Golf
+4.6,6,Danetree Primary School
+4.6,7,Harrier Centre
+4.6,8,Ewell Court House
+4.6,9,Stoneleigh Train Station
+4.6,10,Nonsuch Mansion House
+4.6,11,Nonsuch
+4.6,12,Ewell East Train Station
+4.6,13,Nescott College
+4.6,14,The Watch House
+4.6,15,Ewell West Train Station
+4.6,16,Nova Forca
+4.6,17,Glyn School
+4.6,18,Opposite Pets at Home
+4.6,19,Epsom Odeon
+4.6,20,Dominos (Epsom)
+4.6,21,Metropolis
+4.7,0,Metropolis
+4.7,1,Epsom Playhouse
+4.7,2,Epsom Train Station
+4.7,3,Long Grove Skate Park
+4.7,4,Hobbledown Farm
+4.7,5,Adventure Golf
+4.7,6,Danetree Primary School
+4.7,7,Harrier Centre
+4.7,8,Ewell Court House
+4.7,9,Stoneleigh Train Station
+4.7,10,Nonsuch Mansion House
+4.7,11,Nonsuch
+4.7,12,Ewell East Train Station
+4.7,13,Nescott College
+4.7,14,Ntunetta (Ewell)
+4.7,15,The Watch House
+4.7,16,Ewell West Train Station
+4.7,17,Nova Forca
+4.7,18,Glyn School
+4.7,19,Opposite Pets at Home
+4.7,20,Epsom Odeon
+4.7,21,Metropolis
+4.8,0,Metropolis
+4.8,1,Dominos (Epsom)
+4.8,2,Epsom Odeon
+4.8,3,Opposite Pets at Home
+4.8,4,Glyn School
+4.8,5,Nova Forca
+4.8,6,Ewell West Train Station
+4.8,7,The Watch House
+4.8,8,Nescott College
+4.8,9,Ewell East Train Station
+4.8,10,Nonsuch
+4.8,11,Nonsuch Mansion House
+4.8,12,Stoneleigh Train Station
+4.8,13,Ewell Court House
+4.8,14,Harrier Centre
+4.8,15,Danetree Primary School
+4.8,16,Adventure Golf
+4.8,17,Hobbledown Farm
+4.8,18,Long Grove Skate Park
+4.8,19,Epsom Train Station
+4.8,20,The Clock Tower
+4.8,21,Epsom Playhouse
+4.8,22,Epsom Methodist Scout Group
+4.8,23,Metropolis
+4.9,0,Metropolis
+4.9,1,Epsom Train Station
+4.9,2,The Clock Tower
+4.9,3,Epsom Playhouse
+4.9,4,Epsom Methodist Scout Group
+4.9,5,Epsom Town Hall
+4.9,6,Epsom Odeon
+4.9,7,Opposite Pets at Home
+4.9,8,Glyn School
+4.9,9,Nova Forca
+4.9,10,Ewell West Train Station
+4.9,11,The Watch House
+4.9,12,Ntunetta (Ewell)
+4.9,13,Nescott College
+4.9,14,Ewell East Train Station
+4.9,15,Nonsuch
+4.9,16,Nonsuch Mansion House
+4.9,17,Stoneleigh Train Station
+4.9,18,Ewell Court House
+4.9,19,Harrier Centre
+4.9,20,Danetree Primary School
+4.9,21,Adventure Golf
+4.9,22,Hobbledown Farm
+4.9,23,Long Grove Skate Park
+4.9,24,Metropolis
+5,0,Metropolis
+5,1,Epsom Train Station
+5,2,Epsom Air Scouts
+5,3,Long Grove Skate Park
+5,4,Little Acres Lodge
+5,5,Hobbledown Farm
+5,6,Adventure Golf
+5,7,Danetree Primary School
+5,8,Harrier Centre
+5,9,Ewell Court House
+5,10,Stoneleigh Train Station
+5,11,Nonsuch Mansion House
+5,12,Nonsuch
+5,13,Ewell East Train Station
+5,14,Nescott College
+5,15,The Watch House
+5,16,Ewell West Train Station
+5,17,Nova Forca
+5,18,Glyn School
+5,19,Opposite Pets at Home
+5,20,Epsom Odeon
+5,21,Dominos (Epsom)
+5,22,Metropolis
+5.1,0,Metropolis
+5.1,1,The Clock Tower
+5.1,2,Epsom Train Station
+5.1,3,Epsom Air Scouts
+5.1,4,Long Grove Skate Park
+5.1,5,Little Acres Lodge
+5.1,6,Hobbledown Farm
+5.1,7,Adventure Golf
+5.1,8,Danetree Primary School
+5.1,9,Harrier Centre
+5.1,10,Ewell Court House
+5.1,11,Stoneleigh Train Station
+5.1,12,Nonsuch Mansion House
+5.1,13,Nonsuch
+5.1,14,Ewell East Train Station
+5.1,15,Nescott College
+5.1,16,The Watch House
+5.1,17,Ewell West Train Station
+5.1,18,Nova Forca
+5.1,19,Glyn School
+5.1,20,Opposite Pets at Home
+5.1,21,Epsom Odeon
+5.1,22,Dominos (Epsom)
+5.1,23,Metropolis
+5.2,0,Metropolis
+5.2,1,Epsom Methodist Scout Group
+5.2,2,Epsom Playhouse
+5.2,3,The Clock Tower
+5.2,4,Epsom Train Station
+5.2,5,Long Grove Skate Park
+5.2,6,Little Acres Lodge
+5.2,7,Hobbledown Farm
+5.2,8,Adventure Golf
+5.2,9,Danetree Primary School
+5.2,10,Harrier Centre
+5.2,11,Ewell Court House
+5.2,12,Stoneleigh Train Station
+5.2,13,Nonsuch Mansion House
+5.2,14,Nonsuch
+5.2,15,Ewell East Train Station
+5.2,16,Nescott College
+5.2,17,The Watch House
+5.2,18,Ewell West Train Station
+5.2,19,Nova Forca
+5.2,20,Glyn School
+5.2,21,Opposite Pets at Home
+5.2,22,Epsom Odeon
+5.2,23,Dominos (Epsom)
+5.2,24,Metropolis
+5.3,0,Metropolis
+5.3,1,Epsom Train Station
+5.3,2,The Clock Tower
+5.3,3,Epsom Playhouse
+5.3,4,Epsom Methodist Scout Group
+5.3,5,Epsom Town Hall
+5.3,6,Epsom Odeon
+5.3,7,Dominos (Epsom)
+5.3,8,Opposite Pets at Home
+5.3,9,Glyn School
+5.3,10,Nova Forca
+5.3,11,Ewell West Train Station
+5.3,12,The Watch House
+5.3,13,Nescott College
+5.3,14,Ewell East Train Station
+5.3,15,Nonsuch
+5.3,16,Nonsuch Mansion House
+5.3,17,Stoneleigh Train Station
+5.3,18,Ewell Court House
+5.3,19,Harrier Centre
+5.3,20,Danetree Primary School
+5.3,21,Adventure Golf
+5.3,22,Hobbledown Farm
+5.3,23,Little Acres Lodge
+5.3,24,Long Grove Skate Park
+5.3,25,Metropolis
+5.4,0,Metropolis
+5.4,1,Epsom Train Station
+5.4,2,The Clock Tower
+5.4,3,Epsom Playhouse
+5.4,4,Epsom Methodist Scout Group
+5.4,5,Epsom Town Hall
+5.4,6,Epsom Odeon
+5.4,7,Dominos (Epsom)
+5.4,8,Opposite Pets at Home
+5.4,9,Glyn School
+5.4,10,Nova Forca
+5.4,11,Ewell West Train Station
+5.4,12,The Watch House
+5.4,13,Nescott College
+5.4,14,Ewell East Train Station
+5.4,15,Nonsuch
+5.4,16,Nonsuch Mansion House
+5.4,17,Stoneleigh Train Station
+5.4,18,Ewell Court House
+5.4,19,Harrier Centre
+5.4,20,Danetree Primary School
+5.4,21,Adventure Golf
+5.4,22,Hobbledown Farm
+5.4,23,Little Acres Lodge
+5.4,24,Long Grove Skate Park
+5.4,25,Metropolis
+5.5,0,Metropolis
+5.5,1,Epsom Train Station
+5.5,2,The Clock Tower
+5.5,3,Epsom Methodist Scout Group
+5.5,4,Epsom Playhouse
+5.5,5,Jolly Cooper Pub
+5.5,6,Little Acres Lodge
+5.5,7,Hobbledown Farm
+5.5,8,Long Grove Skate Park
+5.5,9,Adventure Golf
+5.5,10,Danetree Primary School
+5.5,11,Harrier Centre
+5.5,12,Ewell Court House
+5.5,13,Stoneleigh Train Station
+5.5,14,Nonsuch Mansion House
+5.5,15,Nonsuch
+5.5,16,Ewell East Train Station
+5.5,17,Nescott College
+5.5,18,The Watch House
+5.5,19,Ewell West Train Station
+5.5,20,Nova Forca
+5.5,21,Glyn School
+5.5,22,Opposite Pets at Home
+5.5,23,Epsom Odeon
+5.5,24,Dominos (Epsom)
+5.5,25,Metropolis
+5.6,0,Metropolis
+5.6,1,Epsom Train Station
+5.6,2,Epsom Methodist Scout Group
+5.6,3,Epsom Playhouse
+5.6,4,Epsom Hospital
+5.6,5,Jolly Cooper Pub
+5.6,6,Epsom Well
+5.6,7,Little Acres Lodge
+5.6,8,Hobbledown Farm
+5.6,9,Adventure Golf
+5.6,10,Danetree Primary School
+5.6,11,Harrier Centre
+5.6,12,Ewell Court House
+5.6,13,Stoneleigh Train Station
+5.6,14,Nonsuch Mansion House
+5.6,15,Nonsuch
+5.6,16,Ewell East Train Station
+5.6,17,Nescott College
+5.6,18,The Watch House
+5.6,19,Ewell West Train Station
+5.6,20,Nova Forca
+5.6,21,Glyn School
+5.6,22,Opposite Pets at Home
+5.6,23,Epsom Odeon
+5.6,24,Dominos (Epsom)
+5.6,25,Metropolis
+5.7,0,Metropolis
+5.7,1,Epsom Train Station
+5.7,2,The Clock Tower
+5.7,3,Epsom Methodist Scout Group
+5.7,4,Epsom Playhouse
+5.7,5,Epsom Hospital
+5.7,6,Jolly Cooper Pub
+5.7,7,Epsom Well
+5.7,8,Little Acres Lodge
+5.7,9,Hobbledown Farm
+5.7,10,Adventure Golf
+5.7,11,Danetree Primary School
+5.7,12,Harrier Centre
+5.7,13,Ewell Court House
+5.7,14,Stoneleigh Train Station
+5.7,15,Nonsuch Mansion House
+5.7,16,Nonsuch
+5.7,17,Ewell East Train Station
+5.7,18,Nescott College
+5.7,19,The Watch House
+5.7,20,Ewell West Train Station
+5.7,21,Nova Forca
+5.7,22,Glyn School
+5.7,23,Opposite Pets at Home
+5.7,24,Epsom Odeon
+5.7,25,Dominos (Epsom)
+5.7,26,Metropolis
+5.8,0,Metropolis
+5.8,1,Dominos (Epsom)
+5.8,2,Epsom Odeon
+5.8,3,Opposite Pets at Home
+5.8,4,Glyn School
+5.8,5,Nova Forca
+5.8,6,Ewell West Train Station
+5.8,7,The Watch House
+5.8,8,Nescott College
+5.8,9,Ewell East Train Station
+5.8,10,Nonsuch
+5.8,11,Nonsuch Mansion House
+5.8,12,Stoneleigh Train Station
+5.8,13,Ewell Court House
+5.8,14,Harrier Centre
+5.8,15,Danetree Primary School
+5.8,16,Adventure Golf
+5.8,17,Hobbledown Farm
+5.8,18,Little Acres Lodge
+5.8,19,Epsom Well
+5.8,20,Jolly Cooper Pub
+5.8,21,Epsom Hospital
+5.8,22,Epsom Playhouse
+5.8,23,Epsom Methodist Scout Group
+5.8,24,Epsom Town Hall
+5.8,25,The Clock Tower
+5.8,26,Epsom Train Station
+5.8,27,Metropolis
+5.9,0,Metropolis
+5.9,1,Opposite Pets at Home
+5.9,2,Glyn School
+5.9,3,Nova Forca
+5.9,4,Ewell West Train Station
+5.9,5,The Watch House
+5.9,6,Ntunetta (Ewell)
+5.9,7,Nescott College
+5.9,8,Ewell East Train Station
+5.9,9,Nonsuch
+5.9,10,Nonsuch Mansion House
+5.9,11,Stoneleigh Train Station
+5.9,12,Ewell Court House
+5.9,13,Harrier Centre
+5.9,14,Danetree Primary School
+5.9,15,Adventure Golf
+5.9,16,Long Grove Skate Park
+5.9,17,Hobbledown Farm
+5.9,18,Little Acres Lodge
+5.9,19,Epsom Well
+5.9,20,Jolly Cooper Pub
+5.9,21,Epsom Hospital
+5.9,22,Epsom Playhouse
+5.9,23,Epsom Methodist Scout Group
+5.9,24,Epsom Train Station
+5.9,25,Metropolis
+6,0,Metropolis
+6,1,Epsom Train Station
+6,2,The Clock Tower
+6,3,Epsom Methodist Scout Group
+6,4,Epsom Playhouse
+6,5,Epsom Hospital
+6,6,Jolly Cooper Pub
+6,7,Epsom Well
+6,8,Little Acres Lodge
+6,9,Hobbledown Farm
+6,10,Long Grove Skate Park
+6,11,Adventure Golf
+6,12,Danetree Primary School
+6,13,Harrier Centre
+6,14,Ewell Court House
+6,15,Stoneleigh Train Station
+6,16,Nonsuch Mansion House
+6,17,Nonsuch
+6,18,Ewell East Train Station
+6,19,Nescott College
+6,20,The Watch House
+6,21,Ewell West Train Station
+6,22,Nova Forca
+6,23,Glyn School
+6,24,Opposite Pets at Home
+6,25,Dominos (Epsom)
+6,26,Epsom Odeon
+6,27,Metropolis
+6.1,0,Metropolis
+6.1,1,Epsom Train Station
+6.1,2,The Clock Tower
+6.1,3,Epsom Town Hall
+6.1,4,Epsom Methodist Scout Group
+6.1,5,Epsom Playhouse
+6.1,6,Epsom Hospital
+6.1,7,Jolly Cooper Pub
+6.1,8,Epsom Well
+6.1,9,Little Acres Lodge
+6.1,10,Hobbledown Farm
+6.1,11,Long Grove Skate Park
+6.1,12,Adventure Golf
+6.1,13,Danetree Primary School
+6.1,14,Harrier Centre
+6.1,15,Ewell Court House
+6.1,16,Stoneleigh Train Station
+6.1,17,Nonsuch Mansion House
+6.1,18,Nonsuch
+6.1,19,Ewell East Train Station
+6.1,20,Nescott College
+6.1,21,Ntunetta (Ewell)
+6.1,22,The Watch House
+6.1,23,Ewell West Train Station
+6.1,24,Nova Forca
+6.1,25,Glyn School
+6.1,26,Opposite Pets at Home
+6.1,27,Epsom Odeon
+6.1,28,Metropolis
+6.2,0,Metropolis
+6.2,1,Epsom Train Station
+6.2,2,The Clock Tower
+6.2,3,Epsom Town Hall
+6.2,4,Epsom Methodist Scout Group
+6.2,5,Epsom Playhouse
+6.2,6,Epsom Hospital
+6.2,7,Jolly Cooper Pub
+6.2,8,Epsom Well
+6.2,9,Little Acres Lodge
+6.2,10,Hobbledown Farm
+6.2,11,Long Grove Skate Park
+6.2,12,Adventure Golf
+6.2,13,Danetree Primary School
+6.2,14,Harrier Centre
+6.2,15,Ewell Court House
+6.2,16,Stoneleigh Train Station
+6.2,17,Nonsuch Mansion House
+6.2,18,Nonsuch
+6.2,19,Ewell East Train Station
+6.2,20,Nescott College
+6.2,21,Ntunetta (Ewell)
+6.2,22,The Watch House
+6.2,23,Ewell West Train Station
+6.2,24,Nova Forca
+6.2,25,Glyn School
+6.2,26,Opposite Pets at Home
+6.2,27,Epsom Odeon
+6.2,28,Metropolis
+6.3,0,Metropolis
+6.3,1,Epsom Train Station
+6.3,2,The Clock Tower
+6.3,3,Epsom Town Hall
+6.3,4,Epsom Methodist Scout Group
+6.3,5,Epsom Playhouse
+6.3,6,Epsom Hospital
+6.3,7,Jolly Cooper Pub
+6.3,8,Epsom Well
+6.3,9,Little Acres Lodge
+6.3,10,Hobbledown Farm
+6.3,11,Long Grove Skate Park
+6.3,12,Adventure Golf
+6.3,13,Danetree Primary School
+6.3,14,Harrier Centre
+6.3,15,Ewell Court House
+6.3,16,Stoneleigh Train Station
+6.3,17,Nonsuch Mansion House
+6.3,18,Nonsuch
+6.3,19,Ewell East Train Station
+6.3,20,Nescott College
+6.3,21,The Watch House
+6.3,22,Ewell West Train Station
+6.3,23,Nova Forca
+6.3,24,Glyn School
+6.3,25,Opposite Pets at Home
+6.3,26,Epsom Odeon
+6.3,27,Dominos (Epsom)
+6.3,28,Metropolis
+6.4,0,Metropolis
+6.4,1,Epsom Odeon
+6.4,2,Dominos (Epsom)
+6.4,3,Opposite Pets at Home
+6.4,4,Glyn School
+6.4,5,Nova Forca
+6.4,6,Ewell West Train Station
+6.4,7,The Watch House
+6.4,8,Nescott College
+6.4,9,Ewell East Train Station
+6.4,10,Nonsuch
+6.4,11,Nonsuch Mansion House
+6.4,12,Stoneleigh Train Station
+6.4,13,Ewell Court House
+6.4,14,Harrier Centre
+6.4,15,Danetree Primary School
+6.4,16,Adventure Golf
+6.4,17,Long Grove Skate Park
+6.4,18,Hobbledown Farm
+6.4,19,Little Acres Lodge
+6.4,20,Epsom Well
+6.4,21,Jolly Cooper Pub
+6.4,22,Epsom Hospital
+6.4,23,Epsom Playhouse
+6.4,24,Epsom Methodist Scout Group
+6.4,25,Epsom Town Hall
+6.4,26,The Clock Tower
+6.4,27,Epsom Train Station
+6.4,28,Metropolis
+6.5,0,Metropolis
+6.5,1,Epsom Train Station
+6.5,2,The Clock Tower
+6.5,3,Epsom Town Hall
+6.5,4,Epsom Methodist Scout Group
+6.5,5,Epsom Playhouse
+6.5,6,Epsom Hospital
+6.5,7,Jolly Cooper Pub
+6.5,8,Epsom Well
+6.5,9,Little Acres Lodge
+6.5,10,Hobbledown Farm
+6.5,11,Long Grove Skate Park
+6.5,12,Adventure Golf
+6.5,13,Danetree Primary School
+6.5,14,Harrier Centre
+6.5,15,Ewell Court House
+6.5,16,Stoneleigh Train Station
+6.5,17,Nonsuch Mansion House
+6.5,18,Nonsuch
+6.5,19,Ewell East Train Station
+6.5,20,Nescott College
+6.5,21,The Watch House
+6.5,22,Ewell West Train Station
+6.5,23,Nova Forca
+6.5,24,Glyn School
+6.5,25,Opposite Pets at Home
+6.5,26,Dominos (Epsom)
+6.5,27,Epsom Odeon
+6.5,28,Metropolis
+6.6,0,Metropolis
+6.6,1,Epsom Odeon
+6.6,2,Opposite Pets at Home
+6.6,3,Glyn School
+6.6,4,Nova Forca
+6.6,5,Ewell West Train Station
+6.6,6,The Watch House
+6.6,7,Ntunetta (Ewell)
+6.6,8,Nescott College
+6.6,9,Ewell East Train Station
+6.6,10,Nonsuch
+6.6,11,Nonsuch Mansion House
+6.6,12,Stoneleigh Train Station
+6.6,13,Ewell Court House
+6.6,14,Harrier Centre
+6.6,15,Danetree Primary School
+6.6,16,Adventure Golf
+6.6,17,Long Grove Skate Park
+6.6,18,Hobbledown Farm
+6.6,19,Little Acres Lodge
+6.6,20,Epsom Well
+6.6,21,Jolly Cooper Pub
+6.6,22,Epsom Hospital
+6.6,23,Epsom Playhouse
+6.6,24,Epsom Methodist Scout Group
+6.6,25,Epsom Town Hall
+6.6,26,The Clock Tower
+6.6,27,Epsom Train Station
+6.6,28,Metropolis
+6.7,0,Metropolis
+6.7,1,Epsom Train Station
+6.7,2,The Clock Tower
+6.7,3,Epsom Town Hall
+6.7,4,Epsom Methodist Scout Group
+6.7,5,Epsom Playhouse
+6.7,6,Epsom Hospital
+6.7,7,Jolly Cooper Pub
+6.7,8,Epsom Well
+6.7,9,Little Acres Lodge
+6.7,10,Hobbledown Farm
+6.7,11,Long Grove Skate Park
+6.7,12,Adventure Golf
+6.7,13,Danetree Primary School
+6.7,14,Harrier Centre
+6.7,15,Ewell Court House
+6.7,16,Stoneleigh Train Station
+6.7,17,Nonsuch Mansion House
+6.7,18,Nonsuch
+6.7,19,Ewell East Train Station
+6.7,20,Nescott College
+6.7,21,The Watch House
+6.7,22,Ewell West Train Station
+6.7,23,Nova Forca
+6.7,24,Glyn School
+6.7,25,Opposite Pets at Home
+6.7,26,Epsom Odeon
+6.7,27,Dominos (Epsom)
+6.7,28,Metropolis
+6.8,0,Metropolis
+6.8,1,Epsom Train Station
+6.8,2,The Clock Tower
+6.8,3,Epsom Town Hall
+6.8,4,Epsom Methodist Scout Group
+6.8,5,Epsom Playhouse
+6.8,6,Epsom Hospital
+6.8,7,Jolly Cooper Pub
+6.8,8,Epsom Well
+6.8,9,Little Acres Lodge
+6.8,10,Hobbledown Farm
+6.8,11,Long Grove Skate Park
+6.8,12,Adventure Golf
+6.8,13,Danetree Primary School
+6.8,14,Harrier Centre
+6.8,15,Ewell Court House
+6.8,16,Stoneleigh Train Station
+6.8,17,Nonsuch Mansion House
+6.8,18,Nonsuch
+6.8,19,Ewell East Train Station
+6.8,20,Nescott College
+6.8,21,The Watch House
+6.8,22,Ewell West Train Station
+6.8,23,Nova Forca
+6.8,24,Glyn School
+6.8,25,Opposite Pets at Home
+6.8,26,Dominos (Epsom)
+6.8,27,Epsom Odeon
+6.8,28,Metropolis
+6.9,0,Metropolis
+6.9,1,Epsom Odeon
+6.9,2,Opposite Pets at Home
+6.9,3,Glyn School
+6.9,4,Nova Forca
+6.9,5,Ewell West Train Station
+6.9,6,The Watch House
+6.9,7,Ntunetta (Ewell)
+6.9,8,Nescott College
+6.9,9,Ewell East Train Station
+6.9,10,Nonsuch
+6.9,11,Nonsuch Mansion House
+6.9,12,Stoneleigh Train Station
+6.9,13,Ewell Court House
+6.9,14,Harrier Centre
+6.9,15,Danetree Primary School
+6.9,16,Adventure Golf
+6.9,17,Hobbledown Farm
+6.9,18,Little Acres Lodge
+6.9,19,Epsom Well
+6.9,20,Jolly Cooper Pub
+6.9,21,Epsom Hospital
+6.9,22,Epsom Racecourse
+6.9,23,Epsom Town Hall
+6.9,24,Epsom Methodist Scout Group
+6.9,25,Epsom Playhouse
+6.9,26,The Clock Tower
+6.9,27,Epsom Train Station
+6.9,28,Metropolis
+7,0,Metropolis
+7,1,Epsom Train Station
+7,2,The Clock Tower
+7,3,Epsom Town Hall
+7,4,Epsom Methodist Scout Group
+7,5,Epsom Racecourse
+7,6,Epsom Hospital
+7,7,Jolly Cooper Pub
+7,8,Epsom Well
+7,9,Little Acres Lodge
+7,10,Hobbledown Farm
+7,11,Long Grove Skate Park
+7,12,Adventure Golf
+7,13,Danetree Primary School
+7,14,Harrier Centre
+7,15,Ewell Court House
+7,16,Stoneleigh Train Station
+7,17,Nonsuch Mansion House
+7,18,Nonsuch
+7,19,Ewell East Train Station
+7,20,Nescott College
+7,21,Ntunetta (Ewell)
+7,22,The Watch House
+7,23,Ewell West Train Station
+7,24,Nova Forca
+7,25,Glyn School
+7,26,Metropolis
+7.1,0,Metropolis
+7.1,1,Dominos (Epsom)
+7.1,2,Epsom Odeon
+7.1,3,Opposite Pets at Home
+7.1,4,Glyn School
+7.1,5,Nova Forca
+7.1,6,Ewell West Train Station
+7.1,7,The Watch House
+7.1,8,Nescott College
+7.1,9,Ewell East Train Station
+7.1,10,Nonsuch
+7.1,11,Nonsuch Mansion House
+7.1,12,Stoneleigh Train Station
+7.1,13,Ewell Court House
+7.1,14,Harrier Centre
+7.1,15,Danetree Primary School
+7.1,16,Adventure Golf
+7.1,17,Long Grove Skate Park
+7.1,18,Hobbledown Farm
+7.1,19,Little Acres Lodge
+7.1,20,Epsom Well
+7.1,21,Jolly Cooper Pub
+7.1,22,Epsom Hospital
+7.1,23,Epsom Racecourse
+7.1,24,Epsom Methodist Scout Group
+7.1,25,Epsom Town Hall
+7.1,26,The Clock Tower
+7.1,27,Epsom Train Station
+7.1,28,Metropolis
+7.2,0,Metropolis
+7.2,1,Epsom Train Station
+7.2,2,The Clock Tower
+7.2,3,Epsom Playhouse
+7.2,4,Epsom Methodist Scout Group
+7.2,5,Epsom Town Hall
+7.2,6,Epsom Racecourse
+7.2,7,Epsom Hospital
+7.2,8,Jolly Cooper Pub
+7.2,9,Epsom Well
+7.2,10,Little Acres Lodge
+7.2,11,Hobbledown Farm
+7.2,12,Long Grove Skate Park
+7.2,13,Adventure Golf
+7.2,14,Danetree Primary School
+7.2,15,Harrier Centre
+7.2,16,Ewell Court House
+7.2,17,Stoneleigh Train Station
+7.2,18,Nonsuch Mansion House
+7.2,19,Nonsuch
+7.2,20,Ewell East Train Station
+7.2,21,Nescott College
+7.2,22,Ntunetta (Ewell)
+7.2,23,The Watch House
+7.2,24,Ewell West Train Station
+7.2,25,Nova Forca
+7.2,26,Glyn School
+7.2,27,Opposite Pets at Home
+7.2,28,Metropolis
+7.3,0,Metropolis
+7.3,1,Epsom Odeon
+7.3,2,Dominos (Epsom)
+7.3,3,Opposite Pets at Home
+7.3,4,Glyn School
+7.3,5,Nova Forca
+7.3,6,Ewell West Train Station
+7.3,7,The Watch House
+7.3,8,Nescott College
+7.3,9,Ewell East Train Station
+7.3,10,Nonsuch
+7.3,11,Nonsuch Mansion House
+7.3,12,Stoneleigh Train Station
+7.3,13,Ewell Court House
+7.3,14,Harrier Centre
+7.3,15,Danetree Primary School
+7.3,16,Adventure Golf
+7.3,17,Long Grove Skate Park
+7.3,18,Hobbledown Farm
+7.3,19,Little Acres Lodge
+7.3,20,Epsom Well
+7.3,21,Jolly Cooper Pub
+7.3,22,Epsom Hospital
+7.3,23,Epsom Racecourse
+7.3,24,Epsom Town Hall
+7.3,25,Epsom Methodist Scout Group
+7.3,26,Epsom Playhouse
+7.3,27,The Clock Tower
+7.3,28,Epsom Train Station
+7.3,29,Metropolis
+7.4,0,Metropolis
+7.4,1,Epsom Train Station
+7.4,2,The Clock Tower
+7.4,3,Epsom Playhouse
+7.4,4,Epsom Methodist Scout Group
+7.4,5,Epsom Town Hall
+7.4,6,Epsom Racecourse
+7.4,7,Epsom Hospital
+7.4,8,Jolly Cooper Pub
+7.4,9,Epsom Well
+7.4,10,Little Acres Lodge
+7.4,11,Hobbledown Farm
+7.4,12,Long Grove Skate Park
+7.4,13,Adventure Golf
+7.4,14,Danetree Primary School
+7.4,15,Harrier Centre
+7.4,16,Ewell Court House
+7.4,17,Stoneleigh Train Station
+7.4,18,Nonsuch Mansion House
+7.4,19,Nonsuch
+7.4,20,Ewell East Train Station
+7.4,21,Nescott College
+7.4,22,The Watch House
+7.4,23,Ewell West Train Station
+7.4,24,Nova Forca
+7.4,25,Glyn School
+7.4,26,Opposite Pets at Home
+7.4,27,Epsom Odeon
+7.4,28,Dominos (Epsom)
+7.4,29,Metropolis
+7.5,0,Metropolis
+7.5,1,Epsom Train Station
+7.5,2,The Clock Tower
+7.5,3,Epsom Playhouse
+7.5,4,Epsom Methodist Scout Group
+7.5,5,Epsom Town Hall
+7.5,6,Epsom Racecourse
+7.5,7,Epsom Hospital
+7.5,8,Jolly Cooper Pub
+7.5,9,Epsom Well
+7.5,10,Little Acres Lodge
+7.5,11,Hobbledown Farm
+7.5,12,Long Grove Skate Park
+7.5,13,Adventure Golf
+7.5,14,Danetree Primary School
+7.5,15,Harrier Centre
+7.5,16,Ewell Court House
+7.5,17,Stoneleigh Train Station
+7.5,18,Nonsuch Mansion House
+7.5,19,Nonsuch
+7.5,20,Ewell East Train Station
+7.5,21,Nescott College
+7.5,22,The Watch House
+7.5,23,Ewell West Train Station
+7.5,24,Nova Forca
+7.5,25,Glyn School
+7.5,26,Opposite Pets at Home
+7.5,27,Epsom Odeon
+7.5,28,Dominos (Epsom)
+7.5,29,Metropolis
+7.6,0,Metropolis
+7.6,1,Epsom Odeon
+7.6,2,Dominos (Epsom)
+7.6,3,Opposite Pets at Home
+7.6,4,Glyn School
+7.6,5,Nova Forca
+7.6,6,Ewell West Train Station
+7.6,7,The Watch House
+7.6,8,Ntunetta (Ewell)
+7.6,9,Nescott College
+7.6,10,Ewell East Train Station
+7.6,11,Nonsuch
+7.6,12,Nonsuch Mansion House
+7.6,13,Stoneleigh Train Station
+7.6,14,Ewell Court House
+7.6,15,Harrier Centre
+7.6,16,Danetree Primary School
+7.6,17,Adventure Golf
+7.6,18,Long Grove Skate Park
+7.6,19,Hobbledown Farm
+7.6,20,Little Acres Lodge
+7.6,21,Epsom Well
+7.6,22,Jolly Cooper Pub
+7.6,23,Epsom Hospital
+7.6,24,Epsom Racecourse
+7.6,25,Epsom Town Hall
+7.6,26,Epsom Methodist Scout Group
+7.6,27,Epsom Playhouse
+7.6,28,The Clock Tower
+7.6,29,Epsom Train Station
+7.6,30,Metropolis
+7.7,0,Metropolis
+7.7,1,Epsom Odeon
+7.7,2,Opposite Pets at Home
+7.7,3,Glyn School
+7.7,4,Nova Forca
+7.7,5,Ewell West Train Station
+7.7,6,The Watch House
+7.7,7,Ntunetta (Ewell)
+7.7,8,Nescott College
+7.7,9,Ewell East Train Station
+7.7,10,Nonsuch
+7.7,11,Nonsuch Mansion House
+7.7,12,Stoneleigh Train Station
+7.7,13,Ewell Court House
+7.7,14,Harrier Centre
+7.7,15,Danetree Primary School
+7.7,16,Adventure Golf
+7.7,17,Long Grove Skate Park
+7.7,18,Hobbledown Farm
+7.7,19,Little Acres Lodge
+7.7,20,Epsom Well
+7.7,21,Jolly Cooper Pub
+7.7,22,Epsom Hospital
+7.7,23,Epsom Racecourse
+7.7,24,Epsom Town Hall
+7.7,25,Epsom Methodist Scout Group
+7.7,26,Epsom Playhouse
+7.7,27,The Clock Tower
+7.7,28,Epsom Train Station
+7.7,29,Metropolis
+7.8,0,Metropolis
+7.8,1,Epsom Train Station
+7.8,2,The Clock Tower
+7.8,3,Epsom Playhouse
+7.8,4,Epsom Methodist Scout Group
+7.8,5,Epsom Town Hall
+7.8,6,Epsom Racecourse
+7.8,7,Epsom Hospital
+7.8,8,Jolly Cooper Pub
+7.8,9,Epsom Well
+7.8,10,Little Acres Lodge
+7.8,11,Hobbledown Farm
+7.8,12,Long Grove Skate Park
+7.8,13,Adventure Golf
+7.8,14,Danetree Primary School
+7.8,15,Harrier Centre
+7.8,16,Ewell Court House
+7.8,17,Stoneleigh Train Station
+7.8,18,Nonsuch Mansion House
+7.8,19,Nonsuch
+7.8,20,Ewell East Train Station
+7.8,21,Nescott College
+7.8,22,Ntunetta (Ewell)
+7.8,23,The Watch House
+7.8,24,Ewell West Train Station
+7.8,25,Nova Forca
+7.8,26,Glyn School
+7.8,27,Opposite Pets at Home
+7.8,28,Epsom Odeon
+7.8,29,Metropolis
+7.9,0,Metropolis
+7.9,1,Epsom Train Station
+7.9,2,The Clock Tower
+7.9,3,Epsom Playhouse
+7.9,4,Epsom Methodist Scout Group
+7.9,5,Epsom Town Hall
+7.9,6,Epsom Racecourse
+7.9,7,Epsom Hospital
+7.9,8,Jolly Cooper Pub
+7.9,9,Epsom Well
+7.9,10,Little Acres Lodge
+7.9,11,Hobbledown Farm
+7.9,12,Long Grove Skate Park
+7.9,13,Adventure Golf
+7.9,14,Danetree Primary School
+7.9,15,Harrier Centre
+7.9,16,Ewell Court House
+7.9,17,Stoneleigh Train Station
+7.9,18,Nonsuch Mansion House
+7.9,19,Nonsuch
+7.9,20,Ewell East Train Station
+7.9,21,Nescott College
+7.9,22,The Watch House
+7.9,23,Ewell West Train Station
+7.9,24,Nova Forca
+7.9,25,Glyn School
+7.9,26,Opposite Pets at Home
+7.9,27,Epsom Odeon
+7.9,28,Dominos (Epsom)
+7.9,29,Metropolis
+8,0,Metropolis
+8,1,Epsom Train Station
+8,2,The Clock Tower
+8,3,Epsom Playhouse
+8,4,Epsom Methodist Scout Group
+8,5,Epsom Town Hall
+8,6,Epsom Racecourse
+8,7,Epsom Hospital
+8,8,Jolly Cooper Pub
+8,9,Epsom Well
+8,10,Little Acres Lodge
+8,11,Hobbledown Farm
+8,12,Long Grove Skate Park
+8,13,Adventure Golf
+8,14,Danetree Primary School
+8,15,Harrier Centre
+8,16,Ewell Court House
+8,17,Stoneleigh Train Station
+8,18,Nonsuch Mansion House
+8,19,Nonsuch
+8,20,Ewell East Train Station
+8,21,Nescott College
+8,22,Ntunetta (Ewell)
+8,23,The Watch House
+8,24,Ewell West Train Station
+8,25,Nova Forca
+8,26,Glyn School
+8,27,Opposite Pets at Home
+8,28,Epsom Odeon
+8,29,Metropolis

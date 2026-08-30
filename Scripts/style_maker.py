@@ -1,6 +1,5 @@
 """
-This script generates a style.json file for MapLibre. This is for quick
-testing of global modifications.
+This script generates a style.json file for MapLibre.
 """
 
 import json
@@ -16,8 +15,8 @@ monopoly.set_graph()
 monopoly.graph.load_groups()
 
 style_path = os.path.join(monopoly.source_path, "style.json")
-layers_path = os.path.join(monopoly.data_path, "Layers.csv")
-items_path = os.path.join(monopoly.data_path, "Items.csv")
+layers_path = os.path.join(monopoly.source_path, "Layers.csv")
+items_path = os.path.join(monopoly.source_path, "Items.csv")
 
 layers = pd.read_csv(layers_path, index_col=0)
 items = pd.read_csv(items_path, index_col=0)

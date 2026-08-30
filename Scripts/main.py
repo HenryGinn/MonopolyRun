@@ -9,10 +9,10 @@ from monopoly import Monopoly
 pd.set_option('display.max_columns', 500)
 pd.set_option('display.width', 1000)
 
-monopoly = Monopoly()
+monopoly = Monopoly(2025)
 monopoly.setup()
 
-speeds = [8]
+speeds = [0.3]
 
 for speed in speeds:
     monopoly.speed = round(speed, 2)
@@ -23,6 +23,6 @@ for speed in speeds:
 
 #monopoly.save()
 #monopoly.load()
-#monopoly.draw()
-#monopoly.run()
+monopoly.draw()
+monopoly.run()
 
