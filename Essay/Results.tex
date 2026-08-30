@@ -1,0 +1,87 @@
+
+\section{Results}
+\label{sec:Results}
+
+The optimal route is found for flat running speeds from 0.1~m/s to 8.0~m/s (for context, a 25~minute 5~km is 3.3~m/s). A selection of the optimal routes are shown in~\ref{sec:Routes}. Routes that were identical or very similar were omitted.
+
+The relationship between flat running speed and number of points attainable is shown in figure~\ref{fig:PointsVsSpeed}. As expected, it forms an elongated ``S" shape with a linear section in the middle, gaining about 8.6 points per 0.1~m/s. While the curve is quite smooth, there are some points where it jumps. These are points where running a little bit faster has a much bigger impact than usual. Understanding why these jumps occur can potentially inform our strategy.
+
+\begin{figure}[!htb]
+	\begin{center}
+		\begin{tikzpicture}[alt={A graph where the line is mostly linear but is slightly flatter at the starts and ends. It approximately passes through 0 0, 4 200, and 8 250.}]
+			\begin{axis}[
+				width=0.8\textwidth,
+				xlabel={\large Speed (m/s)},
+				ylabel={\large Points},
+				title={\Large Points Achievable Vs Speed}]
+				\addplot[only marks, purple]
+				table[
+				x=Speed (m/s),
+				y=Points,
+				col sep=comma,
+				]{../Output/Solutions.csv};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{Number of points possible to achieve vs constant running speed on the flat.}
+	\label{fig:PointsVsSpeed}
+\end{figure}
+
+The largest changes in points often did not occur with the largest changes in route. While a large change in route could facilitate reaching a new area with high-scoring potential, this was usually at the expense of not visiting some of the easier to reach places. This would result in not attaining some of the groups that were previously attained. Running a little bit faster allows the easier to reach places to be reclaimed. We hypothesize that the jumps in points come from the group bonus associated with the reclaimed places.
+
+We explore which groups were achieved at each given speed. This is shown in table~\ref{tab:GroupResults}. The ``Group Points" column gives the points that were due to the group bonus only. The ``Landmarks" group was dropped to save space as this group is never achieved until a very high speed is reached (this involves running up to Epsom Downs which is far away from all other places).
+
+\begingroup
+\setlength{\LTleft}{-20cm plus -1fill}
+\setlength{\LTright}{\LTleft}
+\input{Data/GroupResults}
+\endgroup
+
+\begin{figure}[!htb]
+	\begin{center}
+		\begin{tikzpicture}[alt={}]
+			\begin{axis}[
+				width=0.7\textwidth,
+				xlabel={\large Points},
+				ylabel={\large Fraction of Points From Group Bonus},
+				title=\Large Evolution of Fraction of Points From Group Bonus,
+				]
+				\addplot[only marks, purple]
+				table[
+				x=Points,
+				y=GroupFraction,
+				col sep=comma,
+				]{Data/GroupProportion.csv};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{How the fraction of points achieved from the group bonus varies with the number of points.}
+	\label{fig:GroupPointsProportion}
+\end{figure}
+
+We can get a sense of the difficulty of finding optimal routes to see how feasible it is for a human to produce a near optimal route. We use computation time as a proxy for difficulty and plot the results in figure~\ref{fig:SpeedVsComputationTime}. The peak is around 3~m/s which is around the typical speed of a participant.
+
+\begin{figure}[!htb]
+	\begin{center}
+		\begin{tikzpicture}[alt={}]
+			\begin{axis}[
+				width=0.7\textwidth,
+				xlabel={\large Speed (m/s)},
+				ylabel={\large Time (s)},
+				title=\Large Computation Time Taken vs Running Speed,
+				ymode=log
+				]
+				\addplot[only marks, purple]
+				table[
+				x=Speed (m/s),
+				y=Solve Time (s),
+				col sep=comma,
+				]{../Output/Solutions.csv};
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{The combined computation time to find the optimal solution for each given speed.}
+	\label{fig:SpeedVsComputationTime}
+\end{figure}
+
+\newpage

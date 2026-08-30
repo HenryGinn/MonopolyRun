@@ -1,0 +1,15 @@
+\section{Introduction}
+\label{sec:Introduction}
+
+The Epsom Oddballs Monopoly Run is an example of the Orienteering Problem. In this essay we discuss how optimal routes can be found. We then use this analysis to make observations on strategies for planning a route as a human and briefly comment on how such a game should be designed. The places of the board is given in table~\ref{tab:Places} and all code and data is available at~\cite{GithubRepository}. The rules are as follows.
+
+\begin{enumerate}
+	\item Stay within the 70 minute time limit
+	\item Get points for each square you visit, with more points typically allocated to further away places.
+	\item A square is worth double points if you have visited all squares within a group
+	\item Bonus points are available if a picture is taken with a cat.
+\end{enumerate}
+
+There are additional rules that encompass the ``paying rent" part of Monopoly. Since this relies on what other teams do and I cannot remember those rules, this aspect of the Monopoly Run is considered out of scope. It is also assumed that it will be easy to find a cat at some point. The goal instead will be to find routes that achieve the maxium number of points only from visiting places.
+
+\input{Data/Places.tex}

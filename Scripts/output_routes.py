@@ -6,7 +6,7 @@ with places labelled.
 
 import os
 
-from adjustText import adjust_text
+#from adjustText import adjust_text
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -82,7 +82,7 @@ for speed in np.arange(0.1, 8.1, 0.1):
     vertices = monopoly.solver.vertices_solution[["X", "Y", "Place"]]
     vertices[["X", "Y"]] = (vertices[["X", "Y"]] - shift) / scale
     vertices["Place"] = vertices["Place"].map(id_lookup)
-
+    """
     fig, ax = plt.subplots(1)
     obstacle = ax.scatter(
         a[:, 0],
@@ -107,6 +107,6 @@ for speed in np.arange(0.1, 8.1, 0.1):
     new_positions = np.array([text.get_position() for text in new_texts[0]])
     new_postions = old_positions + (new_positions - old_positions) * 1.5
     vertices[["LabelX", "LabelY"]] = new_positions
-    vertices.to_csv(place_path, index=False)
     plt.close("all")
-    
+    """
+    vertices.to_csv(place_path, index=False)

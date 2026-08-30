@@ -18,9 +18,6 @@ class Graph():
     def __init__(self, monopoly):
         self.monopoly = monopoly
 
-
-    # Initialising graph data
-
     def set_graph(self):
         with open("../Sources/region.json") as f:
             data = json.load(f)
@@ -59,6 +56,7 @@ class Graph():
         self.set_squares()
         self.groups["Value"] = self.squares.groupby("Group ID")["Value"].sum()
         self.places["Node"] = self.places["Node"].astype(int)
+        self.places.index.name ="PlaceID"
         self.monopoly.groups = self.groups
         self.monopoly.places = self.places
 

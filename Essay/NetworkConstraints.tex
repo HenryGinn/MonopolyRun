@@ -1,0 +1,60 @@
+\section{Network Constraints}
+\label{sec:NetworkConstraints}
+
+In this section we focus on how to encode the fact that our variables represent a network and that our solution should be a single loop that passes through Metropolis.
+
+\subsection{How to Reach Vertices}
+\label{sec:HowToReachVertices}
+
+With the constraints considered so far, the solution would say that all vertices are visited and none of the edges are used. We must encode the fact that we cannot teleport to the different vertices. This is done with two constraints for each vertex. The first says that for a vertex to be included, it must have at least one edge entering it. Similarly, the second says that for a vertex to be included, it must have at least one edge exiting it. These are given by~\eqref{eqn:MustEnterVertices} and~\eqref{eqn:MustExitVertices} respectively and are of the same form as the constraints in~\ref{sec:SquaresVsPlaces}.
+\begin{subequations}
+	\begin{align}
+		v_j - \sum_i e_{ij} &\le 0
+		\label{eqn:MustEnterVertices} \\
+		v_i - \sum_j e_{ij} &\le 0
+		\label{eqn:MustExitVertices}
+	\end{align}
+\end{subequations}
+
+\subsection{Inclusion of Visited Vertices}
+\label{sec:InclusionOfVisitedVertices}
+
+While it may seem that section~\ref{sec:HowToReachVertices} ensures that once a loop has started that it must be finished, this is not the case. For example, the route can enter and exit a vertex, but the next vertex it visits is not included in the solution. This means that the constraints from section~\ref{sec:HowToReachVertices} would not impose that this last vertex in the chain has an edge exiting it. This allows routes to go far out of town without incurring the cost of coming back.
+
+We solve this by adding constraints that insist that if an edge enters or leaves a vertex then that vertex must be included in the solution. These are given in~\eqref{eqn:EnteredVerticesIncluded} and~\eqref{eqn:ExitedVerticesIncluded} respectively. Notice that these constraints are extremely similar to~\eqref{eqn:MustEnterVertices} and~\eqref{eqn:MustExitVertices}. In fact~\eqref{eqn:MustEnterVertices} with~\eqref{eqn:EnteredVerticesIncluded} and~\eqref{eqn:MustExitVertices} with~\eqref{eqn:ExitedVerticesIncluded} form equality constraints when combined.
+\begin{subequations}
+	\begin{align}
+		\left( \sum_i e_{ij} \right) - v_j &\le 0
+		\label{eqn:EnteredVerticesIncluded} \\
+		\left( \sum_j e_{ij} \right) - v_i &\le 0
+		\label{eqn:ExitedVerticesIncluded}
+	\end{align}
+\end{subequations}
+
+\subsection{Connectivity}
+\label{sec:Connectivity}
+
+The formulation so far still admits solutions where the route is not connected. If there is a cluster of places that are near to each other but far from everything else then it would likely be cheaper to have a route that connects them together but is nonetheless disconnected from the main route. We need additional constraints to impose the fact that the solution is connected. We use a method due to~\cite{GraphConnectivity}. We introduce a new variable that represents the flow of some phantom quantity throughout the network. Let this quantity be represented by $p_{ij}$. There are two rules that we encode:
+
+\begin{enumerate}
+	\item No flow through edges that are not included in the solution.
+	\item If a vertex is to be included, then it must absorb at least one unit of the quantity is absorbed at each vertex (apart from one special vertex which we call the source).
+\end{enumerate}
+
+Suppose we have a loop that does not include the source vertex. Pick an edge and suppose it has a flow of $10$ units. At least one unit will be absorbed at the vertex it arrives at and the edge that leaves that vertex will have a flow of at most $9$ units. The flow will keep decreasing as it goes around the loop until it gets to the vertex the first selected edge started at. Here the flow must drop by at least $1$ unit, yet the flow leaving this vertex must be $10$ units. This breaks the constraint and so is invalid. This absorption constraint is given by~\eqref{eqn:PhantomQuantityAbsorbed}.
+
+If we consider the difference between the total flow into a vertex and the total flow out of a vertex, then there is a way for such disconnected loops to satisfy the constraint. Additional flow could be injected into the vertex from edges that start at vertices that are not included in the solution. These flows are eliminated by insisting that for the phantom quantity to flow along an edge, the edge must be included in the solution.
+
+We define $N$ to be the total number of vertices as this is larger than the phantom quantity would ever need to be and encode the no flow condition with~\eqref{eqn:PhantomQuantityNoFlow}. If a given edge is included, $e_{ij} = 0$ then we have $p_{ij} \le 0$, exactly what we wanted. If $e_{ij} = 1$ then the constraint reads $p_{ij} \le N - 1$. This is not constraining anything as there is no need for the phantom flow to be as big as the number of vertices to facilitate a solution.
+\begin{subequations}
+	\begin{align}
+		p_{ij} - (N - 1)e_{ij} &\le 0
+		\label{eqn:PhantomQuantityNoFlow} \\
+		\left( \sum_j p_{ij} - p_{ji} \right) + v_i &\le 0
+		\label{eqn:PhantomQuantityAbsorbed}
+	\end{align}
+\end{subequations}
+
+We note that we must exclude one vertex from~\eqref{eqn:PhantomQuantityAbsorbed} as otherwise the phantom flow would be constrained to always be $0$. The special excluded vertex is allowed to have more of the phantom quantity flow out of it than into it and therefore provies the source of the flow. As edges that allow flow must be included and loops that do not contain the source cannot exist, the solution is constrained to include the source vertex. We therefore choose the source vertex to be Metropolis.
+
+An alternative approach is to not impose connectivity constraints at all. Instead the problem is solved and we check if the resulting tour is connected. If it is then we are done, if otherwise then we add a constraint that rules out that solution and then run the solver again. We can rule out all invalid loops that occur by demanding that the sum of all edge indicators (in both directions) in a loop is one less than the number of edges in the loop. This approach is expected to be better if a warm start is used when solving the integer programming problems\footnote{This is where the solver remembers the computations it did to arrive at a solution so that when more constraints are added it has a good starting point.}. If this approach is used then the solution needs to be explicitly constrained to pass through Metropolis

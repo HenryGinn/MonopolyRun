@@ -1,0 +1,141 @@
+\section{Formulating the Problem}
+\label{sec:FormulatingTheProblem}
+
+Our overarching strategy will be to find routes between each of the locations, determine how long it takes it traverse that route, and then use this data to construct an integer programming problem. There are several aspects to consider in our formulation.
+
+\subsection{How Long to Traverse a Route}
+\label{sec:HowLongToTraverseARoute}
+
+The distance along an optimal route between two locations can easily be determined once the optimal route is known. Dividing by the speed of the runners gives a time. This does not account for elevation however as some places require significant elevation change such as going to and from Epsom Downs Racecourse.
+
+For every metre of elevation gained, a penalty of 0.5 seconds is given, and conversely, for every metre of elevation lost, a reward of 0.2 seconds is given. Adding these times together gives an estimate for the time taken to traverse the route for a group of runners who can run at a given speed on flat ground. To save on computation, the length and elevation penalty can be recorded for each route one time only so that the time for each route can be computed once a speed is chosen. The elevation of the local area is shown in figure~\ref{fig:Elevation}.
+
+\pgfplotsset{
+	colormap={terrain}{
+		rgb255=(34,139,34)
+		rgb255=(144,238,144)
+		rgb255=(238,232,170)
+		rgb255=(210,180,140)
+		rgb255=(139,90,43)
+		rgb255=(245,245,245)
+	}
+}
+
+\begin{figure}[!htb]
+	\centering
+	\begin{tikzpicture}[alt={}]
+		\begin{axis}[
+			width=0.9\textwidth,
+			height=0.6\textwidth,
+			view={150}{50},
+			title={\Large Elevation of the local area},
+			xlabel={\large Longitude},
+			ylabel={\large Latitude},
+			zlabel={\large Elevation (m)},
+			zmin=0,
+			zmax=200,
+			ztick={0, 50,100,150, 200},
+			xtick distance =0.02,
+			colormap name=terrain,
+			colorbar,
+			colorbar style={
+				ylabel={\large Elevation (m)},
+			}
+			]
+			
+			\addplot3[
+			surf,
+			shader=flat,
+			draw=none,
+			]
+			table[
+			col sep=comma,
+			x index=0,
+			y index=1,
+			z index=2,
+			] {Elevation.csv};
+			
+			\addplot3[
+			only marks,
+			mark=*,
+			mark size=3pt,
+			mark options={
+				fill=myblack,
+				draw opacity=0,
+			},
+			nodes near coords,
+			point meta=explicit symbolic,
+			every node near coord/.append style={
+				text=\AnnotationColour,
+				anchor=south,
+				yshift=10pt,
+				font=\small,
+			},
+			]
+			coordinates {
+				(-0.266498254371903,51.3341806942966,54.5) [Metropolis]
+				(-0.254138798256645,51.3136360821819,130.5) [Epsom Downs]
+				(-0.228824848939616,51.3582945130086,50) [Nonsuch]
+				(-0.276186753014767,51.3560199564346,33.2) [Adventure Golf]
+			};
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Elevation above sea level of the local area that the Monopoly Run is based.}
+	\label{fig:Elevation}
+\end{figure}
+
+\subsection{Integer Programming Overview}
+\label{sec:IntegerProgrammingOverview}
+
+Finding optimal Monopoly Run routes is an example of the orienteering problem which is known to be NP-hard\footnote{Without giving an exact definition, this can be understood as a class of problems where the computation required to solve the problem is expected to grow exponentially with the size of the problem.}. We therefore formulate it as an integer programming problem which is a natural way of solving such problems. The approach is to represent items as variables that are 1 if they are present in the solution and 0 otherwise. These variables are known as indicator variables. The aim will be to maximise or minimise some linear combination of these variables subject to certain constraints. We focus on how to encode that our solution must be a tour in section~\ref{sec:NetworkConstraints}.
+
+In more detail, we aim to maximise or minimise $c_1 x_1 + c_2 x_2 + \dots + c_{n-1} x_{n-1} + c_n x_n$ where $x_j$ are our $n$ variables and $c_j$ are constants that we will need to choose. This is the objective function that we are optimising for. Our constraints are weak inequalities of a linear combination of variables. These look like $a_{i, 1} x_1 + a_{i, 2} x_2 + \dots + a_{i, n-1} x_{n-1} + a_{i, n} x_n \le b_i$ where each $i$ corresponds to an individual constraint. We will always write our constraints in this form and note that inequalities in the other direction can be represented by simple rearranging. In our case all our variables are $0$ or $1$ so we also have constraints $-x_j \le 0$ and $x_j \le 1$.
+
+\subsection{Squares vs Places}
+\label{sec:SquaresVsPlaces}
+
+Our route is going to traverse a network which is comprised of vertices and edges, where each vertex represents a place that we may visit. We note that some squares can be attained by visiting any of multiple different places, such as the pizza restaurant square. We will need to distinguish between visiting a place and attaining a square. Let $v_i$ be an indicator for whether vertex $i$ is included in our route and let $s_k$ be an indicator for whether square $k$ has been attained. All places that satisfy these multiple-place squares within a suitable area are included as vertices that can be visited.
+
+We want to encode the fact that a square can only be attained if one of the vertices that is associated with it has been visited. If we did not do this then when we try to maximise the number of points, we will get a solution that claims all the points of visiting the squares without actually visiting any such vertices. We define $S_i^k$ as an indicator of whether square $k$ can be attained by visiting vertex $i$. We want $s_k$ to be be forced to be $0$ unless at least one of the associated $v_i$ is 1. One constraint for each square is needed and is given by~\eqref{eqn:SquaresWithMultipleVertices}. If all $v_i = 0$ where $S_i^n = 1$ and $s_n = 1$ then we would have $1 - 0 \cdot 1 - \dots - 0 \cdot 1 = 1 \le 0$ which is a violation of the constraint.
+\begin{equation}
+	\sum_i s_n - S_i^n v_i \le 0
+	\label{eqn:SquaresWithMultipleVertices}
+\end{equation}
+
+\subsection{Group Indicators}
+\label{sec:GroupIndicators}
+
+We have a similar problem for the groups of squares. If all squares within a group are visited then those squares count for double points, so we need to keep track of whether a group has been attained or not. If we do not add constraints to encode this then the solution will falsely claim that all groups have been attained without attaining the necessary squares as this will give more points. Let $g_n$ be an indicator variable for whether all squares in group $n$ have been visited. As with the square indicators, we need to limit $g_n$ from being $1$ unless a constraint is met for each $n$. Let $G_k^n$ be an indicator for whether square $k$ is part of group $n$.
+
+A constraint for group $n$ is given in \eqref{eqn:GroupIndicatorVariables}. The first term is equal to the number of squares within group $n$ when $g_n = 1$. This will break the constraint unless the second term can be made negative enough. The second term is minimised only when all such square indicator variables are $1$. When this minimum is reached it will perfectly cancel out the first term and satisfy the constraint. If any of the square indicators associated with the group are $0$ then the minimum will not be attained and the constraint will subsequently be broken.
+\begin{equation}
+	\left( \sum_k G_k^n \right) g_n - \sum_k s_k G_k^n \le 0
+	\label{eqn:GroupIndicatorVariables}
+\end{equation}
+
+\subsection{Restricting Route Length}
+\label{sec:RestrictingRouteLength}
+
+Let $e_{ij}$ be an indicator variable for whether the edge connecting vertex $i$ to the vertex $j$ is included. Each edge has a time cost associated with it which we will represent by $c_{ij}$ (we will choose this to represent the number of seconds, a dimensionless quantity). These constants are used to constrain our route to stick within our total time budget which we we will denote by $B$. The time taken to run the route is the sum of the time taken for all traversed edges so this quantity can be given by $\sum_{i, j} e_{ij} c_{ij}$. If $e_{ij} = 0$ then the cost of of traversing that route is multiplied by $0$ so it is not included in the sum.
+
+It takes some amount of time to slow down, take a picture at a given place, and then accelerate again. This is assumed to add ten seconds to the time compared to if the runners continued past the place. We can account for this by adding a penalty for each vertex included in the solution. Combined with the edge costs, our route length constraint is given by~\eqref{eqn:TotalRouteLength}. Alternatively we could have added this cost to all edges, apart from those that finish at Metropolis\footnote{This exclusion is because the runners do not need to take a picture at the finish.}.
+\begin{equation}
+	\left( \sum_{i, j} e_{ij} c_{ij} \right) + \left( \sum_i 10v_i \right) \le B = 60 \cdot 70 = 4200
+	\label{eqn:TotalRouteLength}
+\end{equation}
+
+\subsection{Objective Function}
+\label{sec:ObjectiveFunction}
+
+We now consider what objective function we want. Naively we would maximise the total number of points achieved. While this would find a solution representing the best possible score, it may not be the shortest route with that score. Potentially a shorter route could exist, but not so much shorter to make enough time to get more points. The problem is then solved in two parts.
+
+We first optimise for the number of points. Once we know how many points it is possible to obtain, we add a constraint that says the solution must achieve at least that many points. We know that this constraint will be able to be satisfied because we have already found such a solution. This time around however we can change the objective function to minimise the route distance. We note that it is entirely possible for this second solution to not just take a different route than the first solution, but also to visit different places. The objective functions for the first and second problem are given in~\eqref{eqn:ObjectiveFunctionPoints} and~\eqref{eqn:ObjectiveFunctionDistance} respectively.
+\begin{subequations}
+	\begin{align}
+		\text{Maximise}& \quad \left( \sum_{n, k} G_k^n g_n \right) + \left( \sum_{k, i} S_i^k s_k \right)
+		\label{eqn:ObjectiveFunctionPoints} \\
+		\text{Minimise}& \quad \sum_{i, j} c_{ij} e_{ij}
+		\label{eqn:ObjectiveFunctionDistance}
+	\end{align}
+\end{subequations}

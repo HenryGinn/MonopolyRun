@@ -1,0 +1,213 @@
+\DocumentMetadata{
+	tagging=on,
+	tagging-setup={math/setup=mathml-SE},
+	pdfstandard=ua-2,
+	pdfversion=2.0,
+	lang=en
+}
+
+\documentclass[hidelinks, 11 pt]{article}
+
+\usepackage[a4paper, top=25.4mm, bottom=25.4mm, left=19.1mm, right=19.1mm, footskip=8mm]{geometry}
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\usepackage{hyperref}
+\usepackage[list=true, listformat=simple]{subcaption}
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{biblatex}
+\usepackage{fancyhdr}
+
+\addbibresource{bibliography.bib}
+
+\pgfplotsset{compat=1.17}
+
+\newcommand{\myhline}{\hline\noalign{\vskip 2pt}} % Space after hline
+\renewcommand{\arraystretch}{1.2} % Increase spacing between rows of tables
+\hypersetup{
+	pdfdisplaydoctitle=true
+}
+
+
+% Dark mode
+
+\definecolor{myblack}{HTML}{1E2021}
+\definecolor{mywhite}{HTML}{E4E5ED}
+\newcommand{\AnnotationColour}{myblack}
+
+\newcommand{\EnableDifferenceTikz}{
+	\AtBeginDocument{
+		\IfPackageLoadedTF{tikz}{
+			% Annotation colour for dark mode
+			\renewcommand{\AnnotationColour}{mywhite}
+			
+			\tikzset{
+				every node/.append style={
+					blend mode=difference
+				}
+			}
+			
+			\pgfplotsset{
+				every axis/.append style={
+					blend mode=normal
+				},
+				legend style={
+					blend mode=normal,
+					fill=myblack,
+					draw=mywhite
+				}
+			}
+		}{}
+	}
+}
+
+\newcommand{\StyleNormal}{
+	\hypersetup{
+		colorlinks=true,
+		urlcolor=blue,
+		linkcolor=blue,
+		citecolor=blue,
+		filecolor=blue
+	}
+}
+
+\newcommand{\StyleDark}{
+	\pagecolor{myblack}
+	\color{mywhite}
+	
+	\colorlet{mylinkblue}{blue!10}
+	
+	\hypersetup{
+		colorlinks=true,
+		urlcolor=mylinkblue,
+		linkcolor=mylinkblue,
+		citecolor=mylinkblue,
+		filecolor=mylinkblue,
+	}
+	
+	\EnableDifferenceTikz
+}
+
+%\StyleNormal
+\StyleDark
+
+\makeatletter
+\setlength{\@fptop}{0pt plus 1fil}
+\setlength{\@fpsep}{0pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+% Defining marks
+\renewcommand{\sectionmark}[1]{\gdef\leftmark{#1}}
+
+\fancypagestyle{firstpage}{
+	\fancyhf{}
+	\fancyfoot[C]{\thepage}
+	\renewcommand{\headrulewidth}{0pt}
+}
+
+\fancypagestyle{fancy}{
+	\fancyhf{}
+	\fancyhead[L]{\nouppercase{\leftmark}}
+	\fancyhead[R]{\nouppercase{Monopoly Run}}
+	\fancyfoot[C]{\thepage}
+}
+
+\pagestyle{fancy}
+
+% Line spacing between paragraphs
+
+\usepackage[skip=0.5\baselineskip]{parskip}
+
+\makeatletter
+\renewcommand\section{%
+	\@startsection{section}{1}{\z@}%
+	{-2.5ex plus -1ex minus -.2ex}%
+	{1.5ex plus .2ex}%
+	{\normalfont\Large\bfseries}}
+
+\renewcommand\subsection{%
+	\@startsection{subsection}{2}{\z@}%
+	{-2.0ex plus -0.8ex minus -.2ex}%
+	{1.0ex plus .2ex}%
+	{\normalfont\large\bfseries}}
+
+\renewcommand\subsubsection{%
+	\@startsection{subsubsection}{3}{\z@}%
+	{-1.5ex plus -0.6ex minus -.2ex}%
+	{0.8ex plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+\makeatother
+
+\newcommand{\RouteFigure}[3]{%
+	\begin{subfigure}{#3\textwidth}
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				width=\linewidth,
+				axis equal,
+				hide axis,
+				clip=false,
+				]
+				
+				% Route
+				\addplot[
+				purple,
+				thick,
+				mark=none,
+				] table[
+				x index=0,
+				y index=1,
+				col sep=space,
+				header=false,
+				] {../Output/PlottingEdges/#1.csv};
+				
+				% Places
+				\addplot[
+				purple,
+				only marks,
+				mark=*,
+				mark size=2pt,
+				nodes near coords,
+				point meta=explicit symbolic,
+				every node near coord/.append style={
+					text=\AnnotationColour,
+					font=\footnotesize,
+					anchor=center,
+				},
+				] table[
+				x=X,
+				y=Y,
+				meta=Place,
+				col sep=comma,
+				] {../Output/PlottingPlaces/#1.csv};
+				
+				% Labels
+				%				\addplot[
+				%				only marks,
+				%				mark=none,
+				%				nodes near coords,
+				%				point meta=explicit symbolic,
+				%				every node near coord/.append style={
+					%					text=\AnnotationColour,
+					%					font=\footnotesize,
+					%					anchor=center,
+					%				},
+				%				] table[
+				%				x=LabelX,
+				%				y=LabelY,
+				%				meta=Place,
+				%				col sep=comma,
+				%				] {../Output/PlottingPlaces/#1.csv};
+				%				
+			\end{axis}
+		\end{tikzpicture}%
+		\caption{#2 m/s}
+		\label{fig:Solution_#1}
+	\end{subfigure}
+}
+
+\ExplSyntaxOn
+\renewcommand{\thesubfigure}{\int_to_alph:n{\value{subfigure}}}
+\ExplSyntaxOff
