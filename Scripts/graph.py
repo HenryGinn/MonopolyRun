@@ -5,12 +5,9 @@ import osmnx as ox
 import networkx as nx
 import numpy as np
 import pandas as pd
+import rasterio as rs
 from scipy.interpolate import RegularGridInterpolator
 from shapely import wkt
-
-from utils import (
-    load_elevation,
-    get_elevation_grid)
     
 
 class Graph():
@@ -19,7 +16,7 @@ class Graph():
         self.monopoly = monopoly
 
     def set_graph(self):
-        with open("../Sources/region.json") as f:
+        with open(self.monopoly.region_path) as f:
             data = json.load(f)
         for node in data["nodes"]:
             if node.get("geometry") is not None:
@@ -30,7 +27,6 @@ class Graph():
         self.graph = nx.node_link_graph(data)
 
 
-
     # Elevation
 
     def ensure_elevation_set(self):
@@ -38,9 +34,22 @@ class Graph():
             self.set_elevation_map()
 
     def set_elevation_map(self):
-        elevation_source, width, height, transform = load_elevation(self.monopoly.elevation_path)
-        x, y = get_elevation_grid(width, height, transform)
+        elevation_source, width, height, transform = self.load_elevation()
+        x, y = self.get_elevation_grid(width, height, transform)
         self.elevation = self.get_elevation_interpolator(elevation_source, x, y)
+        return elevation_source, x, y
+
+    def load_elevation(self):
+        with rs.open(self.monopoly.elevation_path) as file:
+            elevation_source = file.read(1)
+            width, height = file.width, file.height
+            transform = file.transform
+        return elevation_source, width, height, transform
+
+    def get_elevation_grid(self, width, height, transform):
+        x = np.arange(width) * transform.a + transform.c + transform.a / 2
+        y = np.arange(height) * transform.e + transform.f + transform.e / 2
+        return x, y
 
     def get_elevation_interpolator(self, elevation_source, x, y):
         interpolator = RegularGridInterpolator(

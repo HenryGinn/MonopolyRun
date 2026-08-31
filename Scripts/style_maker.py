@@ -10,9 +10,17 @@ import pandas as pd
 from monopoly import Monopoly
 
 
-monopoly = Monopoly()
+print("Building base style file.")
+
+monopoly = Monopoly(2026)
 monopoly.set_graph()
 monopoly.graph.load_groups()
+
+
+# Items.csv gathers mapping elements of a similar type together, for
+# example to treat a neighbourhood and a town similarly.
+# Layers.csv defines colours, sizes, and other necessary metadata for
+# each of the different mapping layers.
 
 style_path = os.path.join(monopoly.source_path, "style.json")
 layers_path = os.path.join(monopoly.source_path, "Layers.csv")

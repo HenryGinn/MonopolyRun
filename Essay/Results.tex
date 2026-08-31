@@ -1,4 +1,3 @@
-
 \section{Results}
 \label{sec:Results}
 
@@ -19,7 +18,7 @@ The relationship between flat running speed and number of points attainable is s
 				x=Speed (m/s),
 				y=Points,
 				col sep=comma,
-				]{../Output/Solutions.csv};
+				]{../Output/2026/Solutions.csv};
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
@@ -31,10 +30,11 @@ The largest changes in points often did not occur with the largest changes in ro
 
 We explore which groups were achieved at each given speed. This is shown in table~\ref{tab:GroupResults}. The ``Group Points" column gives the points that were due to the group bonus only. The ``Landmarks" group was dropped to save space as this group is never achieved until a very high speed is reached (this involves running up to Epsom Downs which is far away from all other places).
 
+% Hack job to account for tables that are too wide. Allows the table to use wider margins.
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
 \setlength{\LTright}{\LTleft}
-\input{Data/GroupResults}
+\input{../Output/2026/GroupResults}
 \endgroup
 
 \begin{figure}[!htb]
@@ -51,7 +51,7 @@ We explore which groups were achieved at each given speed. This is shown in tabl
 				x=Points,
 				y=GroupFraction,
 				col sep=comma,
-				]{Data/GroupProportion.csv};
+				]{../Output/2026/GroupProportion.csv};
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
@@ -59,13 +59,13 @@ We explore which groups were achieved at each given speed. This is shown in tabl
 	\label{fig:GroupPointsProportion}
 \end{figure}
 
-We can get a sense of the difficulty of finding optimal routes to see how feasible it is for a human to produce a near optimal route. We use computation time as a proxy for difficulty and plot the results in figure~\ref{fig:SpeedVsComputationTime}. The peak is around 3~m/s which is around the typical speed of a participant.
+We can get a sense of the difficulty of finding optimal routes to see how feasible it is for a human to produce a near optimal route. We use computation time as a proxy for difficulty and plot the results in figure~\ref{fig:ComputeTimeVsSpeed}. The peak is around 3~m/s which is around the typical speed of a participant.
 
 \begin{figure}[!htb]
 	\begin{center}
 		\begin{tikzpicture}[alt={}]
 			\begin{axis}[
-				width=0.7\textwidth,
+				width=0.8\textwidth,
 				xlabel={\large Speed (m/s)},
 				ylabel={\large Time (s)},
 				title=\Large Computation Time Taken vs Running Speed,
@@ -76,12 +76,19 @@ We can get a sense of the difficulty of finding optimal routes to see how feasib
 				x=Speed (m/s),
 				y=Solve Time (s),
 				col sep=comma,
-				]{../Output/Solutions.csv};
+				]{../Output/2025/Solutions.csv};
+				\addplot[only marks, cyan]
+				table[
+				x=Speed (m/s),
+				y=Solve Time (s),
+				col sep=comma,
+				]{../Output/2026/Solutions.csv};
+				\legend{2025,2026}
 			\end{axis}
 		\end{tikzpicture}
+		\caption{The total computation time to find the optimal solution for each given speed.}
+		\label{fig:ComputeTimeVsSpeed}
 	\end{center}
-	\caption{The combined computation time to find the optimal solution for each given speed.}
-	\label{fig:SpeedVsComputationTime}
 \end{figure}
 
 \newpage

@@ -19,32 +19,47 @@ class Monopoly():
     speed = 25/9 # 10 kmph
 
     def __init__(self, name):
-        self.name = str(name)
+        self.set_name(name)
         self.set_paths()
 
+    def set_name(self, name):
+        if name is not None:
+            self.name = str(name)
+        else:
+            self.name = None
+
     def set_paths(self):
+        self.set_main_paths()
+        if self.name is not None:
+            self.set_source_paths()
+            self.set_output_paths()
+            self.create_output_folder()
+
+    def set_main_paths(self):
         self.base_path = os.path.dirname(os.path.dirname(__file__))
-        self.set_input_paths()
-        self.set_output_paths()
-        self.set_other_paths()
-
-    def set_input_paths(self):
         self.source_path = os.path.join(self.base_path, "Sources")
-        self.data_path = os.path.join(self.base_path, "Data", self.name)
         self.style_path = os.path.join(self.source_path, "style.json")
-
-    def set_output_paths(self):
-        self.output_path = os.path.join(self.base_path, "Output", self.name)
-        self.indicators_path = os.path.join(self.output_path, "Indicators.csv")
-        self.solutions_path = os.path.join(self.output_path, "Solutions.csv")
-        self.solution_routes_path = os.path.join(self.output_path, "Routes.csv")
-
-    def set_other_paths(self):
+        self.region_path = os.path.join(self.source_path, "region.json")
+        self.base_output_path = os.path.join(self.base_path, "Output")
         self.elevation_path = os.path.join(self.source_path, "Elevation.tif")
+
+    def set_source_paths(self):
+        self.data_path = os.path.join(self.base_path, "Data", self.name)
         self.places_path = os.path.join(self.data_path, "Places.csv")
         self.places_source_path = os.path.join(self.data_path, "PlacesSource.csv")
         self.groups_path = os.path.join(self.data_path, "Groups.csv")
         self.routes_path = os.path.join(self.data_path, "Routes.json")
+
+    def set_output_paths(self):
+            self.output_path = os.path.join(self.base_output_path, self.name)
+            self.indicators_path = os.path.join(self.output_path, "Indicators.csv")
+            self.solutions_path = os.path.join(self.output_path, "Solutions.csv")
+            self.solution_routes_path = os.path.join(self.output_path, "Routes.csv")
+
+    def create_output_folder(self):
+        if not os.path.exists(self.output_path):
+            if self.name is not None:
+                os.mkdir(self.output_path)
 
     def setup(self):
         self.setup_graph()

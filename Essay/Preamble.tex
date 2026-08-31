@@ -8,7 +8,7 @@
 
 \documentclass[hidelinks, 11 pt]{article}
 
-\usepackage[a4paper, top=25.4mm, bottom=25.4mm, left=19.1mm, right=19.1mm, footskip=8mm]{geometry}
+\usepackage[a4paper, top=25.4mm, bottom=25.4mm, left=19.1mm, right=19.1mm, footskip=8mm, headheight=13.6pt]{geometry}
 \usepackage{mathtools}
 \usepackage{pgfplots}
 \usepackage{hyperref}
@@ -16,6 +16,7 @@
 \usepackage{csvsimple}
 \usepackage{booktabs}
 \usepackage{longtable}
+\usepackage{makecell}
 \usepackage{biblatex}
 \usepackage{fancyhdr}
 
@@ -161,7 +162,7 @@
 				y index=1,
 				col sep=space,
 				header=false,
-				] {../Output/PlottingEdges/#1.csv};
+				] {../Output/2026/PlottingEdges/#1.csv};
 				
 				% Places
 				\addplot[
@@ -169,38 +170,30 @@
 				only marks,
 				mark=*,
 				mark size=2pt,
+				] table[
+				x=X,
+				y=Y,
+				col sep=comma,
+				] {../Output/2026/PlottingPlaces/#1.csv};
+				
+				% Labels
+				\addplot[
+				only marks,
+				mark=none,
 				nodes near coords,
 				point meta=explicit symbolic,
 				every node near coord/.append style={
 					text=\AnnotationColour,
 					font=\footnotesize,
 					anchor=center,
-				},
+					},
 				] table[
-				x=X,
-				y=Y,
+				x=LabelX,
+				y=LabelY,
 				meta=Place,
 				col sep=comma,
-				] {../Output/PlottingPlaces/#1.csv};
-				
-				% Labels
-				%				\addplot[
-				%				only marks,
-				%				mark=none,
-				%				nodes near coords,
-				%				point meta=explicit symbolic,
-				%				every node near coord/.append style={
-					%					text=\AnnotationColour,
-					%					font=\footnotesize,
-					%					anchor=center,
-					%				},
-				%				] table[
-				%				x=LabelX,
-				%				y=LabelY,
-				%				meta=Place,
-				%				col sep=comma,
-				%				] {../Output/PlottingPlaces/#1.csv};
-				%				
+				] {../Output/2026/PlottingPlaces/#1.csv};
+								
 			\end{axis}
 		\end{tikzpicture}%
 		\caption{#2 m/s}

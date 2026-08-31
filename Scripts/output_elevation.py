@@ -8,14 +8,15 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-from utils import (
-    load_elevation,
-    get_elevation_grid)
+from monopoly import Monopoly
 
 
-path = os.path.join("../Sources/Elevation.tif")
-elevation, width, height, transform = load_elevation(path)
-x, y = get_elevation_grid(width, height, transform)
+print("Building data for elevation plotting.")
+
+monopoly = Monopoly(None)
+monopoly.set_graph()
+monopoly.graph.set_graph()
+elevation, x, y = monopoly.graph.set_elevation_map()
 
 y_min, y_max = 51.30771633543569, 51.36825881543783
 x_min, x_max = -0.3040750763933488, -0.2064156725876473
@@ -29,7 +30,8 @@ elevation = elevation[y_indexes[:, None], x_indexes]
 rows = np.stack([xx, yy, elevation]).T
 rows = rows[::5, ::5, :]
 
-with open("../Essay/Data/Elevation.csv", "w+") as file:
+path = os.path.join(monopoly.base_output_path, "Elevation.csv")
+with open(path, "w+") as file:
     for row in rows:
         content = "\n".join([
             ",".join(

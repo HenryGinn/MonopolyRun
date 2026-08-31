@@ -1,12 +1,12 @@
-.venv/
+/.venv/
 *__pycache__/
 /Data/*/Places.csv
-/Data/*/Constraints.csv
-/Data/*/Solution.csv
+/Data/*/Routes.json
 /Sources/*.json
-Sources/*.osm.pbf
+/Sources/*.osm.pbf
+/Output/*/*
+/Output/Elevation.csv
 /Essay/MonopolyRun-*
-/Essay/*.csv*
 *.toc
 *.aux*
 *.pdf
