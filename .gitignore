@@ -5,6 +5,7 @@
 /Sources/*.json
 /Sources/*.osm.pbf
 /Output/*/*
+!/Output/*/Solutions.csv
 /Output/Elevation.csv
 /Essay/MonopolyRun-*
 *.toc

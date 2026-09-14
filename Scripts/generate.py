@@ -3,9 +3,10 @@ import numpy as np
 from monopoly import Monopoly
 
 
-monopoly = Monopoly(2026)
+#monopoly = Monopoly("2026")
+#monopoly = Monopoly("2026 Stoneleigh 40")
 monopoly.setup()
-speeds = np.arange(0.1, 4.5, 0.1)
+speeds = np.arange(2, 4.5, 0.1)
 
 for speed in speeds:
     monopoly.speed = round(speed, 2)

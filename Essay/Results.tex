@@ -1,30 +1,47 @@
 \section{Results}
 \label{sec:Results}
 
-The optimal route is found for flat running speeds from 0.1~m/s to 8.0~m/s (for context, a 25~minute 5~km is 3.3~m/s). A selection of the optimal routes are shown in~\ref{sec:Routes}. Routes that were identical or very similar were omitted.
+The optimal routes are found for the 2025 and 2026 boards for flat running speeds at a resolution of 0.1~m/s up to the speed necessary to attain all squares (for context, a 25~minute 5~km is 3.3~m/s). A selection of the optimal routes are shown in Appendix~\ref{sec:Routes}. Very similar or identical were omitted.
 
-The relationship between flat running speed and number of points attainable is shown in figure~\ref{fig:PointsVsSpeed}. As expected, it forms an elongated ``S" shape with a linear section in the middle, gaining about 8.6 points per 0.1~m/s. While the curve is quite smooth, there are some points where it jumps. These are points where running a little bit faster has a much bigger impact than usual. Understanding why these jumps occur can potentially inform our strategy.
+The relationship between flat running speed and number of points attainable is shown in figure~\ref{fig:PointsVsSpeed}. At higher speeds for both 2025 and 2026 we see sections where a significant increase in speed is necessary to gain more points. These can be attributed to Epsom Downs Racecourse and Stoneleigh Broadway respectively as these places are far away from all other places. The increase after the flat section of the graph is due to the route passing through places that were sacrificed to be able to reach the far-away places. For human players, identifying such isolated places and ignoring them is a good first step to simplify planning. Monopoly Run creators may want to eliminate such places if they want to maintain high complexity.
+
+If we ignore Stoneleigh Broadway in 2026 then we see that the maximum number of points can be achieved at a pace of 3.2~m/s which is reasonable for some teams to do. If it is known a~priori which places are to be visited then planning the route is greatly simplified. This strategy is not possible for the 2025 board however and non-trivial decisions about which places to visit. We will therefore focus on speeds that give a number of points around the middle of the spectrum as this is where the problem is the hardest, noting that this is more relevant for boards where the squares are spread further apart.
 
 \begin{figure}[!htb]
 	\begin{center}
 		\begin{tikzpicture}[alt={A graph where the line is mostly linear but is slightly flatter at the starts and ends. It approximately passes through 0 0, 4 200, and 8 250.}]
 			\begin{axis}[
-				width=0.8\textwidth,
+				width=\textwidth,
+				height=30em,
 				xlabel={\large Speed (m/s)},
 				ylabel={\large Points},
-				title={\Large Points Achievable Vs Speed}]
+				title={\Large Points Achievable vs Speed},
+				legend style={at={(0.03,0.97)}, anchor=north west}
+				]
+				\addplot[only marks, cyan]
+				table[
+				x=Speed (m/s),
+				y=Points,
+				col sep=comma,
+				]{../Output/2025/Solutions.csv};
+				\addlegendentry{2025}
+				
 				\addplot[only marks, purple]
 				table[
 				x=Speed (m/s),
 				y=Points,
 				col sep=comma,
 				]{../Output/2026/Solutions.csv};
+				\addlegendentry{2026}
+				
 			\end{axis}
 		\end{tikzpicture}
 	\end{center}
 	\caption{Number of points possible to achieve vs constant running speed on the flat.}
 	\label{fig:PointsVsSpeed}
 \end{figure}
+
+While the relationship between running speed and number of points attainable is typically smooth, there are some speeds where it jumps, such as from 2.3~m/s to 2.4~m/s in 2026. These are points where running a little bit faster has a much bigger impact than usual, and understanding why these jumps occur can potentially inform our strategy.
 
 The largest changes in points often did not occur with the largest changes in route. While a large change in route could facilitate reaching a new area with high-scoring potential, this was usually at the expense of not visiting some of the easier to reach places. This would result in not attaining some of the groups that were previously attained. Running a little bit faster allows the easier to reach places to be reclaimed. We hypothesize that the jumps in points come from the group bonus associated with the reclaimed places.
 
@@ -91,4 +108,39 @@ We can get a sense of the difficulty of finding optimal routes to see how feasib
 	\end{center}
 \end{figure}
 
-\newpage
+We revist isolated places from a run creator perspective. Instead of eliminating isolated places we consider maintain complexity by giving them far more points to force the runners into a dilemma. We explore this by upping the number of points for Stoneleigh Broadway in the 2026 map from 10 points to 40 points and 100 points. The optimal route is 4.2~km away meaning there is not expected to be any difference in strategy from at least 2~m/s. The results are shown below in figure~\ref{fig:PointsVsSpeedStoneleighExperiment}.
+
+\begin{figure}[!htb]
+	\begin{center}
+		\begin{tikzpicture}[alt={A graph where the line is mostly linear but is slightly flatter at the starts and ends. It approximately passes through 0 0, 4 200, and 8 250.}]
+			\begin{axis}[
+				width=\textwidth,
+				height=30em,
+				xlabel={\large Speed (m/s)},
+				ylabel={\large Points},
+				title={\Large Points Achievable vs Speed},
+				legend style={at={(0.03,0.97)}, anchor=north west}
+				]
+				
+				\addplot[only marks, periwinkle]
+				table[
+				x=Speed (m/s),
+				y=Points,
+				col sep=comma,
+				]{../Output/2026 Stoneleigh 40/Solutions.csv};
+				\addlegendentry{2026 Stoneleigh Worth 40}
+				
+				\addplot[only marks, purple]
+				table[
+				x=Speed (m/s),
+				y=Points,
+				col sep=comma,
+				]{../Output/2026/Solutions.csv};
+				\addlegendentry{2026 Stoneleigh Worth 10}
+				
+			\end{axis}
+		\end{tikzpicture}
+	\end{center}
+	\caption{The distribution of attainable points when visiting Stoneleigh Broadway is worth 40 points instead of 10.}
+	\label{fig:PointsVsSpeedStoneleighExperiment}
+\end{figure}

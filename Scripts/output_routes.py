@@ -66,7 +66,6 @@ class PlottedRoute():
     def generate_routes(self):
         self.print_message()
         for speed in self.monopoly.solutions["Speed (m/s)"].values:
-            print(speed)
             self.set_route(speed)
 
     def print_message(self):

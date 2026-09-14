@@ -17,21 +17,35 @@
 \usepackage{booktabs}
 \usepackage{longtable}
 \usepackage{makecell}
+\usepackage{bracealign}
 \usepackage{biblatex}
 \usepackage{fancyhdr}
 
 \addbibresource{bibliography.bib}
 
-\pgfplotsset{compat=1.17}
+\pgfplotsset{compat=1.18}
 
-\newcommand{\myhline}{\hline\noalign{\vskip 2pt}} % Space after hline
-\renewcommand{\arraystretch}{1.2} % Increase spacing between rows of tables
+
+% Spacing
+
+ % Space after hline
+\newcommand{\myhline}{\hline\noalign{\vskip 2pt}}
+
+ % Increase spacing between rows of tables
+\renewcommand{\arraystretch}{1.2}
 \hypersetup{
 	pdfdisplaydoctitle=true
 }
 
+% Float only pages
+\makeatletter
+\setlength{\@fptop}{0pt plus 1fil}
+\setlength{\@fpsep}{0pt plus 1fil}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
 
-% Dark mode
+
+% Dark mode and light mode
 
 \definecolor{myblack}{HTML}{1E2021}
 \definecolor{mywhite}{HTML}{E4E5ED}
@@ -90,16 +104,9 @@
 	\EnableDifferenceTikz
 }
 
-%\StyleNormal
-\StyleDark
 
-\makeatletter
-\setlength{\@fptop}{0pt plus 1fil}
-\setlength{\@fpsep}{0pt plus 1fil}
-\setlength{\@fpbot}{0pt plus 1fil}
-\makeatother
+% Headers and footers
 
-% Defining marks
 \renewcommand{\sectionmark}[1]{\gdef\leftmark{#1}}
 
 \fancypagestyle{firstpage}{
@@ -116,6 +123,7 @@
 }
 
 \pagestyle{fancy}
+
 
 % Line spacing between paragraphs
 
@@ -140,6 +148,9 @@
 	{0.8ex plus .2ex}%
 	{\normalfont\normalsize\bfseries}}
 \makeatother
+
+
+% Plots a route
 
 \newcommand{\RouteFigure}[3]{%
 	\begin{subfigure}{#3\textwidth}
@@ -201,6 +212,12 @@
 	\end{subfigure}
 }
 
+
+% Figures and other colours
+\definecolor{periwinkle}{HTML}{6a7abf}
+\definecolor{thistle}{HTML}{de84bf}
+
+% Subfigure numbering
 \ExplSyntaxOn
 \renewcommand{\thesubfigure}{\int_to_alph:n{\value{subfigure}}}
 \ExplSyntaxOff
