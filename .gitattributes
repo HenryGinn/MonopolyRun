@@ -6,3 +6,4 @@ Sources/pmtiles.js filter=lfs diff=lfs merge=lfs -text
 Sources/maplibre-gl.css filter=lfs diff=lfs merge=lfs -text
 Output filter=lfs diff=lfs merge=lfs -text
 Sources/cropped.pmtiles filter=lfs diff=lfs merge=lfs -text
+Sources/region.json filter=lfs diff=lfs merge=lfs -text

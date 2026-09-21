@@ -4,6 +4,7 @@ accepted by pgfplots and plot the route. The plot will show the route
 with places labelled.
 """
 
+import argparse
 import os
 
 import numpy as np
@@ -67,14 +68,8 @@ class PlottedRoute():
 
 
     def generate_routes(self):
-        self.print_message()
         for speed in self.monopoly.solutions["Speed (m/s)"].values:
             self.set_route(speed)
-
-    def print_message(self):
-        print(
-            "Generating sensible locations for "
-            f"{self.monopoly.name} place labels.")
 
     def set_route(self, speed):
         self.set_speed_paths(speed)
@@ -151,7 +146,7 @@ class PlottedRoute():
         distances = np.linalg.norm(differences, axis=2)
         np.fill_diagonal(distances, np.inf)
         min_distances = distances.min(axis=1)
-        self.label_indexes = min_distances <= route.label_distance_from_point * 0.8
+        self.label_indexes = min_distances <= self.label_distance_from_point * 0.8
         self.vertices.loc[self.vertices.index[self.label_indexes], "Label"] = ""
 
     def remove_overlapping_labels(self):
@@ -161,7 +156,7 @@ class PlottedRoute():
         self.remove_problematic_labels(problematic_labels)
 
     def get_distances_between_labels(self):
-        positions = route.vertices[["LabelX", "LabelY"]].values
+        positions = self.vertices[["LabelX", "LabelY"]].values
         differences = positions[:, None, :] - positions[None, :, :]
         distances = np.linalg.norm(differences, axis=2)
         np.fill_diagonal(distances, np.inf)
@@ -201,9 +196,13 @@ class PlottedRoute():
         self.vertices.to_csv(self.place_path, index=False)
 
 
-def main(name):
-    route = PlottedRoute(name)
+def main(argv=None):
+    parser = argparse.ArgumentParser()
+    parser.add_argument("name", type=str, help="Board to be displayed")
+    args = parser.parse_args(argv)
+    route = PlottedRoute(args.name)
     route.generate_routes()
 
-route = PlottedRoute("2026")
-route.generate_routes()
+
+if __name__ == "__main__":
+    main()

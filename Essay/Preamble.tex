@@ -20,6 +20,7 @@
 \usepackage{bracealign}
 \usepackage{biblatex}
 \usepackage{fancyhdr}
+\usepackage{pgfplots}
 
 \addbibresource{bibliography.bib}
 
@@ -197,21 +198,20 @@
 					text=\AnnotationColour,
 					font=\footnotesize,
 					anchor=center,
-					},
+				},
 				] table[
 				x=LabelX,
 				y=LabelY,
 				meta=Label,
 				col sep=comma,
 				] {../Output/2026/PlottingPlaces/#1.csv};
-								
+				
 			\end{axis}
 		\end{tikzpicture}%
 		\caption{#2 m/s}
 		\label{fig:Solution_#1}
 	\end{subfigure}
 }
-
 
 % Figures and other colours
 \definecolor{periwinkle}{HTML}{6a7abf}

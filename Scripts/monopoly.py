@@ -68,6 +68,7 @@ class Monopoly():
 
     def reset(self):
         self.solver.reset()
+        self.load_style()
 
 
     # Graph
@@ -139,7 +140,10 @@ class Monopoly():
 
     def update_outputs(self):
         self.indicators.loc[:, self.speed] = self.solver.values
-        self.solutions = pd.concat((self.solutions, self.solver.get_summary()))
+        self.solutions = pd.concat(
+            (self.solutions,
+             self.solver.get_summary())
+            ).reset_index(drop=True)
         self.add_route_to_output()
 
     def add_route_to_output(self):
@@ -152,7 +156,9 @@ class Monopoly():
 
     def save(self):
         self.indicators.to_csv(self.indicators_path)
-        self.solutions.sort_index().to_csv(self.solutions_path)
+        self.solutions.sort_values(
+            "Speed (m/s)"
+            ).to_csv(self.solutions_path, index=False)
         self.solution_routes.sort_values(
             ["Speed (m/s)", "Order ID"]
             ).to_csv(self.solution_routes_path, index=False)

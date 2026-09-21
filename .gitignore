@@ -16,3 +16,5 @@
 *.bcf
 *.blg
 *.xml
+*.fls
+*.fdb_latexmk

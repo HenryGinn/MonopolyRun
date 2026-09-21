@@ -5,7 +5,9 @@ The optimal routes are found for the 2025 and 2026 boards for flat running speed
 
 The relationship between flat running speed and number of points attainable is shown in figure~\ref{fig:PointsVsSpeed}. At higher speeds for both 2025 and 2026 we see sections where a significant increase in speed is necessary to gain more points. These can be attributed to Epsom Downs Racecourse and Stoneleigh Broadway respectively as these places are far away from all other places. The increase after the flat section of the graph is due to the route passing through places that were sacrificed to be able to reach the far-away places. For human players, identifying such isolated places and ignoring them is a good first step to simplify planning. Monopoly Run creators may want to eliminate such places if they want to maintain high complexity.
 
-If we ignore Stoneleigh Broadway in 2026 then we see that the maximum number of points can be achieved at a pace of 3.2~m/s which is reasonable for some teams to do. If it is known a~priori which places are to be visited then planning the route is greatly simplified. This strategy is not possible for the 2025 board however and non-trivial decisions about which places to visit. We will therefore focus on speeds that give a number of points around the middle of the spectrum as this is where the problem is the hardest, noting that this is more relevant for boards where the squares are spread further apart.
+If we ignore Stoneleigh Broadway in 2026 then we see that the maximum number of points can be achieved at a pace of 3.2~m/s which is reasonable for some teams to do. If it is known a~priori which places are to be visited then planning the route is greatly simplified. This strategy is not possible for the 2025 board however, and there are non-trivial decisions about which places to visit. We will therefore focus on speeds that give a number of points around the middle of the spectrum as this is where the problem is the hardest, noting that this is more relevant for boards where the squares are spread further apart.
+
+\vfill
 
 \begin{figure}[!htb]
 	\begin{center}
@@ -51,7 +53,9 @@ We explore which groups were achieved at each given speed. This is shown in tabl
 \begingroup
 \setlength{\LTleft}{-20cm plus -1fill}
 \setlength{\LTright}{\LTleft}
+\tagpdfsetup{activate=false}
 \input{../Output/2026/GroupResults}
+\tagpdfsetup{activate=true}
 \endgroup
 
 \begin{figure}[!htb]

@@ -313,8 +313,9 @@ class Solver():
         return indexes
 
     def get_summary(self):
-        summary = pd.DataFrame(
-            {"Pace (min/km)": 1000 / (60 * self.monopoly.speed),
+        summary = pd.DataFrame([
+            {"Speed (m/s)": self.monopoly.speed,
+             "Pace (min/km)": 1000 / (60 * self.monopoly.speed),
              "Distance (m)": self.edges_solution["Distance"].sum(),
              "Points": self.get_points(),
              "Time (min)": self.get_time(),
@@ -322,9 +323,7 @@ class Solver():
              "Groups Visited": self.groups_solution.index.size,
              "Maximise Points Solve Time (s)": self.maximise_points_solve_time,
              "Minimise Distance Solve Time (s)": self.minimise_distance_solve_time,
-             "Solve Time (s)": self.maximise_points_solve_time + self.minimise_distance_solve_time},
-            index=[self.monopoly.speed])
-        summary.index.name = "Speed (m/s)"
+             "Solve Time (s)": self.maximise_points_solve_time + self.minimise_distance_solve_time}])
         return summary
 
     def get_points(self):
